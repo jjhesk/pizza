@@ -1,5 +1,6 @@
 package edu.colostate.cs414.d.pizza.db;
 
+import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import java.sql.Connection;
 import java.util.List;
@@ -34,6 +35,20 @@ public class MenuManager {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	
+	public List<DailySpecial> getDailySpecials() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
 	
+	public void addDailySpecial(DailySpecial special) {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+	
+	public void removeDailySpecial(DailySpecial special) {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+	
+	public void updateDailySpecial(DailySpecial special) {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
 	
 }

@@ -1,15 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.colostate.cs414.d.pizza.db;
+
+import java.sql.Connection;
 
 /**
  *
  * @author tim
  */
-public enum Database {
+public class Database {
+	
+	private static Database instance;
+	
+	private Connection connection;
+	
+	private Database() {
+		// init connection here
+		connection = null;
+	}
+
+	public static Database getInstance() {
+		if (instance == null) {
+			instance = new Database();
+		}
+		
+		return instance;
+	}
+	
+	public Connection getConnection() {
+		return connection;
+	}
 	
 }

@@ -1,3 +1,5 @@
+package edu.colostate.cs414.d.pizza.ui;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

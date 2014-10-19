@@ -1,6 +1,10 @@
 package edu.colostate.cs414.d.pizza.api.order;
 
+import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -11,16 +15,29 @@ public class Order {
 	private int id;
 	
 	private OrderStatus status;
+	private OrderType type;
 	private Date startDate;
 	private Date completionDate;
 	
 	private String customerName;
 	private String customerAddress;
+	
+	private List<OrderItem> items;
 
-	public Order() {
+	public Order(OrderType type, String customerName, String customerAddress) {
+		this.type = type;
+		this.customerName = customerName;
+		this.customerAddress = customerAddress;
+		
+		startDate = new Date();
+		status = OrderStatus.NEW;
+		
+		items = new LinkedList<>();
 	}
 
-	public Order(int id) {
+	public Order(int id, OrderType type, String customerName, String customerAddress) {
+		this(type, customerName, customerAddress);
+		
 		this.id = id;
 	}
 
@@ -70,6 +87,22 @@ public class Order {
 
 	public void setCustomerAddress(String customerAddress) {
 		this.customerAddress = customerAddress;
+	}
+
+	public List<OrderItem> getItems() {
+		return items;
+	}
+	
+	public void addItem(OrderItem item) {
+		items.add(item);
+	}
+	
+	public void addItem(MenuItem item, int quantity) {
+		items.add(new OrderItem(item, quantity));
+	}
+	
+	public void removeItem(OrderItem item) {
+		items.remove(item);
 	}
 	
 }

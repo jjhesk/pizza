@@ -1,8 +1,8 @@
 package edu.colostate.cs414.d.pizza;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
-import edu.colostate.cs414.d.pizza.db.MenuManager;
-import edu.colostate.cs414.d.pizza.db.OrderManager;
+import edu.colostate.cs414.d.pizza.api.menu.MenuManager;
+import edu.colostate.cs414.d.pizza.api.order.OrderManager;
 
 import java.util.List;
 
@@ -16,8 +16,8 @@ public class Kiosk {
     private OrderManager orderManager;
 
     public Kiosk(){
-        menuManager = new MenuManager();
-        orderManager = new OrderManager();
+        menuManager = MenuManager.getInstance();
+        orderManager = OrderManager.getInstance();
     }
 
     //View Menu

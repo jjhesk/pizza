@@ -1,26 +1,27 @@
-package edu.colostate.cs414.d.pizza.db;
+package edu.colostate.cs414.d.pizza.api.menu;
 
-import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuManager {
 
 	private static MenuManager instance;
-	
-	private Connection connection;
 
     private List<MenuItem> menuItems;
 
     private List<DailySpecial> dailySpecials;
 	
 	public MenuManager() {
-		connection = Database.getInstance().getConnection();
         menuItems = new ArrayList<MenuItem>();
         dailySpecials = new ArrayList<DailySpecial>();
 	}
+
+    public static MenuManager getInstance() {
+        if (instance == null) {
+            instance = new MenuManager();
+        }
+        return instance;
+    }
 
     public MenuItem createMenuItem(String name, double price, String description){
         return new MenuItem(name, price, description);

@@ -20,10 +20,10 @@ public class Database {
 
         /* Will work for connecting from cs machines
         String url = "jdbc:mysql://" +
-                "faure.cs.colostate.edu:5432/hoppalm";
+                "urlhere:porthere/username";
         Properties props = new Properties();
-        props.setProperty("user","hoppalm");
-        props.setProperty("password","829398774");
+        props.setProperty("user","usernamehere");
+        props.setProperty("password","passwordhere");
         try {
             System.out.println("Connection");
             connection = DriverManager.getConnection(url, props);

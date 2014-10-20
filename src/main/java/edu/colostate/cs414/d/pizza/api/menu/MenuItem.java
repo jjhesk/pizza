@@ -22,7 +22,6 @@ public class MenuItem {
 		this.name = name;
 		this.price = price;
 		this.description = description;
-		
 		active = true;
 	}
 
@@ -31,7 +30,6 @@ public class MenuItem {
 		this.name = name;
 		this.price = price;
 		this.description = description;
-		
 		active = true;
 	}
 	

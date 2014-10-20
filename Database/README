@@ -4,6 +4,6 @@ To sign into our database use this command:
 
 mysql -u loginname -D loginname -h faure -p
 
-loginname = hoppalm
+loginname = *
 
-password = 829398774
+password = *

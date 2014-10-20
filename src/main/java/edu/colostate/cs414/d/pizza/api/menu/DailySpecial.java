@@ -10,31 +10,36 @@ import java.util.List;
 public class DailySpecial {
 	
 	private final double price;
-	private final Date startDate;
-	private final Date endDate;
 	private final List<MenuItem> items;
+    private boolean active;
 
-	public DailySpecial(double price, Date startDate, Date endDate, List<MenuItem> items) {
+	public DailySpecial(double price, List<MenuItem> items) {
 		this.price = price;
-		this.startDate = startDate;
-		this.endDate = endDate;
 		this.items = items;
+        this.active = true;
 	}
 
-	public double getPrice() {
+    public void checkStatus(){
+        for (MenuItem menuItem : items) {
+            if(!menuItem.isActive()){
+                active = false;
+            }
+        }
+    }
+
+   	public double getPrice() {
 		return price;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
 	}
 
 	public List<MenuItem> getItems() {
 		return items;
 	}
-	
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

@@ -6,7 +6,8 @@ CREATE TABLE User (
 
 CREATE TABLE MenuItem (
 	menuItemID int NOT NULL AUTO_INCREMENT,
-	price float NOT NULL,
+    name varchar(255),
+	price double NOT NULL,
 	description varchar(255),
 	status ENUM('active', 'expired') NOT NULL,
 	PRIMARY KEY (menuItemID)
@@ -17,7 +18,7 @@ CREATE TABLE UserOrder (
 	customerAddress varchar(255),
     status ENUM('new', 'active', 'cancelled', 'complete'),
 	type ENUM('delivery', 'pickup', 'eatin'),
-	total float,	
+	total double,
 	userID int,
 	FOREIGN KEY (userID) REFERENCES User(userID),
 	PRIMARY KEY (orderID)
@@ -36,7 +37,7 @@ CREATE TABLE OrderItem (
 CREATE TABLE DailySpecial (
 	dailySpecialID int NOT NULL AUTO_INCREMENT,
 	status ENUM('active', 'expired') NOT NULL,
-	price float,
+	price double,
 	PRIMARY KEY (dailySpecialID)
 );
 

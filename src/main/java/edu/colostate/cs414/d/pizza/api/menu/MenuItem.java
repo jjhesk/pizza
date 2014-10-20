@@ -25,12 +25,12 @@ public class MenuItem {
 		active = true;
 	}
 
-	public MenuItem(int id, String name, double price, String description) {
+	public MenuItem(int id, String name, double price, String description, boolean active) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.description = description;
-		active = true;
+		this.active = active;
 	}
 	
 	public int getId() {
@@ -96,6 +96,10 @@ public class MenuItem {
         }
 
         return true;
+    }
+
+    public String toString(){
+        return Integer.toString(this.id) + " " + this.name + " " + Double.toString(this.price) + " " + this.description + " " + this.active;
     }
 
 }

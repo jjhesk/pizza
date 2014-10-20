@@ -1,3 +1,6 @@
 *.idea/
 pizza.iml
 target/
+db.properties
+db.prod.properties
+db.test.properties

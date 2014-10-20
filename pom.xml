@@ -12,18 +12,18 @@
 	</properties>
 	
 	<build>
-        <resources>
+        <!--<resources>
+			
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.java</include>
                 </includes>
-                <!--<targetPath>src</targetPath>-->
             </resource>
             <resource>
                 <directory>${basedir}src/main/resources</directory>
             </resource>
-        </resources>
+        </resources>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -75,6 +75,21 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.32</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.4</version>
         </dependency>
     </dependencies>
 </project>

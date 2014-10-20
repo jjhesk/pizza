@@ -45,15 +45,13 @@ public class MenuManager {
 	}
 	
 	public void addMenuItem(MenuItem item) {
-        this.menuItems.add(item);
+        if(!this.menuItems.contains(item)){
+            this.menuItems.add(item);
+        }
 	}
 	
 	public void removeMenuItem(MenuItem item) {
         item.setActive(false);
-	}
-	
-	public void updateMenuItem(MenuItem item) {
-        throw new UnsupportedOperationException("Not implemented yet");
 	}
 	
 	public List<DailySpecial> getDailySpecials() {

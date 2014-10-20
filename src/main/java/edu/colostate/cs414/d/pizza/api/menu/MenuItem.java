@@ -72,5 +72,30 @@ public class MenuItem {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+    public boolean equals(Object other)
+    {
+        if (!this.name.equalsIgnoreCase(((MenuItem)other).name))
+        {
+            return false;
+        }
+
+        if (!(this.price == (((MenuItem)other).price)))
+        {
+            return false;
+        }
+
+        if (!(this.active == (((MenuItem)other).active)))
+        {
+            return false;
+        }
+
+        if (!this.description.equalsIgnoreCase(((MenuItem)other).description))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
 }

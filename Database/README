@@ -1,0 +1,9 @@
+Included are the scripts to delete the tables and create the tables. You can scp the database file to the linux machines and run it on the database.
+
+To sign into our database use this command:
+
+mysql -u loginname -D loginname -h faure -p
+
+loginname = hoppalm
+
+password = 829398774

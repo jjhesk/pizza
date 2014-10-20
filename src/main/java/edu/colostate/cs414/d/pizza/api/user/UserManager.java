@@ -1,12 +1,7 @@
-package edu.colostate.cs414.d.pizza.db;
+package edu.colostate.cs414.d.pizza.api.user;
 
-import edu.colostate.cs414.d.pizza.api.user.User;
 import java.util.List;
 
-/**
- *
- * @author tim
- */
 public class UserManager {
 	
 	public List<User> getUsers() {

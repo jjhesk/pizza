@@ -1,30 +1,19 @@
-package edu.colostate.cs414.d.pizza.db;
+package edu.colostate.cs414.d.pizza.api.order;
 
-import edu.colostate.cs414.d.pizza.api.order.Order;
-import edu.colostate.cs414.d.pizza.api.order.OrderItem;
-import edu.colostate.cs414.d.pizza.api.order.OrderType;
-import java.sql.Connection;
 import java.util.List;
 
-/**
- *
- * @author tim
- */
 public class OrderManager {
-	
+
 	private static OrderManager instance;
-	
-	private Connection connection;
 
 	public OrderManager() {
-		connection = Database.getInstance().getConnection();
+
 	}
 	
 	public static OrderManager getInstance() {
 		if (instance == null) {
 			instance = new OrderManager();
 		}
-		
 		return instance;
 	}
 

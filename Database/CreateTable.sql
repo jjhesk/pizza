@@ -27,7 +27,7 @@ CREATE TABLE UserOrder (
 
 CREATE TABLE OrderItem (
 	orderItemID int NOT NULL AUTO_INCREMENT,
-	quantity varchar(255) NOT NULL,
+	quantity int,
 	menuItemID int,
 	orderID int,
 	FOREIGN KEY (menuItemID) REFERENCES MenuItem(menuItemID),

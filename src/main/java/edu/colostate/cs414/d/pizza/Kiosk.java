@@ -1,5 +1,6 @@
 package edu.colostate.cs414.d.pizza;
 
+import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.api.menu.MenuManager;
 import edu.colostate.cs414.d.pizza.api.order.OrderManager;
@@ -24,9 +25,14 @@ public class Kiosk {
     public List<MenuItem> viewMenu(){
         return menuManager.getMenuItems();
     }
-    //View Order
+
+    //View Orders
+
 
     //View Daily Specials
+    public List<DailySpecial> viewDailySpecials(){
+        return menuManager.getDailySpecials();
+    }
 
     //Creating and modifying the Menu
     public MenuItem createMenuItem(String name, double price, String description){
@@ -45,7 +51,14 @@ public class Kiosk {
         menuManager.removeMenuItem(menuItem);
     }
 
-    //Creating Daily Special
+    //Creating/Editing Daily Special
+    public DailySpecial createDailySpecial(List<MenuItem> menuItems, Double price){
+        return menuManager.createDailySpecial(menuItems, price);
+    }
+
+    public void removeDailySpecial(DailySpecial special){
+        menuManager.removeDailySpecial(special);
+    }
 
     //Creating an order
 

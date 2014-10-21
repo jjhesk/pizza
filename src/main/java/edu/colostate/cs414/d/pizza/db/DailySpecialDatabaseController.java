@@ -1,0 +1,64 @@
+package edu.colostate.cs414.d.pizza.db;
+
+import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
+import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.utilities.Utility;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class DailySpecialDatabaseController {
+    private Connection connection;
+
+    public DailySpecialDatabaseController(){
+        connection = Database.getInstance().getConnection();
+    }
+
+    public void getDailySpecials(List<DailySpecial> dailySpecials, List<MenuItem> menuItems) {
+        String query = "SELECT * FROM DailySpecialItem WHERE dailySpecialID = ?";
+        PreparedStatement dailySpecialPreparedStatement = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet dailySpecialResultSet = null;
+        ResultSet resultSet = null;
+        List<MenuItem> dailySpecialItems = new ArrayList<MenuItem>();
+
+        try {
+            dailySpecialPreparedStatement = connection.prepareStatement("SELECT * FROM DailySpecial");
+            dailySpecialResultSet = dailySpecialPreparedStatement.executeQuery();
+            while(dailySpecialResultSet.next()){
+
+                //get ids
+                int id = dailySpecialResultSet.getInt(1);
+
+                //get items apart of each daily special
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setInt(1, id);
+                resultSet = preparedStatement.executeQuery();
+
+                while(resultSet.next()) {
+                    int menuItemID = resultSet.getInt(3);
+                    dailySpecialItems.add(Utility.getMenuItem(menuItemID, menuItems));
+                }
+
+                boolean active = (resultSet.getString(2).equalsIgnoreCase("active")) ? true : false;
+                double price = resultSet.getDouble(3);
+
+                DailySpecial dailySpecial = new DailySpecial(id, price, dailySpecialItems, active);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addDailySpecial(DailySpecial dailySpecial) {
+
+    }
+
+    public void setExpired(DailySpecial special) {
+
+    }
+}

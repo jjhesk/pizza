@@ -37,7 +37,6 @@ public class Order {
 
 	public Order(int id, OrderType type, String customerName, String customerAddress) {
 		this(type, customerName, customerAddress);
-		
 		this.id = id;
 	}
 

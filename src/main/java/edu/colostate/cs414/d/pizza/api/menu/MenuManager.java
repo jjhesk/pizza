@@ -1,5 +1,6 @@
 package edu.colostate.cs414.d.pizza.api.menu;
 
+import edu.colostate.cs414.d.pizza.db.DailySpecialDatabaseController;
 import edu.colostate.cs414.d.pizza.db.MenuDatabaseController;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class MenuManager {
 	private static MenuManager instance;
 
     private MenuDatabaseController menuDatabase;
+    private DailySpecialDatabaseController dailySpecialDatabase;
 
     private List<MenuItem> menuItems;
 
@@ -17,9 +19,12 @@ public class MenuManager {
 	
 	public MenuManager() {
         menuDatabase  = new MenuDatabaseController();
+        dailySpecialDatabase = new DailySpecialDatabaseController();
         menuItems = new ArrayList<MenuItem>();
         menuDatabase.getMenu(menuItems);
         dailySpecials = new ArrayList<DailySpecial>();
+        dailySpecialDatabase.getDailySpecials(dailySpecials, menuItems);
+
 	}
 
     public static MenuManager getInstance() {
@@ -38,6 +43,7 @@ public class MenuManager {
             menuItem.setActive(false);
             menuDatabase.setExpired(menuItem);
         }
+        this.checkDailySpecials();
         menuDatabase.addMenuItems(menuItems);
         this.menuItems.addAll(menuItems);
     }
@@ -63,21 +69,40 @@ public class MenuManager {
 	public void removeMenuItem(MenuItem item) {
         item.setActive(false);
         menuDatabase.setExpired(item);
+        this.checkDailySpecials();
 	}
-	
+
+    //returns current daily specials
 	public List<DailySpecial> getDailySpecials() {
-		return dailySpecials;
+        ArrayList<DailySpecial> currentDailySpecials = new ArrayList<DailySpecial>();
+        for (DailySpecial dailySpecial : this.dailySpecials) {
+            if(dailySpecial.isActive()) {
+                currentDailySpecials.add(dailySpecial);
+            }
+        }
+		return currentDailySpecials;
 	}
-	
-	public void addDailySpecial(DailySpecial special) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
+
+    public DailySpecial createDailySpecial(List<MenuItem> menuItems, Double price) {
+        DailySpecial dailySpecial = new DailySpecial(price, menuItems);
+        dailySpecialDatabase.addDailySpecial(dailySpecial);
+        return dailySpecial;
+    }
+
 	public void removeDailySpecial(DailySpecial special) {
-		throw new UnsupportedOperationException("Not implemented yet");
+		special.setActive(false);
+        dailySpecialDatabase.setExpired(special);
 	}
-	
-	public void updateDailySpecial(DailySpecial special) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
+
+    public void checkDailySpecials(){
+        for (DailySpecial dailySpecial : this.dailySpecials) {
+            if(dailySpecial.isActive()) {
+                if(!dailySpecial.checkStatus()) {
+                    dailySpecialDatabase.setExpired(dailySpecial);
+                }
+            }
+        }
+    }
+
+
 }

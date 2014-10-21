@@ -58,6 +58,12 @@ public class MenuManager {
         }
 		return currentItems;
 	}
+
+    //returns all menu Items
+    public List<MenuItem> getAllMenuItems() {
+        return menuItems;
+    }
+
 	
 	public void addMenuItem(MenuItem item) {
         if(!this.menuItems.contains(item)){

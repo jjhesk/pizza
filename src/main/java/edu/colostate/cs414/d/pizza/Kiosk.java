@@ -18,7 +18,7 @@ public class Kiosk {
 
     public Kiosk(){
         menuManager = MenuManager.getInstance();
-        orderManager = OrderManager.getInstance();
+        orderManager = OrderManager.getInstance(menuManager.getAllMenuItems());
     }
 
     //View Menu
@@ -69,7 +69,7 @@ public class Kiosk {
 	
     //Making a payment
 	public double calculateSubtotal(Order order, List<DailySpecial> dailySpecials) {
-		return orderManager.calculateSubtotal(order, dailySpecials);
+		return orderManager.calculateSubtotal(order, dailySpecials, this.viewDailySpecials());
 	}
 
     //Completing Order

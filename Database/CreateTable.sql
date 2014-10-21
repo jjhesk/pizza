@@ -1,7 +1,8 @@
 CREATE TABLE User (
-	userID int NOT NULL AUTO_INCREMENT,
-	name varchar(255) NOT NULL,
-	PRIMARY KEY (userID)
+	userName varchar(255) NOT NULL,
+	password varchar(255) NOT NULL,
+	userType ENUM('cashier', 'chef', 'customer', 'manager') NOT NULL,
+	PRIMARY KEY (userName)
 );
 
 CREATE TABLE MenuItem (
@@ -20,8 +21,6 @@ CREATE TABLE UserOrder (
     status ENUM('new', 'pending', 'cancelled', 'complete'),
 	type ENUM('delivery', 'pickup', 'eatin'),
 	total double,
-	userID int,
-	FOREIGN KEY (userID) REFERENCES User(userID),
 	PRIMARY KEY (orderID)
 );
 

@@ -2,36 +2,36 @@ package edu.colostate.cs414.d.pizza.api.user;
 
 public class User {
 
-	private int id;
-	
-	private String name;
+	private String userName;
 
-	public User() {
-	}
+    private String password;
 
-	public User(String name) {
-		this.name = name;
-	}
-	
-	public User(int id, String name) {
-		this.id = id;
-		this.name = name;
+    private UserType userType;
+
+	public User(String userName, String password, UserType userType) {
+		this.userName = userName;
+        this.password = password;
+        this.userType = userType;
 	}
 
-	public int getId() {
-		return id;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserName(String name) {
+		this.userName = name;
 	}
 
-	public String getName() {
-		return name;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserType getUserType() { return userType; }
+
+    public void setUserType(UserType userType) { this.userType = userType; }
+
 }

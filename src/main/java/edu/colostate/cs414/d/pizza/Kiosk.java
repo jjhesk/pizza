@@ -6,16 +6,22 @@ import edu.colostate.cs414.d.pizza.api.menu.MenuManager;
 import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderItem;
 import edu.colostate.cs414.d.pizza.api.order.OrderManager;
+import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.api.user.UserManager;
+import edu.colostate.cs414.d.pizza.api.user.UserType;
+
 import java.util.List;
 
 public class Kiosk {
 
     private MenuManager menuManager;
     private OrderManager orderManager;
+    private UserManager userManager;
 
     public Kiosk(){
         menuManager = MenuManager.getInstance();
         orderManager = OrderManager.getInstance(menuManager.getAllMenuItems());
+        userManager = UserManager.getInstance();
     }
 
     //View Menu (returns active menu items)
@@ -89,5 +95,22 @@ public class Kiosk {
 	public void completeOrder(Order order) {
 		orderManager.completeOrder(order);
 	}
+
+    //Users
+    public List<User> getUsers() {
+        return userManager.getUsers();
+    }
+
+    public boolean addUser(String userName, String password, UserType userType){
+        return userManager.addUser(userName, password, userType);
+    }
+
+    public User authenticateUser(String userName, String password) {
+        return userManager.authenticateUser(userName,password);
+    }
+
+    public void removeUser(String userName) {
+        userManager.removeUser(userName);
+    }
 
 }

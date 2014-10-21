@@ -1,16 +1,7 @@
 package edu.colostate.cs414.d.pizza.api.user;
 
-public class Manager extends Employee {
-
-	public Manager() {
-	}
-
-	public Manager(String name) {
-		super(name);
-	}
-
-	public Manager(int id, String name) {
-		super(id, name);
-	}
-	
+public class Manager extends User {
+    public Manager(String userName, String password, UserType userType) {
+        super(userName, password, userType);
+    }
 }

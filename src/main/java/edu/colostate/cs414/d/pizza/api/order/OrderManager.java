@@ -10,9 +10,9 @@ import java.util.List;
 public class OrderManager {
 
 	private static OrderManager instance;
-        private OrderDatabaseController orderDatabase;
-        private List<Order> orders;
-        private List<MenuItem> menuItems;
+    private OrderDatabaseController orderDatabase;
+    private List<Order> orders;
+    private List<MenuItem> menuItems;
 
 	public OrderManager(List<MenuItem> menuItems) {
             this.menuItems = menuItems;

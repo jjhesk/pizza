@@ -1,10 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.colostate.cs414.d.pizza.ui;
+
+import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.ui.component.MenuPanel;
+import java.awt.BorderLayout;
+import java.util.LinkedList;
+import java.util.List;
 
 public class OrderDialog extends javax.swing.JDialog {
 
@@ -14,6 +14,8 @@ public class OrderDialog extends javax.swing.JDialog {
 	public OrderDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
+		
+		initTestMenu();
 	}
 
 	/**
@@ -48,10 +50,10 @@ public class OrderDialog extends javax.swing.JDialog {
         addressFieldScroll = new javax.swing.JScrollPane();
         addressField = new javax.swing.JTextArea();
         menuWrapper = new javax.swing.JPanel();
-        menuScroll = new javax.swing.JScrollPane();
         specialsPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(400, 300));
 
         orderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("My Order"));
 
@@ -209,20 +211,7 @@ public class OrderDialog extends javax.swing.JDialog {
         );
 
         menuWrapper.setBorder(javax.swing.BorderFactory.createTitledBorder("Menu"));
-
-        menuScroll.setBorder(null);
-        menuScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        javax.swing.GroupLayout menuWrapperLayout = new javax.swing.GroupLayout(menuWrapper);
-        menuWrapper.setLayout(menuWrapperLayout);
-        menuWrapperLayout.setHorizontalGroup(
-            menuWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menuScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
-        );
-        menuWrapperLayout.setVerticalGroup(
-            menuWrapperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menuScroll)
-        );
+        menuWrapper.setLayout(new java.awt.BorderLayout());
 
         specialsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Today's Specials"));
 
@@ -243,7 +232,7 @@ public class OrderDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(menuWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(menuWrapper, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
                     .addComponent(specialsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(orderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -261,6 +250,17 @@ public class OrderDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+	private void initTestMenu() {
+		List<MenuItem> items = new LinkedList<>();
+		items.add(new MenuItem("Pizza", 9.99, "It's a pizza."));
+		items.add(new MenuItem("Drink", 1.25, "Some sort of drink."));
+		items.add(new MenuItem("Soylent Green", 4.99, "People."));
+		
+		MenuPanel panel = new MenuPanel(items, true);
+		
+		menuWrapper.add(panel, BorderLayout.CENTER);
+	}
+	
 	/**
 	 * @param args the command line arguments
 	 */
@@ -308,7 +308,6 @@ public class OrderDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane addressFieldScroll;
     private javax.swing.JLabel addressLabel;
     private javax.swing.JButton cancelOrderButton;
-    private javax.swing.JScrollPane menuScroll;
     private javax.swing.JPanel menuWrapper;
     private javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;

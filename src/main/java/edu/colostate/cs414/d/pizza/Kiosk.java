@@ -65,13 +65,11 @@ public class Kiosk {
 
     //Creating an order
 	public void placeOrder(Order order) {
-		
 	}
 	
     //Making a payment
-	public double calculateSubtotal(Order order) {
-		// TODO!
-		return -1;
+	public double calculateSubtotal(Order order, List<DailySpecial> dailySpecials) {
+		return orderManager.calculateSubtotal(order, dailySpecials);
 	}
 
     //Completing Order

@@ -1,5 +1,7 @@
 package edu.colostate.cs414.d.pizza.api.order;
 
+import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
+
 import java.util.List;
 
 public class OrderManager {
@@ -56,5 +58,8 @@ public class OrderManager {
 	public void removeOrderItem(OrderItem item) {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
-	
+
+    public double calculateSubtotal(Order order, List<DailySpecial> dailySpecials) {
+        return 0;
+    }
 }

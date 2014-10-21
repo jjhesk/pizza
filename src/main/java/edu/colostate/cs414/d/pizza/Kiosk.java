@@ -3,8 +3,8 @@ package edu.colostate.cs414.d.pizza;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.api.menu.MenuManager;
+import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderManager;
-
 import java.util.List;
 
 /**
@@ -27,7 +27,10 @@ public class Kiosk {
     }
 
     //View Orders
-
+	public List<Order> viewPendingOrders() {
+		// TODO: DB operation for this
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
 
     //View Daily Specials
     public List<DailySpecial> viewDailySpecials(){
@@ -61,9 +64,19 @@ public class Kiosk {
     }
 
     //Creating an order
-
+	public void placeOrder(Order order) {
+		
+	}
+	
     //Making a payment
+	public double calculateSubtotal(Order order) {
+		// TODO!
+		return -1;
+	}
 
     //Completing Order
+	public void completeOrder(Order order) {
+		
+	}
 
 }

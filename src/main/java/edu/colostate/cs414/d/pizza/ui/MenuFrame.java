@@ -7,18 +7,20 @@
 package edu.colostate.cs414.d.pizza.ui;
 
 import javax.swing.GroupLayout;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.WindowConstants;
 
 /**
  *
  * @author tim
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MenuFrame extends javax.swing.JFrame {
 
 	/**
 	 * Creates new form MainFrame
 	 */
-	public MainFrame() {
+	public MenuFrame() {
 		initComponents();
 	}
 
@@ -31,7 +33,19 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuBar1 = new JMenuBar();
+        fileMenu = new JMenu();
+        adminMenu = new JMenu();
 
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        fileMenu.setText("File");
+        jMenuBar1.add(fileMenu);
+
+        adminMenu.setText("Admin");
+        jMenuBar1.add(adminMenu);
+
+        setJMenuBar(jMenuBar1);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -41,7 +55,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 277, Short.MAX_VALUE)
         );
 
         pack();
@@ -64,24 +78,27 @@ public class MainFrame extends javax.swing.JFrame {
 				}
 			}
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(MenuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(MenuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(MenuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(MenuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
         //</editor-fold>
 
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new MainFrame().setVisible(true);
+				new MenuFrame().setVisible(true);
 			}
 		});
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JMenu adminMenu;
+    private JMenu fileMenu;
+    private JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }

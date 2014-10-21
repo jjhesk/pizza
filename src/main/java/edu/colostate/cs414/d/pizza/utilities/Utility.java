@@ -13,4 +13,15 @@ public class Utility {
         }
         return null;
     }
+	
+	public static double calculateTax(double subtotal) {
+		// TODO!
+		return -1;
+	}
+	
+	public static double calculateTotal(double subtotal, double tax) {
+		// TODO!
+		return -1;
+	}
+	
 }

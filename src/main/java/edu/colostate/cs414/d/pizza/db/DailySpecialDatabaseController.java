@@ -55,10 +55,41 @@ public class DailySpecialDatabaseController {
     }
 
     public void addDailySpecial(DailySpecial dailySpecial) {
+        String query = "INSERT INTO DailySpecial(status,price) Values(?,?)";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            String status = (dailySpecial.isActive()) ? "active" : "expired";
+            preparedStatement.setString(1, status);
+            preparedStatement.setDouble(2, dailySpecial.getPrice());
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()){
+                dailySpecial.setId(resultSet.getInt(1));
+            }
+
+            for (MenuItem menuItem : dailySpecial.getItems()) {
+                query = "INSERT INTO DailySpecialItem(dailySpecialID,menuItemID) Values(?,?)";
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setInt(1,dailySpecial.getID());
+                preparedStatement.setInt(2,menuItem.getId());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void setExpired(DailySpecial special) {
-
+        String query = "UPDATE DailySpecial SET status = 'expired' WHERE dailySpecialID = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, special.getID());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -46,7 +46,6 @@ public class MenuDatabaseController {
     }
 
     public void addMenuItems(List<MenuItem> menuItems) {
-        String query = "INSERT INTO MenuItem(name,price,description,status) Values(?,?,?,?)";
         for(MenuItem menuItem : menuItems) {
             this.addMenuItem(menuItem);
         }

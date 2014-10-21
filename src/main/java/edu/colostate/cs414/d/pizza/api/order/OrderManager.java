@@ -31,8 +31,12 @@ public class OrderManager {
 	public Order createOrder(OrderType type, String name, String address) {
 		return new Order(type, name, address);
 	}
+
+    public Order createOrder() {
+        return new Order();
+    }
 	
-        //should this be calling orderDatabase.getOrders()? or just return this.orders?
+    //should this be calling orderDatabase.getOrders()? or just return this.orders?
 	public List<Order> getOrders() {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
@@ -95,5 +99,17 @@ public class OrderManager {
         }
 
         return totalCost;
+    }
+
+    public OrderItem createOrderItem(MenuItem menuItem, int quantity) {
+        return new OrderItem(menuItem,quantity);
+    }
+
+    public List<OrderItem> createDailySpecialOrderItems(DailySpecial special) {
+        ArrayList<OrderItem> orderItems = new ArrayList<OrderItem>();
+        for (MenuItem menuItem : special.getItems()){
+            orderItems.add(this.createOrderItem(menuItem,1));
+        }
+        return orderItems;
     }
 }

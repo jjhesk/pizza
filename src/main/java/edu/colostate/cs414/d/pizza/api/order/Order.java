@@ -20,6 +20,12 @@ public class Order {
 	
 	private List<OrderItem> items;
 
+    public Order(){
+        status = OrderStatus.NEW;
+        startDate = new Date();
+        items = new ArrayList<OrderItem>();
+    }
+
 	public Order(OrderType type, String customerName, String customerAddress) {
 		this.type = type;
 		this.customerName = customerName;
@@ -28,7 +34,7 @@ public class Order {
 		startDate = new Date();
 		status = OrderStatus.NEW;
 		
-		items = new LinkedList<>();
+		items = new ArrayList<OrderItem>();
 	}
 
 	public Order(int id, OrderType type, String customerName, String customerAddress) {
@@ -51,6 +57,10 @@ public class Order {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
+
+    public OrderType getType() { return type; }
+
+    public void setType(OrderType orderType) { this.type = orderType; }
 
 	public Date getStartDate() {
 		return startDate;

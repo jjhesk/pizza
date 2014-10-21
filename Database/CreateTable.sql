@@ -15,6 +15,7 @@ CREATE TABLE MenuItem (
 
 CREATE TABLE UserOrder (
 	orderID int NOT NULL AUTO_INCREMENT,
+	customerName varchar(255),
 	customerAddress varchar(255),
     status ENUM('new', 'pending', 'cancelled', 'complete'),
 	type ENUM('delivery', 'pickup', 'eatin'),

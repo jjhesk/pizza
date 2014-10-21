@@ -1,5 +1,6 @@
 package edu.colostate.cs414.d.pizza.utilities;
 
+import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 
 import java.util.List;
@@ -13,15 +14,27 @@ public class Utility {
         }
         return null;
     }
-	
+
+    public static boolean tryApplyDailySpecial(DailySpecial dailySpecial, List<MenuItem> menuItems){
+        for(MenuItem menuItem : dailySpecial.getItems()){
+            if(!menuItems.contains(menuItem)){
+                return false;
+            }
+        }
+        for(MenuItem menuItem : dailySpecial.getItems()){
+            menuItems.remove(menuItem);
+        }
+        return true;
+    }
+
 	public static double calculateTax(double subtotal) {
-		// TODO!
-		return -1;
+        //can be set to anything
+        double tax = .07;
+        return (subtotal + (subtotal*tax));
 	}
 	
 	public static double calculateTotal(double subtotal, double tax) {
-		// TODO!
-		return -1;
+        return subtotal + tax;
 	}
 	
 }

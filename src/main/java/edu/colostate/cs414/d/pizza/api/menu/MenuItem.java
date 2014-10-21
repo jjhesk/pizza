@@ -1,9 +1,5 @@
 package edu.colostate.cs414.d.pizza.api.menu;
-
-/**
- *
- * @author tim
- */
+s
 public class MenuItem {
 	
 	private int id;
@@ -32,8 +28,16 @@ public class MenuItem {
 		this.description = description;
 		this.active = active;
 	}
-	
-	public int getId() {
+
+    //shallow copy
+    public MenuItem(MenuItem item) {
+        this.name = item.getName();
+        this.price = item.getPrice();
+        this.description = item.getDescription();
+        this.active = item.isActive();
+    }
+
+    public int getId() {
 		return id;
 	}
 

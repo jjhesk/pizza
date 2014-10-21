@@ -15,8 +15,9 @@ CREATE TABLE MenuItem (
 
 CREATE TABLE UserOrder (
 	orderID int NOT NULL AUTO_INCREMENT,
+	customerName varchar(255),
 	customerAddress varchar(255),
-    status ENUM('new', 'active', 'cancelled', 'complete'),
+    status ENUM('new', 'pending', 'cancelled', 'complete'),
 	type ENUM('delivery', 'pickup', 'eatin'),
 	total double,
 	userID int,
@@ -26,7 +27,7 @@ CREATE TABLE UserOrder (
 
 CREATE TABLE OrderItem (
 	orderItemID int NOT NULL AUTO_INCREMENT,
-	quantity varchar(255) NOT NULL,
+	quantity int,
 	menuItemID int,
 	orderID int,
 	FOREIGN KEY (menuItemID) REFERENCES MenuItem(menuItemID),

@@ -7,10 +7,6 @@ import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderManager;
 import java.util.List;
 
-/**
- *
- * @author tim
- */
 public class Kiosk {
 
     private MenuManager menuManager;
@@ -18,7 +14,7 @@ public class Kiosk {
 
     public Kiosk(){
         menuManager = MenuManager.getInstance();
-        orderManager = OrderManager.getInstance();
+        orderManager = OrderManager.getInstance(menuManager.getAllMenuItems());
     }
 
     //View Menu
@@ -65,13 +61,12 @@ public class Kiosk {
 
     //Creating an order
 	public void placeOrder(Order order) {
-		
+            orderManager.addOrder(order);
 	}
 	
     //Making a payment
-	public double calculateSubtotal(Order order) {
-		// TODO!
-		return -1;
+	public double calculateSubtotal(Order order, List<DailySpecial> dailySpecials) {
+		return orderManager.calculateSubtotal(order, dailySpecials, this.viewDailySpecials());
 	}
 
     //Completing Order

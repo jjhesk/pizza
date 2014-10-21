@@ -11,10 +11,6 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 
-/**
- *
- * @author tim
- */
 public class PendingOrderFrame extends javax.swing.JFrame {
 
 	/**

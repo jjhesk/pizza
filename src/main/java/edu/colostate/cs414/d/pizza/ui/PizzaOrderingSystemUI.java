@@ -5,10 +5,6 @@ package edu.colostate.cs414.d.pizza.ui;
  * and open the template in the editor.
  */
 
-/**
- *
- * @author Rawlin
- */
 public class PizzaOrderingSystemUI extends javax.swing.JFrame {
 
     /**

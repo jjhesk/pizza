@@ -1,12 +1,7 @@
 package edu.colostate.cs414.d.pizza.api.menu;
 
-import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author tim
- */
 public class DailySpecial {
 	private int id;
 
@@ -56,4 +51,5 @@ public class DailySpecial {
     }
 
     public void setId(int id) { this.id = id; }
+
 }

@@ -4,6 +4,7 @@ import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.api.menu.MenuManager;
 import edu.colostate.cs414.d.pizza.api.order.Order;
+import edu.colostate.cs414.d.pizza.api.order.OrderItem;
 import edu.colostate.cs414.d.pizza.api.order.OrderManager;
 import java.util.List;
 
@@ -17,16 +18,19 @@ public class Kiosk {
         orderManager = OrderManager.getInstance(menuManager.getAllMenuItems());
     }
 
-    //View Menu
+    //View Menu (returns active menu items)
     public List<MenuItem> viewMenu(){
         return menuManager.getMenuItems();
     }
 
-    //View Orders
+    //View Orders (returns pending orders)
 	public List<Order> viewPendingOrders() {
-		// TODO: DB operation for this
-		throw new UnsupportedOperationException("Not implemented yet");
+        return orderManager.getOrders();
 	}
+
+    public List<OrderItem> viewOrderItems(Order order) {
+        return orderManager.getOrderItems(order);
+    }
 
     //View Daily Specials
     public List<DailySpecial> viewDailySpecials(){
@@ -59,9 +63,21 @@ public class Kiosk {
         menuManager.removeDailySpecial(special);
     }
 
-    //Creating an order
+    //Creating and placing an order
+    public Order createOrder() {
+        return orderManager.createOrder();
+    }
+
+    public OrderItem createOrderItem(MenuItem menuItem, int quantity) {
+        return orderManager.createOrderItem(menuItem, quantity);
+    }
+
+    public List<OrderItem> createDailySpecialOrderItems(DailySpecial special) {
+        return orderManager.createDailySpecialOrderItems(special);
+    }
+
 	public void placeOrder(Order order) {
-            orderManager.addOrder(order);
+        orderManager.addOrder(order);
 	}
 	
     //Making a payment
@@ -71,7 +87,7 @@ public class Kiosk {
 
     //Completing Order
 	public void completeOrder(Order order) {
-		
+		orderManager.completeOrder(order);
 	}
 
 }

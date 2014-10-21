@@ -1,20 +1,24 @@
 package edu.colostate.cs414.d.pizza.api.order;
 
-import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.utilities.Utility;
-
+import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
+import edu.colostate.cs414.d.pizza.db.OrderDatabaseController;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderManager {
 
 	private static OrderManager instance;
-
-    private List<MenuItem> menuItems;
+        private OrderDatabaseController orderDatabase;
+        private List<Order> orders;
+        private List<MenuItem> menuItems;
 
 	public OrderManager(List<MenuItem> menuItems) {
-        this.menuItems = menuItems;
+            this.menuItems = menuItems;
+            orderDatabase = new OrderDatabaseController();
+            orders = new ArrayList<Order>();
+            orderDatabase.getOrders(orders, menuItems);
 	}
 	
 	public static OrderManager getInstance(List<MenuItem> menuItems) {
@@ -28,6 +32,7 @@ public class OrderManager {
 		return new Order(type, name, address);
 	}
 	
+        //should this be calling orderDatabase.getOrders()? or just return this.orders?
 	public List<Order> getOrders() {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
@@ -37,7 +42,7 @@ public class OrderManager {
 	}
 	
 	public void addOrder(Order order) {
-		throw new UnsupportedOperationException("Not implemented yet");
+            
 	}
 	
 	public void removeOrder(Order order) {

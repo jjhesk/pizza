@@ -65,6 +65,7 @@ public class Kiosk {
 
     //Creating an order
 	public void placeOrder(Order order) {
+            orderManager.addOrder(order);
 	}
 	
     //Making a payment

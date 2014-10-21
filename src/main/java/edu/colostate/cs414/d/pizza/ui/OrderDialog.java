@@ -6,10 +6,6 @@
 
 package edu.colostate.cs414.d.pizza.ui;
 
-/**
- *
- * @author tim
- */
 public class OrderDialog extends javax.swing.JDialog {
 
 	/**

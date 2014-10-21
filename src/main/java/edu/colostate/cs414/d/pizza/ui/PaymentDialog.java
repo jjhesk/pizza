@@ -9,10 +9,6 @@ package edu.colostate.cs414.d.pizza.ui;
 import javax.swing.GroupLayout;
 import javax.swing.WindowConstants;
 
-/**
- *
- * @author tim
- */
 public class PaymentDialog extends javax.swing.JDialog {
 
 	/**

@@ -7,10 +7,6 @@ import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderManager;
 import java.util.List;
 
-/**
- *
- * @author tim
- */
 public class Kiosk {
 
     private MenuManager menuManager;

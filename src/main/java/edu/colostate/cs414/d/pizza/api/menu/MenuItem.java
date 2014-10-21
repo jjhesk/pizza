@@ -1,9 +1,5 @@
 package edu.colostate.cs414.d.pizza.api.menu;
-
-/**
- *
- * @author tim
- */
+s
 public class MenuItem {
 	
 	private int id;

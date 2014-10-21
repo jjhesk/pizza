@@ -2,10 +2,6 @@ package edu.colostate.cs414.d.pizza.api.order;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 
-/**
- *
- * @author tim
- */
 public class OrderItem {
 	
 	private int id;

@@ -38,7 +38,13 @@ public class OrderManager {
 	
     //should this be calling orderDatabase.getOrders()? or just return this.orders?
 	public List<Order> getOrders() {
-		throw new UnsupportedOperationException("Not implemented yet");
+        List<Order> pendingOrders = new ArrayList<Order>();
+		for(Order order : this.orders) {
+            if(order.getStatus() == OrderStatus.PENDING){
+                pendingOrders.add(order);
+            }
+        }
+        return pendingOrders;
 	}
 	
 	public Order getOrder(int id) {
@@ -46,7 +52,8 @@ public class OrderManager {
 	}
 	
 	public void addOrder(Order order) {
-            
+        orderDatabase.addOrder(order);
+        this.orders.add(order);
 	}
 	
 	public void removeOrder(Order order) {
@@ -62,7 +69,7 @@ public class OrderManager {
 	}
 	
 	public List<OrderItem> getOrderItems(Order order) {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return order.getItems();
 	}
 	
 	public void addOrderItem(OrderItem item) {
@@ -111,5 +118,10 @@ public class OrderManager {
             orderItems.add(this.createOrderItem(menuItem,1));
         }
         return orderItems;
+    }
+
+    public void completeOrder(Order order) {
+        orderDatabase.completeOrder(order);
+        order.setStatus(OrderStatus.COMPLETE);
     }
 }

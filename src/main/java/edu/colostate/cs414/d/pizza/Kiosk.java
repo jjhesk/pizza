@@ -18,16 +18,19 @@ public class Kiosk {
         orderManager = OrderManager.getInstance(menuManager.getAllMenuItems());
     }
 
-    //View Menu
+    //View Menu (returns active menu items)
     public List<MenuItem> viewMenu(){
         return menuManager.getMenuItems();
     }
 
-    //View Orders
+    //View Orders (returns pending orders)
 	public List<Order> viewPendingOrders() {
-		// TODO: DB operation for this
-		throw new UnsupportedOperationException("Not implemented yet");
+        return orderManager.getOrders();
 	}
+
+    public List<OrderItem> viewOrderItems(Order order) {
+        return orderManager.getOrderItems(order);
+    }
 
     //View Daily Specials
     public List<DailySpecial> viewDailySpecials(){
@@ -84,7 +87,7 @@ public class Kiosk {
 
     //Completing Order
 	public void completeOrder(Order order) {
-		
+		orderManager.completeOrder(order);
 	}
 
 }

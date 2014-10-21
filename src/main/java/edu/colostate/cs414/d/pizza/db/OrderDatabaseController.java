@@ -19,9 +19,9 @@ public class OrderDatabaseController {
         connection = Database.getInstance().getConnection();
     }
 
-    //should this get ALL orders, including cancelled/complete?
+    //Gets all orders
     public void getOrders(List<Order> orders, List<MenuItem> menuItems) {
-        orders.clear(); //should always already be empty?
+        orders.clear(); //should always already be empty? yes but leave to put our minds at ease?
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
@@ -51,6 +51,60 @@ public class OrderDatabaseController {
                 }
                 orders.add(order);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addOrder(Order order) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String query = "INSERT INTO UserOrder(customerAddress, customerName, status, type)";
+        try {
+            preparedStatement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, order.getCustomerAddress());
+            preparedStatement.setString(2, order.getCustomerName());
+            preparedStatement.setString(3, order.getStatus().toString().toLowerCase());
+            preparedStatement.setString(4, order.getType().toString().toLowerCase());
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()){
+                int id = resultSet.getInt(1);
+                order.setId(id);
+                for (OrderItem orderItem : order.getItems()){
+                    this.addOrderItem(orderItem, id);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addOrderItem(OrderItem orderItem, int orderID) {
+        String query = "INSERT INTO OrderItem(quantity,menuItemID,orderID) Values(?,?,?,?)";
+        try {
+            PreparedStatement preparedStatement = null;
+            preparedStatement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatement.setInt(1, orderItem.getQuantity());
+            preparedStatement.setInt(2, orderItem.getItem().getId());
+            preparedStatement.setInt(3, orderID);
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()){
+                orderItem.setId(resultSet.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void completeOrder(Order order) {
+        String query = "UPDATE UserOrder SET status = 'complete' WHERE orderID = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, order.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

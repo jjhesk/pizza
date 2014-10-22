@@ -17,16 +17,6 @@ import static org.junit.Assert.*;
 public class UserManagerTest {
 
     private UserManager userManager;
-
-    @BeforeClass
-    public static void setUpClass() {
-
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-        Utility.removeDataFromDatabase();
-    }
     
     @Before
     public void setUp() {

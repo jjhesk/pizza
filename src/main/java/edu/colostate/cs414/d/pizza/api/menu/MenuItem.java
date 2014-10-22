@@ -94,6 +94,18 @@ public class MenuItem {
             return false;
         }
 
+        if(this.description == null && ((MenuItem)other).description != null){
+            return false;
+        }
+
+        if(this.description != null && ((MenuItem)other).description == null){
+            return false;
+        }
+
+        if(this.description == null && ((MenuItem)other).description == null){
+            return true;
+        }
+
         if (!this.description.equalsIgnoreCase(((MenuItem)other).description))
         {
             return false;

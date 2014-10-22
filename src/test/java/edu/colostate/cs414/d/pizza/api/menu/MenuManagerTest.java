@@ -5,7 +5,10 @@
  */
 package edu.colostate.cs414.d.pizza.api.menu;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import edu.colostate.cs414.d.pizza.utilities.Utility;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,121 +17,131 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class MenuManagerTest {
-    
-    public MenuManagerTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
+
+    private MenuManager menuManager;
     
     @Before
     public void setUp() {
+        Utility.removeDataFromDatabase();
+        menuManager = MenuManager.getInstance();
+
+        menuManager.addMenuItem(new MenuItem(1, "testMenuItem1", 1.5, "", true));
+        menuManager.addMenuItem(new MenuItem(2, "testMenuItem2", 14, null, true));
+        menuManager.addMenuItem(new MenuItem(3, "testMenuItem3", 1.4, "a description", true));
+        menuManager.addMenuItem(new MenuItem(4, "testMenuItem4", 19, "a description", false));
+        menuManager.addMenuItem(new MenuItem(5, "testMenuItem5", 1, "a description", true));
     }
     
     @After
     public void tearDown() {
+        Utility.removeDataFromDatabase();
     }
 
-    /**
-     * Test of getInstance method, of class MenuManager.
-     */
     @Test
     public void testGetInstance() {
-        System.out.println("getInstance");
         MenuManager expResult = MenuManager.getInstance();
         MenuManager result = MenuManager.getInstance();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of createMenuItem method, of class MenuManager.
-     */
     @Test
     public void testCreateMenuItem() {
-        System.out.println("createMenuItem");
-        String name = "";
-        double price = 0.0;
-        String description = "";
-        MenuManager instance = MenuManager.getInstance();
-        MenuItem expResult = null;
-        MenuItem result = instance.createMenuItem(name, price, description);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String name = "Pizza";
+        double price = 4.5;
+        String description = "This is a pizza!";
+        MenuItem newItem = new MenuItem(name,price,description);
+        MenuItem result = menuManager.createMenuItem(name, price, description);
+        assertEquals(newItem, result);
     }
 
-    /**
-     * Test of saveMenu method, of class MenuManager.
-     */
+    @Test
+    public void testCreateMenuItemWithoutDescription() {
+        String name = "Pizza";
+        double price = 1;
+        String description = null;
+        MenuItem newItem = new MenuItem(name,price,description);
+        MenuItem result = menuManager.createMenuItem(name, price, description);
+        assertEquals(newItem, result);
+    }
+
     @Test
     public void testSaveMenu() {
-        System.out.println("saveMenu");
-        List<MenuItem> menuItems = null;
-        MenuManager instance = MenuManager.getInstance();
-        instance.saveMenu(menuItems);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<MenuItem> menuItems = new ArrayList<MenuItem>();
+        menuItems.add(new MenuItem(6, "newMenuItem6", 1, "a description", true));
+        menuItems.add(new MenuItem(7, "newMenuItem7", 1, "a description", true));
+        menuItems.add(new MenuItem(8, "newMenuItem8", 1, "a description", true));
+        assertTrue(menuManager.getMenuItems().size() == 4);
+        menuManager.saveMenu(menuItems);
+        assertTrue(menuManager.getMenuItems().size() == 3);
+        assertTrue(menuManager.getMenuItems().contains(menuItems.get(0)));
+        assertTrue(menuManager.getMenuItems().contains(menuItems.get(1)));
+        assertTrue(menuManager.getMenuItems().contains(menuItems.get(2)));
     }
 
-    /**
-     * Test of getMenuItems method, of class MenuManager.
-     */
     @Test
     public void testGetMenuItems() {
-        System.out.println("getMenuItems");
-        MenuManager instance = MenuManager.getInstance();
-        List<MenuItem> expResult = null;
-        List<MenuItem> result = instance.getMenuItems();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<MenuItem> menuItems = new ArrayList<MenuItem>();
+        menuItems.add(new MenuItem(6, "newMenuItem6", 1, "a description", true));
+        menuItems.add(new MenuItem(7, "newMenuItem7", 1, "a description", false));
+        assertTrue(menuManager.getMenuItems().size() == 4);
+        menuManager.addMenuItem(menuItems.get(0));
+        menuManager.addMenuItem(menuItems.get(1));
+        assertTrue(menuManager.getMenuItems().size() == 5);
+        assertTrue(menuManager.getMenuItems().contains(menuItems.get(0)));
+        assertFalse(menuManager.getMenuItems().contains(menuItems.get(1)));
     }
 
-    /**
-     * Test of getAllMenuItems method, of class MenuManager.
-     */
     @Test
     public void testGetAllMenuItems() {
-        System.out.println("getAllMenuItems");
-        MenuManager instance = MenuManager.getInstance();
-        List<MenuItem> expResult = null;
-        List<MenuItem> result = instance.getAllMenuItems();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<MenuItem> menuItems = new ArrayList<MenuItem>();
+        menuItems.add(new MenuItem(6, "newMenuItem6", 1, "a description", true));
+        menuItems.add(new MenuItem(7, "newMenuItem7", 1, "a description", false));
+        assertTrue(menuManager.getAllMenuItems().size() == 5);
+        menuManager.addMenuItem(menuItems.get(0));
+        menuManager.addMenuItem(menuItems.get(1));
+        assertTrue(menuManager.getAllMenuItems().size() == 7);
+        assertTrue(menuManager.getAllMenuItems().contains(menuItems.get(0)));
+        assertTrue(menuManager.getAllMenuItems().contains(menuItems.get(1)));
     }
 
-    /**
-     * Test of addMenuItem method, of class MenuManager.
-     */
     @Test
-    public void testAddMenuItem() {
-        System.out.println("addMenuItem");
-        MenuItem item = null;
-        MenuManager instance = MenuManager.getInstance();
-        instance.addMenuItem(item);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testAddMenuItemNewItem() {
+        List<MenuItem> menuItems = new ArrayList<MenuItem>();
+        menuItems.add(new MenuItem(6, "newMenuItem6", 1, "a description", true));
+        assertTrue(menuManager.getMenuItems().size() == 4);
+        menuManager.addMenuItem(menuItems.get(0));
+        assertTrue(menuManager.getMenuItems().contains(menuItems.get(0)));
+        assertTrue(menuManager.getMenuItems().size() == 5);
     }
 
-    /**
-     * Test of removeMenuItem method, of class MenuManager.
-     */
+    @Test
+    public void testAddMenuItemAlreadyExist() {
+        List<MenuItem> menuItems = new ArrayList<MenuItem>();
+        menuItems.add(new MenuItem(1, "testMenuItem1", 1.5, "", true));
+        assertTrue(menuManager.getMenuItems().size() == 4);
+        menuManager.addMenuItem(menuItems.get(0));
+        assertTrue(menuManager.getMenuItems().size() == 4);
+    }
+
     @Test
     public void testRemoveMenuItem() {
-        System.out.println("removeMenuItem");
-        MenuItem item = null;
-        MenuManager instance = MenuManager.getInstance();
-        instance.removeMenuItem(item);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        MenuItem deleteItem = menuManager.getMenuItems().get(1);
+        assertTrue(menuManager.getMenuItems().size() == 4);
+        menuManager.removeMenuItem(deleteItem);
+        assertFalse(menuManager.getMenuItems().contains(deleteItem));
+        assertTrue(menuManager.getMenuItems().size() == 3);
+    }
+
+    @Test
+    public void testRemoveMenuItemRemovesDailySpecial() {
+        MenuItem deleteItem = menuManager.getMenuItems().get(1);
+        List<MenuItem> menuItems = menuManager.getMenuItems();
+        DailySpecial special = menuManager.createDailySpecial(menuItems,9.9);
+        assertTrue(menuManager.getMenuItems().size() == 4);
+        menuManager.removeMenuItem(deleteItem);
+        assertFalse(menuManager.getMenuItems().contains(deleteItem));
+        assertTrue(menuManager.getMenuItems().size() == 3);
+        assertFalse(special.isActive());
     }
 
     /**

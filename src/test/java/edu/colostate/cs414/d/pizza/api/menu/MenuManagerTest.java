@@ -18,23 +18,27 @@ import static org.junit.Assert.*;
 
 public class MenuManagerTest {
 
-    private MenuManager menuManager;
+    private static MenuManager menuManager;
     
     @Before
     public void setUp() {
         Utility.removeDataFromDatabase();
-        menuManager = MenuManager.getInstance();
-
         menuManager.addMenuItem(new MenuItem(1, "testMenuItem1", 1.5, "", true));
         menuManager.addMenuItem(new MenuItem(2, "testMenuItem2", 14, null, true));
         menuManager.addMenuItem(new MenuItem(3, "testMenuItem3", 1.4, "a description", true));
         menuManager.addMenuItem(new MenuItem(4, "testMenuItem4", 19, "a description", false));
         menuManager.addMenuItem(new MenuItem(5, "testMenuItem5", 1, "a description", true));
     }
+
+
+    @BeforeClass
+    public static void setUpClass() {
+        menuManager = MenuManager.getInstance();
+    }
     
     @After
     public void tearDown() {
-        Utility.removeDataFromDatabase();
+       Utility.removeDataFromDatabase();
     }
 
     @Test
@@ -144,59 +148,55 @@ public class MenuManagerTest {
         assertFalse(special.isActive());
     }
 
-    /**
-     * Test of getDailySpecials method, of class MenuManager.
-     */
     @Test
     public void testGetDailySpecials() {
-        System.out.println("getDailySpecials");
-        MenuManager instance = MenuManager.getInstance();
-        List<DailySpecial> expResult = null;
-        List<DailySpecial> result = instance.getDailySpecials();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<MenuItem> menuItems = menuManager.getMenuItems();
+        DailySpecial special = menuManager.createDailySpecial(menuItems,9.9);
+        menuItems.remove(2);
+        DailySpecial specialDelete = menuManager.createDailySpecial(menuItems,8.4);
+        assertTrue(menuManager.getDailySpecials().size() == 2);
+        menuManager.removeDailySpecial(specialDelete);
+        assertTrue(menuManager.getDailySpecials().size() == 1);
     }
 
-    /**
-     * Test of createDailySpecial method, of class MenuManager.
-     */
     @Test
     public void testCreateDailySpecial() {
-        System.out.println("createDailySpecial");
-        List<MenuItem> menuItems = null;
-        Double price = null;
-        MenuManager instance = MenuManager.getInstance();
-        DailySpecial expResult = null;
-        DailySpecial result = instance.createDailySpecial(menuItems, price);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<MenuItem> menuItems = menuManager.getMenuItems();
+        DailySpecial special = menuManager.createDailySpecial(menuItems,9.9);
+        assertTrue(menuItems.size() == special.getItems().size());
+        assertTrue(special.isActive());
+        assertTrue(special.getPrice() == 9.9);
     }
 
-    /**
-     * Test of removeDailySpecial method, of class MenuManager.
-     */
     @Test
     public void testRemoveDailySpecial() {
-        System.out.println("removeDailySpecial");
-        DailySpecial special = null;
-        MenuManager instance = MenuManager.getInstance();
-        instance.removeDailySpecial(special);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<MenuItem> menuItems = menuManager.getMenuItems();
+        DailySpecial special = menuManager.createDailySpecial(menuItems,9.9);
+        assertTrue(menuManager.getDailySpecials().size() == 1);
+        menuManager.removeDailySpecial(special);
+        assertTrue(menuManager.getDailySpecials().size() == 0);
+        assertFalse(special.isActive());
     }
 
-    /**
-     * Test of checkDailySpecials method, of class MenuManager.
-     */
     @Test
-    public void testCheckDailySpecials() {
-        System.out.println("checkDailySpecials");
-        MenuManager instance = MenuManager.getInstance();
-        instance.checkDailySpecials();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testCheckDailySpecialsStillValid() {
+        List<MenuItem> menuItems = menuManager.getMenuItems();
+        DailySpecial specialDelete = menuManager.createDailySpecial(menuItems,9.9);
+        assertTrue(menuManager.getDailySpecials().size() == 1);
+        menuManager.checkDailySpecials();
+        assertTrue(specialDelete.isActive());
+        assertTrue(menuManager.getDailySpecials().size() == 1);
+    }
+
+    @Test
+    public void testCheckDailySpecialsNotValid() {
+        List<MenuItem> menuItems = menuManager.getMenuItems();
+        DailySpecial specialDelete = menuManager.createDailySpecial(menuItems,9.9);
+        assertTrue(menuManager.getDailySpecials().size() == 1);
+        menuItems.get(2).setActive(false);
+        menuManager.checkDailySpecials();
+        assertFalse(specialDelete.isActive());
+        assertTrue(menuManager.getDailySpecials().size() == 0);
     }
     
 }

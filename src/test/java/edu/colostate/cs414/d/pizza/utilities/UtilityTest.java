@@ -6,6 +6,7 @@ package edu.colostate.cs414.d.pizza.utilities;
 
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,44 +42,50 @@ public class UtilityTest {
 
     @Test
     public void testGetMenuItem() {
-        System.out.println("getMenuItem");
         int menuItemID = 0;
-        List<MenuItem> menuItems = null;
-        MenuItem expResult = null;
-        MenuItem result = Utility.getMenuItem(menuItemID, menuItems);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        MenuItem testMenuItem = new MenuItem(menuItemID, "testMenuItem", 0, "a description", true);
+        List<MenuItem> menuItems = new ArrayList<MenuItem>();
+        menuItems.add(testMenuItem);
+        assertEquals(testMenuItem, Utility.getMenuItem(menuItemID, menuItems));
+    }
+    
+    @Test
+    public void testGetMenuItemNotThere() {
+        int menuItemID = 0;
+        MenuItem testMenuItem = new MenuItem(menuItemID, "testMenuItem", 0, "a description", true);
+        List<MenuItem> menuItems = new ArrayList<MenuItem>();
+        menuItems.add(testMenuItem);
+        assertEquals(null, Utility.getMenuItem(menuItemID + 1, menuItems));
     }
 
     @Test
     public void testTryApplyDailySpecial() {
-        System.out.println("tryApplyDailySpecial");
         DailySpecial dailySpecial = null;
-        List<MenuItem> menuItems = null;
-        boolean expResult = false;
-        boolean result = Utility.tryApplyDailySpecial(dailySpecial, menuItems);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        List<MenuItem> dsMenuItems = new ArrayList<MenuItem>();
+        dsMenuItems.add(new MenuItem(0, "testMenuItem0", 0, "a description", true));
+        dsMenuItems.add(new MenuItem(1, "testMenuItem1", 0, "a description", true));
+        dsMenuItems.add(new MenuItem(2, "testMenuItem2", 0, "a description", true));
+        dailySpecial = new DailySpecial(0, 5.00, dsMenuItems, true);
+        List<MenuItem> testItems = new ArrayList<MenuItem>();
+        testItems.addAll(dsMenuItems);
+        testItems.add(new MenuItem(3, "testMenuItem3", 0, "a description", true));
+        assertEquals(true, Utility.tryApplyDailySpecial(dailySpecial, testItems));
+        assertEquals(new MenuItem(3, "testMenuItem3", 0, "a description", true), testItems.get(0));
     }
 
     @Test
     public void testCalculateTax() {
-        System.out.println("calculateTax");
-        double subtotal = 0.0;
-        double expResult = 0.0;
+        double subtotal = 1.00;
+        double expResult = .07;
         double result = Utility.calculateTax(subtotal);
         assertEquals(expResult, result, 0.0);
-        fail("The test case is a prototype.");
     }
 
     @Test
-    public void testCalculateTotal() {
-        System.out.println("calculateTotal");
-        double subtotal = 0.0;
-        double tax = 0.0;
-        double expResult = 0.0;
-        double result = Utility.calculateTotal(subtotal, tax);
+    public void testCalculateTotalWithTax() {
+        double subtotal = 1.0;
+        double expResult = 1.07;
+        double result = Utility.calculateTotalWithTax(subtotal);
         assertEquals(expResult, result, 0.0);
-        fail("The test case is a prototype.");
     }
 }

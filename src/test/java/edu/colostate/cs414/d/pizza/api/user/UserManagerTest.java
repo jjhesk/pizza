@@ -15,25 +15,31 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class UserManagerTest {
-    
-    public UserManagerTest() {
-    }
-    
+
+    private UserManager userManager;
+
     @BeforeClass
     public static void setUpClass() {
-        Utility.removeDataFromDatabase();
+
     }
     
     @AfterClass
     public static void tearDownClass() {
+        Utility.removeDataFromDatabase();
     }
     
     @Before
     public void setUp() {
+        Utility.removeDataFromDatabase();
+        userManager = UserManager.getInstance();
+        userManager.addUser("Michael", "Password1234",(UserType.CASHIER));
+        userManager.addUser("Rawlin", "cookingaway",(UserType.CHEF));
+        userManager.addUser("Tim", "Manager?",(UserType.MANAGER));
     }
     
     @After
     public void tearDown() {
+        Utility.removeDataFromDatabase();
     }
 
     @Test
@@ -44,45 +50,50 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testGetUsers() {
-        UserManager instance = UserManager.getInstance();
-        List expResult = null;
-        List result = instance.getUsers();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testAuthenticateUserValid() {
+        User user = UserFactory.createUser(UserType.CASHIER, "Michael", "Password1234");
+        User returnedUser = userManager.authenticateUser("Michael", "Password1234");
+        assertEquals(user, returnedUser);
     }
 
     @Test
-    public void testAuthenticateUser() {
-        System.out.println("authenticateUser");
-        String userName = "";
-        String password = "";
-        UserManager instance = UserManager.getInstance();
-        User expResult = null;
-        User result = instance.authenticateUser(userName, password);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testAuthenticateUserInvalidUserName() {
+        User returnedUser = userManager.authenticateUser("Jeff", "Password1234");
+        assertEquals(null, returnedUser);
     }
 
     @Test
-    public void testAddUser() {
-        System.out.println("addUser");
-        String userName = "";
-        String password = "";
-        UserType userType = null;
-        UserManager instance = UserManager.getInstance();
-        boolean expResult = false;
-        boolean result = instance.addUser(userName, password, userType);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testAuthenticateUserInvalidPassword() {
+        User returnedUser = userManager.authenticateUser("Rawlin", "ILOVEXBOXS");
+        assertEquals(null, returnedUser);
     }
 
     @Test
-    public void testRemoveUser() {
-        System.out.println("removeUser");
-        String userName = "";
-        UserManager instance = UserManager.getInstance();
-        instance.removeUser(userName);
-        fail("The test case is a prototype.");
+    public void testAddUserValid() {
+        User newUser = UserFactory.createUser(UserType.CASHIER, "Jeff", "Iamfinallyhere");
+        boolean added = userManager.addUser("Jeff","Iamfinallyhere",UserType.CASHIER);
+        assertTrue(userManager.getUsers().contains(newUser) && added);
+    }
+
+    @Test
+    public void testAddUserInValidUserName() {
+        User newUser = UserFactory.createUser(UserType.CASHIER, "Michael", "thesecondcomingofmichael");
+        boolean added = userManager.addUser("Michael","thesecondcomingofmichael",UserType.CASHIER);
+        assertFalse(userManager.getUsers().contains(newUser) || added);
+    }
+
+    @Test
+    public void testRemoveUserExistingUser() {
+        User user = UserFactory.createUser(UserType.CASHIER, "Rawlin", "cookingaway");
+        userManager.removeUser("Rawlin");
+        assertFalse(userManager.getUsers().contains(user));
+        assertTrue(userManager.getUsers().size() == 2);
+    }
+
+    @Test
+    public void testRemoveUserNonExistentUser() {
+        User user = UserFactory.createUser(UserType.CASHIER, "Jeff", "javaftw");
+        userManager.removeUser("Jeff");
+        assertTrue(userManager.getUsers().size() == 3);
     }
 }

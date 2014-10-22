@@ -1,21 +1,32 @@
 package edu.colostate.cs414.d.pizza.ui;
 
+import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
-import edu.colostate.cs414.d.pizza.ui.component.MenuPanel;
+import edu.colostate.cs414.d.pizza.ui.menu.MenuFeature;
+import edu.colostate.cs414.d.pizza.ui.menu.MenuPanel;
 import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 
-public class OrderDialog extends javax.swing.JDialog {
+public class OrderDialog extends JDialog {
 
+	private Kiosk kiosk;
+	
 	/**
 	 * Creates new form OrderDialog
 	 */
-	public OrderDialog(java.awt.Frame parent, boolean modal) {
-		super(parent, modal);
-		initComponents();
+	public OrderDialog(Frame parent, Kiosk kiosk) {
+		super(parent, true);
 		
-		initTestMenu();
+		this.kiosk = kiosk;
+		
+		initComponents();
+		initMenu();
 	}
 
 	/**
@@ -250,57 +261,9 @@ public class OrderDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	private void initTestMenu() {
-		List<MenuItem> items = new LinkedList<>();
-		items.add(new MenuItem("Pizza", 9.99, "It's a pizza."));
-		items.add(new MenuItem("Drink", 1.25, "Some sort of drink."));
-		items.add(new MenuItem("Soylent Green", 4.99, "People."));
-		
-		MenuPanel panel = new MenuPanel(items, true);
-		
+	private void initMenu() {
+		MenuPanel panel = new MenuPanel(kiosk.viewMenu(), MenuFeature.ORDERING);
 		menuWrapper.add(panel, BorderLayout.CENTER);
-	}
-	
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
-		/* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-		 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-		 */
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(OrderDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(OrderDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(OrderDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(OrderDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		}
-        //</editor-fold>
-
-		/* Create and display the dialog */
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				OrderDialog dialog = new OrderDialog(new javax.swing.JFrame(), true);
-				dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-					@Override
-					public void windowClosing(java.awt.event.WindowEvent e) {
-						System.exit(0);
-					}
-				});
-				dialog.setVisible(true);
-			}
-		});
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

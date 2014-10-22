@@ -1,17 +1,36 @@
-package edu.colostate.cs414.d.pizza.ui;
+package edu.colostate.cs414.d.pizza.ui.menu;
 
+import edu.colostate.cs414.d.pizza.Kiosk;
+import edu.colostate.cs414.d.pizza.ui.OrderDialog;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.LayoutStyle;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 
 public class MenuFrame extends javax.swing.JFrame {
 
+	private Kiosk kiosk;
+	
 	/**
 	 * Creates new form MainFrame
 	 */
 	public MenuFrame() {
+		kiosk = new Kiosk();
+		
 		initComponents();
+		initMenu();
+		
+		placeOrderButton.requestFocusInWindow();
 	}
 
 	/**
@@ -23,34 +42,70 @@ public class MenuFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new JMenuBar();
+        menuWrapperScroll = new JScrollPane();
+        menuWrapper = new JPanel();
+        buttonPanel = new JPanel();
+        placeOrderButton = new JButton();
+        menuBar = new JMenuBar();
         fileMenu = new JMenu();
         adminMenu = new JMenu();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        menuWrapperScroll.setBorder(null);
+        menuWrapperScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        menuWrapper.setBorder(null);
+        menuWrapper.setLayout(new BorderLayout());
+        menuWrapperScroll.setViewportView(menuWrapper);
+
+        placeOrderButton.setIcon(new ImageIcon(getClass().getResource("/edu/colostate/cs414/d/pizza/ui/add.png"))); // NOI18N
+        placeOrderButton.setText("Place Order");
+        placeOrderButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                placeOrderButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(placeOrderButton);
+
         fileMenu.setText("File");
-        jMenuBar1.add(fileMenu);
+        menuBar.add(fileMenu);
 
         adminMenu.setText("Admin");
-        jMenuBar1.add(adminMenu);
+        menuBar.add(adminMenu);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
+            .addComponent(menuWrapperScroll, GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(menuWrapperScroll, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                .addGap(1, 1, 1)
+                .addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void placeOrderButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonActionPerformed
+        OrderDialog d = new OrderDialog(this, kiosk);
+		d.setVisible(true);
+    }//GEN-LAST:event_placeOrderButtonActionPerformed
+
+	private void initMenu() {
+		MenuPanel panel = new MenuPanel(kiosk.viewMenu(), MenuFeature.NONE, 2);
+		menuWrapper.add(panel, BorderLayout.CENTER);
+		pack();
+	}
+	
 	/**
 	 * @param args the command line arguments
 	 */
@@ -88,7 +143,11 @@ public class MenuFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JMenu adminMenu;
+    private JPanel buttonPanel;
     private JMenu fileMenu;
-    private JMenuBar jMenuBar1;
+    private JMenuBar menuBar;
+    private JPanel menuWrapper;
+    private JScrollPane menuWrapperScroll;
+    private JButton placeOrderButton;
     // End of variables declaration//GEN-END:variables
 }

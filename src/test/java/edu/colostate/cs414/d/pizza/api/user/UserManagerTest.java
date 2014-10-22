@@ -5,6 +5,8 @@
 package edu.colostate.cs414.d.pizza.api.user;
 
 import java.util.List;
+
+import edu.colostate.cs414.d.pizza.utilities.Utility;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,6 +21,7 @@ public class UserManagerTest {
     
     @BeforeClass
     public static void setUpClass() {
+        Utility.removeDataFromDatabase();
     }
     
     @AfterClass
@@ -42,7 +45,6 @@ public class UserManagerTest {
 
     @Test
     public void testGetUsers() {
-        System.out.println("getUsers");
         UserManager instance = UserManager.getInstance();
         List expResult = null;
         List result = instance.getUsers();

@@ -35,7 +35,7 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 	
 	private final EventBus bus;
 	
-	private final MenuItem item;
+	private MenuItem item;
 	private final MenuFeature feature;
 	
 	@SuppressWarnings("OverridableMethodCallInConstructor")
@@ -123,6 +123,14 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 
 		add(buttonContainer, BorderLayout.SOUTH);
 	}
+    
+    public void setItem(MenuItem item) {
+        this.item = item;
+        
+        nameLabel.setText(item.getName());
+        descriptionLabel.setText(item.getDescription());
+        priceLabel.setText(String.format("$%.2f", item.getPrice()));
+    }
 	
 	private final ActionListener orderAddListener = new ActionListener() {
 
@@ -172,8 +180,7 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 			
 			bus.push(new MenuItemEditEvent(item, i));
 			
-			// don't update the UI here
-			// we'll be recreating the menu item and reinitializing the menu
+			setItem(i);
 		}
 		
 	};

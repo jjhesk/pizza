@@ -7,12 +7,17 @@ import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.timothyb89.eventbus.EventHandler;
 import org.timothyb89.eventbus.EventScanMode;
 import org.timothyb89.eventbus.EventScanType;
@@ -20,8 +25,10 @@ import org.timothyb89.eventbus.EventScanType;
 @EventScanMode(type = EventScanType.EXTENDED)
 public class MenuEditDialog extends JDialog {
 
+    private final Logger logger = LoggerFactory.getLogger(MenuEditDialog.class);
+    
 	private final Kiosk kiosk;
-	
+    
 	/**
 	 * Creates new form MenuEditDialog
 	 */
@@ -33,6 +40,8 @@ public class MenuEditDialog extends JDialog {
 		initComponents();
 		initMenu();
 		
+        closeButton.requestFocusInWindow();
+        
 		setLocationRelativeTo(parent);
 	}
 
@@ -51,6 +60,11 @@ public class MenuEditDialog extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         closeButton.setText("Close");
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
 
         menuWrapper.setPreferredSize(new Dimension(400, 449));
         menuWrapper.setLayout(new BorderLayout());
@@ -77,6 +91,10 @@ public class MenuEditDialog extends JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void closeButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_closeButtonActionPerformed
+
 	private void initMenu() {
 		menuPanel = new MenuPanel(kiosk.viewMenu(), MenuFeature.ADMIN, 2);
 		menuPanel.bus().register(this);
@@ -88,7 +106,9 @@ public class MenuEditDialog extends JDialog {
 	private void doMenuItemCreated(MenuItemCreateEvent event) {
 		kiosk.addMenuItem(event.getItem());
 		
-		menuPanel.refreshMenuItems(kiosk.viewMenu());
+        logger.debug("Menu item created: {}", event.getItem());
+        
+		//delayedRefreshMenu();
 	}
 	
 	@EventHandler
@@ -96,15 +116,30 @@ public class MenuEditDialog extends JDialog {
 		kiosk.removeMenuItem(event.getOriginalItem());
 		kiosk.addMenuItem(event.getNewItem());
 		
-		menuPanel.refreshMenuItems(kiosk.viewMenu());
+        logger.debug("Menu item edited: {}", event.getNewItem());
+        
+		//delayedRefreshMenu();
 	}
 	
 	@EventHandler
 	private void doMenuItemRemoved(MenuItemRemoveEvent event) {
 		kiosk.removeMenuItem(event.getItem());
 		
-		menuPanel.refreshMenuItems(kiosk.viewMenu());
+        logger.debug("Menu item removed: {}", event.getItem());
+        
+        //delayedRefreshMenu();
 	}
+    
+    private void delayedRefreshMenu() {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                menuPanel.refreshMenuItems(kiosk.viewMenu());
+            }
+            
+        });
+    }
 
 	private MenuPanel menuPanel;
 	

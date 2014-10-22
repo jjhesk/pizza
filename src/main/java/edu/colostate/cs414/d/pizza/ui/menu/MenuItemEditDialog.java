@@ -143,8 +143,7 @@ public class MenuItemEditDialog extends JDialog {
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(cancelButton)
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(saveButton)))
+                    .addComponent(saveButton))
                 .addContainerGap())
         );
 
@@ -182,10 +181,10 @@ public class MenuItemEditDialog extends JDialog {
 			return;
 		}
 		
-		if (description.isEmpty()) {
-			error("Description must not be empty.");
-			return;
-		}
+		//if (description.isEmpty()) {
+		//	error("Description must not be empty.");
+		//	return;
+		//}
 		
 		returnedItem = new MenuItem(name, price, description);
 		dispose();

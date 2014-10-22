@@ -18,8 +18,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -37,6 +39,7 @@ import org.timothyb89.eventbus.EventScanType;
 public class MenuPanel extends JPanel implements EventBusProvider {
 
 	private final List<MenuItem> items;
+    private final Map<MenuItem, MenuItemComponent> itemMap;
 	private final MenuFeature feature;
 	private final int columns;
 	
@@ -47,6 +50,8 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 		this.feature = feature;
 		this.columns = columns;
 		
+        itemMap = new HashMap<>();
+        
 		bus = new EventBus() {{
 			add(OrderItemCreateEvent.class);
 			
@@ -113,11 +118,14 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 	
 	private void initMenuItems(List<MenuItem> items) {
 		itemContainer.removeAll();
+        itemMap.clear();
 		
 		for (MenuItem item : items) {
 			MenuItemComponent c = new MenuItemComponent(item, feature);
 			c.bus().register(this);
+            
 			itemContainer.add(c);
+            itemMap.put(item, c);
 		}
 		
 		revalidate();
@@ -139,11 +147,6 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 	}
 	
 	@EventHandler
-	private void doMenuItemCreated(MenuItemCreateEvent event) {
-		bus.push(event);
-	}
-	
-	@EventHandler
 	private void doMenuItemEdited(MenuItemEditEvent event) {
 		bus.push(event);
 	}
@@ -151,6 +154,13 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 	@EventHandler
 	private void doMenuItemRemoved(MenuItemRemoveEvent event) {
 		bus.push(event);
+        
+        MenuItemComponent c = itemMap.get(event.getItem());
+        itemContainer.remove(c);
+        itemMap.remove(event.getItem());
+        
+        revalidate();
+        repaint();
 	}
 	
 	private final FocusListener filterFocusHandler = new FocusListener() {
@@ -214,6 +224,16 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 			}
 			
 			bus.push(new MenuItemCreateEvent(i));
+            
+            // update the UI
+            MenuItemComponent c = new MenuItemComponent(i, feature);
+			c.bus().register(MenuPanel.this);
+            
+			itemContainer.add(c);
+            itemMap.put(i, c);
+            
+            revalidate();
+            repaint();
 		}
 		
 	};

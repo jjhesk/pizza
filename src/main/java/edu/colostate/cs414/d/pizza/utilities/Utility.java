@@ -28,13 +28,13 @@ public class Utility {
     }
 
 	public static double calculateTax(double subtotal) {
-        //can be set to anything
-        double tax = .07;
-        return (subtotal + (subtotal*tax));
+            //can be set to anything
+            double tax = .07;
+            return subtotal*tax;
 	}
 	
-	public static double calculateTotal(double subtotal, double tax) {
-        return subtotal + tax;
+	public static double calculateTotalWithTax(double subtotal) {
+            return subtotal + calculateTax(subtotal);
 	}
 	
 }

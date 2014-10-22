@@ -81,7 +81,7 @@ public class OrderDatabaseController {
     }
 
     public void addOrderItem(OrderItem orderItem, int orderID) {
-        String query = "INSERT INTO OrderItem(quantity,menuItemID,orderID) Values(?,?,?,?)";
+        String query = "INSERT INTO OrderItem(quantity,menuItemID,orderID) Values(?,?,?)";
         try {
             PreparedStatement preparedStatement = null;
             preparedStatement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);

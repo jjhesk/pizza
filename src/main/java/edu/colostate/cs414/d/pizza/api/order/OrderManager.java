@@ -9,75 +9,50 @@ import java.util.List;
 
 public class OrderManager {
 
-	private static OrderManager instance;
+    private static OrderManager instance;
     private OrderDatabaseController orderDatabase;
     private List<Order> orders;
     private List<MenuItem> menuItems;
 
-	private OrderManager(List<MenuItem> menuItems) {
-            this.menuItems = menuItems;
-            orderDatabase = new OrderDatabaseController();
-            orders = new ArrayList<Order>();
-            orderDatabase.getOrders(orders, menuItems);
-	}
-	
-	public static OrderManager getInstance(List<MenuItem> menuItems) {
-		if (instance == null) {
-			instance = new OrderManager(menuItems);
-		}
-		return instance;
-	}
+    private OrderManager(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+        orderDatabase = new OrderDatabaseController();
+        orders = new ArrayList<Order>();
+        orderDatabase.getOrders(orders, menuItems);
+    }
 
-	public Order createOrder(OrderType type, String name, String address) {
-		return new Order(type, name, address);
-	}
+    public static OrderManager getInstance(List<MenuItem> menuItems) {
+        if (instance == null) {
+            instance = new OrderManager(menuItems);
+        }
+        return instance;
+    }
+
+    public Order createOrder(OrderType type, String name, String address) {
+        return new Order(type, name, address);
+    }
 
     public Order createOrder() {
         return new Order();
     }
 	
-    //should this be calling orderDatabase.getOrders()? or just return this.orders?
-	public List<Order> getOrders() {
-        List<Order> pendingOrders = new ArrayList<Order>();
-		for(Order order : this.orders) {
-            if(order.getStatus() == OrderStatus.PENDING){
-                pendingOrders.add(order);
+	public List<Order> getPendingOrders() {
+            List<Order> pendingOrders = new ArrayList<Order>();
+            for (Order order : this.orders) {
+                if (order.getStatus() == OrderStatus.PENDING) {
+                    pendingOrders.add(order);
+                }
             }
-        }
-        return pendingOrders;
-	}
-	
-	public Order getOrder(int id) {
-		throw new UnsupportedOperationException("Not implemented yet");
+            return pendingOrders;
 	}
 	
 	public void addOrder(Order order) {
-        orderDatabase.addOrder(order);
-        this.orders.add(order);
-	}
-	
-	public void removeOrder(Order order) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
-	public void updateOrder(Order order) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
-	public OrderItem getOrderItem(int id) {
-		throw new UnsupportedOperationException("Not implemented yet");
+            orderDatabase.addOrder(order);
+            this.orders.add(order);
 	}
 	
 	public List<OrderItem> getOrderItems(Order order) {
 		return order.getItems();
-	}
-	
-	public void addOrderItem(OrderItem item) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
-	public void removeOrderItem(OrderItem item) {
-		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
     public double calculateSubtotal(Order order, List<DailySpecial> dailySpecials, List<DailySpecial> currentDailySpecials) {

@@ -3,17 +3,16 @@ package edu.colostate.cs414.d.pizza.api.menu;
 import java.util.List;
 
 public class DailySpecial {
-	private int id;
-
-	private final double price;
-	private final List<MenuItem> items;
+    private int id;
+    private final double price;
+    private final List<MenuItem> items;
     private boolean active;
 
-	public DailySpecial(double price, List<MenuItem> items) {
-		this.price = price;
-		this.items = items;
+    public DailySpecial(double price, List<MenuItem> items) {
+        this.price = price;
+        this.items = items;
         this.active = true;
-	}
+    }
 
     public DailySpecial(int id, double price, List<MenuItem> items, Boolean active) {
         this.id = id;

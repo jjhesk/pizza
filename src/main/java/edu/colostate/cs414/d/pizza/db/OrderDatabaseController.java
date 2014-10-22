@@ -59,7 +59,7 @@ public class OrderDatabaseController {
     public void addOrder(Order order) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String query = "INSERT INTO UserOrder(customerAddress, customerName, status, type)";
+        String query = "INSERT INTO UserOrder(customerAddress, customerName, status, type) Values(?,?,?,?)";
         try {
             preparedStatement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, order.getCustomerAddress());

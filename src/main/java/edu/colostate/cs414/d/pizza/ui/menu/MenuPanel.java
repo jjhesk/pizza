@@ -133,7 +133,7 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 	}
 	
 	public void refreshMenuItems(List<MenuItem> newItems) {
-		initMenuItems(items);
+		initMenuItems(newItems);
 		
 		// reset the filter for good measure
 		filterField.setText("filter...");

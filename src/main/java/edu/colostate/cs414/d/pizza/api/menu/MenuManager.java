@@ -92,6 +92,7 @@ public class MenuManager {
     public DailySpecial createDailySpecial(List<MenuItem> menuItems, Double price) {
         DailySpecial dailySpecial = new DailySpecial(price, menuItems);
         dailySpecialDatabase.addDailySpecial(dailySpecial);
+        this.dailySpecials.add(dailySpecial);
         return dailySpecial;
     }
 

@@ -57,6 +57,7 @@ public class DailySpecialDatabaseController {
     public void addDailySpecial(DailySpecial dailySpecial) {
         String query = "INSERT INTO DailySpecial(status,price) Values(?,?)";
         PreparedStatement preparedStatement = null;
+        PreparedStatement newPreparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
             String status = (dailySpecial.isActive()) ? "active" : "expired";
@@ -70,10 +71,10 @@ public class DailySpecialDatabaseController {
 
             for (MenuItem menuItem : dailySpecial.getItems()) {
                 query = "INSERT INTO DailySpecialItem(dailySpecialID,menuItemID) Values(?,?)";
-                preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setInt(1,dailySpecial.getID());
-                preparedStatement.setInt(2,menuItem.getId());
-                preparedStatement.executeUpdate();
+                newPreparedStatement = connection.prepareStatement(query);
+                newPreparedStatement.setInt(1,dailySpecial.getID());
+                newPreparedStatement.setInt(2,menuItem.getId());
+                newPreparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();

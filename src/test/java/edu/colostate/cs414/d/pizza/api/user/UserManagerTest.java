@@ -12,10 +12,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Rawlin
- */
 public class UserManagerTest {
     
     public UserManagerTest() {
@@ -39,11 +35,9 @@ public class UserManagerTest {
 
     @Test
     public void testGetInstance() {
-        System.out.println("getInstance");
-        UserManager expResult = null;
+        UserManager expResult = UserManager.getInstance();
         UserManager result = UserManager.getInstance();
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
     }
 
     @Test

@@ -11,7 +11,7 @@ public class UserManager {
     private static UserManager instance;
     private UserDatabaseController userDatabase;
 
-    public UserManager(){
+    private UserManager(){
         userDatabase = new UserDatabaseController();
         users = new ArrayList<User>();
         userDatabase.getUsers(users);

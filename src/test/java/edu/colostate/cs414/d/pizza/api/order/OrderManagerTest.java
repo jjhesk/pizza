@@ -6,6 +6,7 @@ package edu.colostate.cs414.d.pizza.api.order;
 
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,8 +21,8 @@ import static org.junit.Assert.*;
  */
 public class OrderManagerTest {
     
-    public OrderManagerTest() {
-    }
+    private List<MenuItem> menuItems;
+    private OrderManager orderManager;
     
     @BeforeClass
     public static void setUpClass() {
@@ -33,175 +34,80 @@ public class OrderManagerTest {
     
     @Before
     public void setUp() {
+        // need util function to clear the database here
+        menuItems = new ArrayList<MenuItem>();
+        menuItems.add(new MenuItem(0, "testMenuItem0", 1, "a description", true));
+        menuItems.add(new MenuItem(1, "testMenuItem1", 1, "a description", true));
+        menuItems.add(new MenuItem(2, "testMenuItem2", 1, "a description", true));
+        menuItems.add(new MenuItem(3, "testMenuItem3", 1, "a description", true));
+        menuItems.add(new MenuItem(4, "testMenuItem4", 1, "a description", true));
+        orderManager = OrderManager.getInstance(menuItems);
     }
     
     @After
     public void tearDown() {
+        orderManager.getPendingOrders().clear();
     }
 
     @Test
     public void testGetInstance() {
-        System.out.println("getInstance");
-        List<MenuItem> menuItems = null;
-        OrderManager expResult = null;
-        OrderManager result = OrderManager.getInstance(menuItems);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        OrderManager orderManager1 = OrderManager.getInstance(null);
+        OrderManager orderManager2 = OrderManager.getInstance(null);
+        assertSame(orderManager1, orderManager2);
     }
 
     @Test
-    public void testCreateOrder_3args() {
-        System.out.println("createOrder");
-        OrderType type = null;
-        String name = "";
-        String address = "";
-        OrderManager instance = null;
-        Order expResult = null;
-        Order result = instance.createOrder(type, name, address);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testCreateOrder_0args() {
-        System.out.println("createOrder");
-        OrderManager instance = null;
-        Order expResult = null;
-        Order result = instance.createOrder();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testGetOrders() {
-        System.out.println("getOrders");
-        OrderManager instance = null;
-        List expResult = null;
-        List result = instance.getOrders();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testGetOrder() {
-        System.out.println("getOrder");
-        int id = 0;
-        OrderManager instance = null;
-        Order expResult = null;
-        Order result = instance.getOrder(id);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testAddOrder() {
-        System.out.println("addOrder");
-        Order order = null;
-        OrderManager instance = null;
-        instance.addOrder(order);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testRemoveOrder() {
-        System.out.println("removeOrder");
-        Order order = null;
-        OrderManager instance = null;
-        instance.removeOrder(order);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testUpdateOrder() {
-        System.out.println("updateOrder");
-        Order order = null;
-        OrderManager instance = null;
-        instance.updateOrder(order);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testGetOrderItem() {
-        System.out.println("getOrderItem");
-        int id = 0;
-        OrderManager instance = null;
-        OrderItem expResult = null;
-        OrderItem result = instance.getOrderItem(id);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testGetOrderItems() {
-        System.out.println("getOrderItems");
-        Order order = null;
-        OrderManager instance = null;
-        List expResult = null;
-        List result = instance.getOrderItems(order);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testAddOrderItem() {
-        System.out.println("addOrderItem");
-        OrderItem item = null;
-        OrderManager instance = null;
-        instance.addOrderItem(item);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testRemoveOrderItem() {
-        System.out.println("removeOrderItem");
-        OrderItem item = null;
-        OrderManager instance = null;
-        instance.removeOrderItem(item);
-        fail("The test case is a prototype.");
+    public void testGetPendingOrders() {
+        Order o0 = new Order(0, OrderType.EATIN, "customer0", "customer0 address");
+        o0.addItem(menuItems.get(0), 1);
+        o0.addItem(menuItems.get(1), 1);
+        o0.addItem(menuItems.get(2), 1);
+        o0.setStatus(OrderStatus.PENDING);
+        assertEquals(0, orderManager.getPendingOrders().size());
+        orderManager.addOrder(o0);
+        assertEquals(1, orderManager.getPendingOrders().size());
+        assertSame(o0, orderManager.getPendingOrders().get(0));
     }
 
     @Test
     public void testCalculateSubtotal() {
-        System.out.println("calculateSubtotal");
-        Order order = null;
-        List<DailySpecial> dailySpecials = null;
-        List<DailySpecial> currentDailySpecials = null;
-        OrderManager instance = null;
-        double expResult = 0.0;
-        double result = instance.calculateSubtotal(order, dailySpecials, currentDailySpecials);
+        Order o0 = new Order(0, OrderType.EATIN, "customer0", "customer0 address");
+        o0.addItem(menuItems.get(0), 1);
+        o0.addItem(menuItems.get(1), 1);
+        o0.addItem(menuItems.get(2), 1);
+        List<DailySpecial> dailySpecials = new ArrayList<DailySpecial>();
+        List<DailySpecial> currentDailySpecials = new ArrayList<DailySpecial>();
+        double expResult = 3.0;
+        double result = orderManager.calculateSubtotal(o0, dailySpecials, currentDailySpecials);
         assertEquals(expResult, result, 0.0);
-        fail("The test case is a prototype.");
     }
-
+    
     @Test
-    public void testCreateOrderItem() {
-        System.out.println("createOrderItem");
-        MenuItem menuItem = null;
-        int quantity = 0;
-        OrderManager instance = null;
-        OrderItem expResult = null;
-        OrderItem result = instance.createOrderItem(menuItem, quantity);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testCreateDailySpecialOrderItems() {
-        System.out.println("createDailySpecialOrderItems");
-        DailySpecial special = null;
-        OrderManager instance = null;
-        List expResult = null;
-        List result = instance.createDailySpecialOrderItems(special);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testCalculateSubtotalWithDailySpecial() {
+        Order o0 = new Order(0, OrderType.EATIN, "customer0", "customer0 address");
+        o0.addItem(menuItems.get(0), 1);
+        o0.addItem(menuItems.get(1), 1);
+        o0.addItem(menuItems.get(2), 1);
+        List<DailySpecial> dailySpecials = new ArrayList<DailySpecial>();
+        List<DailySpecial> currentDailySpecials = new ArrayList<DailySpecial>();
+        // add a daily special
+        List<MenuItem> selectedDailySpecialItems = new ArrayList<MenuItem>();
+        selectedDailySpecialItems.add(menuItems.get(0));
+        selectedDailySpecialItems.add(menuItems.get(1));
+        selectedDailySpecialItems.add(menuItems.get(2));
+        dailySpecials.add(new DailySpecial(2.0, selectedDailySpecialItems));
+        currentDailySpecials.addAll(dailySpecials);
+        double expResult = 2.0;
+        double result = orderManager.calculateSubtotal(o0, dailySpecials, currentDailySpecials);
+        assertEquals(expResult, result, 0.0);
     }
 
     @Test
     public void testCompleteOrder() {
-        System.out.println("completeOrder");
-        Order order = null;
-        OrderManager instance = null;
-        instance.completeOrder(order);
-        fail("The test case is a prototype.");
+        Order o0 = new Order(0, OrderType.EATIN, "customer0", "customer0 address");
+        o0.setStatus(OrderStatus.NEW);
+        assertFalse(o0.getStatus().equals(OrderStatus.COMPLETE));
+        orderManager.completeOrder(o0);
+        assertEquals(OrderStatus.COMPLETE, o0.getStatus());
     }
 }

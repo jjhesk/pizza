@@ -31,7 +31,7 @@ public class Kiosk {
 
     //View Orders (returns pending orders)
 	public List<Order> viewPendingOrders() {
-        return orderManager.getOrders();
+            return orderManager.getPendingOrders();
 	}
 
     public List<OrderItem> viewOrderItems(Order order) {

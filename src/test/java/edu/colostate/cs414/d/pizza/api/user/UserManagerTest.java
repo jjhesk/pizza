@@ -43,7 +43,7 @@ public class UserManagerTest {
     @Test
     public void testGetUsers() {
         System.out.println("getUsers");
-        UserManager instance = new UserManager();
+        UserManager instance = UserManager.getInstance();
         List expResult = null;
         List result = instance.getUsers();
         assertEquals(expResult, result);
@@ -55,7 +55,7 @@ public class UserManagerTest {
         System.out.println("authenticateUser");
         String userName = "";
         String password = "";
-        UserManager instance = new UserManager();
+        UserManager instance = UserManager.getInstance();
         User expResult = null;
         User result = instance.authenticateUser(userName, password);
         assertEquals(expResult, result);
@@ -68,7 +68,7 @@ public class UserManagerTest {
         String userName = "";
         String password = "";
         UserType userType = null;
-        UserManager instance = new UserManager();
+        UserManager instance = UserManager.getInstance();
         boolean expResult = false;
         boolean result = instance.addUser(userName, password, userType);
         assertEquals(expResult, result);
@@ -79,7 +79,7 @@ public class UserManagerTest {
     public void testRemoveUser() {
         System.out.println("removeUser");
         String userName = "";
-        UserManager instance = new UserManager();
+        UserManager instance = UserManager.getInstance();
         instance.removeUser(userName);
         fail("The test case is a prototype.");
     }

@@ -56,7 +56,7 @@ public class MenuManagerTest {
         String name = "";
         double price = 0.0;
         String description = "";
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         MenuItem expResult = null;
         MenuItem result = instance.createMenuItem(name, price, description);
         assertEquals(expResult, result);
@@ -71,7 +71,7 @@ public class MenuManagerTest {
     public void testSaveMenu() {
         System.out.println("saveMenu");
         List<MenuItem> menuItems = null;
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         instance.saveMenu(menuItems);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -83,7 +83,7 @@ public class MenuManagerTest {
     @Test
     public void testGetMenuItems() {
         System.out.println("getMenuItems");
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         List<MenuItem> expResult = null;
         List<MenuItem> result = instance.getMenuItems();
         assertEquals(expResult, result);
@@ -97,7 +97,7 @@ public class MenuManagerTest {
     @Test
     public void testGetAllMenuItems() {
         System.out.println("getAllMenuItems");
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         List<MenuItem> expResult = null;
         List<MenuItem> result = instance.getAllMenuItems();
         assertEquals(expResult, result);
@@ -112,7 +112,7 @@ public class MenuManagerTest {
     public void testAddMenuItem() {
         System.out.println("addMenuItem");
         MenuItem item = null;
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         instance.addMenuItem(item);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -125,7 +125,7 @@ public class MenuManagerTest {
     public void testRemoveMenuItem() {
         System.out.println("removeMenuItem");
         MenuItem item = null;
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         instance.removeMenuItem(item);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -137,7 +137,7 @@ public class MenuManagerTest {
     @Test
     public void testGetDailySpecials() {
         System.out.println("getDailySpecials");
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         List<DailySpecial> expResult = null;
         List<DailySpecial> result = instance.getDailySpecials();
         assertEquals(expResult, result);
@@ -153,7 +153,7 @@ public class MenuManagerTest {
         System.out.println("createDailySpecial");
         List<MenuItem> menuItems = null;
         Double price = null;
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         DailySpecial expResult = null;
         DailySpecial result = instance.createDailySpecial(menuItems, price);
         assertEquals(expResult, result);
@@ -168,7 +168,7 @@ public class MenuManagerTest {
     public void testRemoveDailySpecial() {
         System.out.println("removeDailySpecial");
         DailySpecial special = null;
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         instance.removeDailySpecial(special);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -180,7 +180,7 @@ public class MenuManagerTest {
     @Test
     public void testCheckDailySpecials() {
         System.out.println("checkDailySpecials");
-        MenuManager instance = new MenuManager();
+        MenuManager instance = MenuManager.getInstance();
         instance.checkDailySpecials();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

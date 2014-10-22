@@ -6,6 +6,7 @@ package edu.colostate.cs414.d.pizza.api.order;
 
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.utilities.Utility;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -30,7 +31,7 @@ public class OrderManagerTest {
     
     @Before
     public void setUp() {
-        // need util function to clear the database here
+        Utility.removeDataFromDatabase();
         menuItems = new ArrayList<MenuItem>();
         menuItems.add(new MenuItem(0, "testMenuItem0", 1, "a description", true));
         menuItems.add(new MenuItem(1, "testMenuItem1", 1, "a description", true));
@@ -43,6 +44,7 @@ public class OrderManagerTest {
     @After
     public void tearDown() {
         orderManager.getPendingOrders().clear();
+        Utility.removeDataFromDatabase();
     }
 
     @Test

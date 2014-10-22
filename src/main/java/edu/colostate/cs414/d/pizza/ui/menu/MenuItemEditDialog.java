@@ -1,6 +1,7 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import java.awt.Dialog;
 import java.awt.EventQueue;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -36,6 +37,19 @@ public class MenuItemEditDialog extends JDialog {
 		
 		initComponents();
 		initDefaultValues();
+		
+		setLocationRelativeTo(parent);
+	}
+	
+	public MenuItemEditDialog(Dialog parent, MenuItem originalItem) {
+		super(parent, true);
+		
+		this.originalItem = originalItem;
+		
+		initComponents();
+		initDefaultValues();
+		
+		setLocationRelativeTo(parent);
 	}
 
 	/**
@@ -154,7 +168,7 @@ public class MenuItemEditDialog extends JDialog {
 	}
 	
     private void saveButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        String name = nameField.getName();
+        String name = nameField.getText();
 		double price = (double) priceField.getValue();
 		String description = descriptionField.getText();
 		

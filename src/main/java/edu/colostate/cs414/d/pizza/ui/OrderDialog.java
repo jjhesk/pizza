@@ -1,21 +1,15 @@
 package edu.colostate.cs414.d.pizza.ui;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuFeature;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuPanel;
 import java.awt.BorderLayout;
 import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.LinkedList;
-import java.util.List;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 
 public class OrderDialog extends JDialog {
 
-	private Kiosk kiosk;
+	private final Kiosk kiosk;
 	
 	/**
 	 * Creates new form OrderDialog
@@ -27,6 +21,8 @@ public class OrderDialog extends JDialog {
 		
 		initComponents();
 		initMenu();
+		
+		setLocationRelativeTo(parent);
 	}
 
 	/**

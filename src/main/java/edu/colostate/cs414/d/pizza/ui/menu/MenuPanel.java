@@ -7,9 +7,13 @@ import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
 import edu.colostate.cs414.d.pizza.ui.event.OrderItemCreateEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -17,9 +21,11 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import org.timothyb89.eventbus.EventBus;
 import org.timothyb89.eventbus.EventBusClient;
 import org.timothyb89.eventbus.EventBusProvider;
@@ -80,6 +86,12 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 		filterField.addKeyListener(filterTextHandler);
 		filterField.setPreferredSize(new Dimension(150, 25));
 		filterContainer.add(filterField);
+		
+		if (feature == MenuFeature.ADMIN) {
+			adminCreateItemButton = new JButton("Create Item");
+			adminCreateItemButton.addActionListener(adminCreateItemListener);
+			filterContainer.add(adminCreateItemButton);
+		}
 		
 		add(filterContainer, BorderLayout.SOUTH);
 	}
@@ -177,10 +189,41 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 		
 	};
 	
+	private final ActionListener adminCreateItemListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Object ancestor = SwingUtilities.getWindowAncestor(MenuPanel.this);
+			
+			MenuItemEditDialog d;
+			if (ancestor instanceof Frame) {
+				d = new MenuItemEditDialog((Frame) ancestor, null);
+			} else if (ancestor instanceof Dialog) {
+				d = new MenuItemEditDialog((Dialog) ancestor, null);
+			} else {
+				d = new MenuItemEditDialog((Frame) null, null);
+			}
+			
+			d.setVisible(true);
+			
+			// wait for user input ...
+			
+			MenuItem i = d.getReturnedItem();
+			if (i == null) {
+				return;
+			}
+			
+			bus.push(new MenuItemCreateEvent(i));
+		}
+		
+	};
+	
 	private JScrollPane itemScrollPane;
 	private JPanel itemContainer;
 	
 	private JPanel filterContainer;
 	private JTextField filterField;
+	
+	private JButton adminCreateItemButton;
 	
 }

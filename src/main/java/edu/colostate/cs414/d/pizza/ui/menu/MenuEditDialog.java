@@ -1,17 +1,39 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
+import edu.colostate.cs414.d.pizza.Kiosk;
+import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
+import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
+import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Frame;
 import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import org.timothyb89.eventbus.EventHandler;
+import org.timothyb89.eventbus.EventScanMode;
+import org.timothyb89.eventbus.EventScanType;
 
-public class MenuEditDialog extends javax.swing.JDialog {
+@EventScanMode(type = EventScanType.EXTENDED)
+public class MenuEditDialog extends JDialog {
 
+	private final Kiosk kiosk;
+	
 	/**
 	 * Creates new form MenuEditDialog
 	 */
-	public MenuEditDialog(java.awt.Frame parent, boolean modal) {
-		super(parent, modal);
+	public MenuEditDialog(Frame parent, Kiosk kiosk) {
+		super(parent, true);
+		
+		this.kiosk = kiosk;
 		
 		initComponents();
+		initMenu();
+		
+		setLocationRelativeTo(parent);
 	}
 
 	/**
@@ -23,64 +45,71 @@ public class MenuEditDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        closeButton = new JButton();
+        menuWrapper = new JPanel();
+
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        closeButton.setText("Close");
+
+        menuWrapper.setPreferredSize(new Dimension(400, 449));
+        menuWrapper.setLayout(new BorderLayout());
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(closeButton)
+                .addContainerGap())
+            .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(closeButton)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
-		/* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-		 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-		 */
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(MenuEditDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(MenuEditDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(MenuEditDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(MenuEditDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		}
-        //</editor-fold>
-
-		/* Create and display the dialog */
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				MenuEditDialog dialog = new MenuEditDialog(new javax.swing.JFrame(), true);
-				dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-					@Override
-					public void windowClosing(java.awt.event.WindowEvent e) {
-						System.exit(0);
-					}
-				});
-				dialog.setVisible(true);
-			}
-		});
+	private void initMenu() {
+		menuPanel = new MenuPanel(kiosk.viewMenu(), MenuFeature.ADMIN, 2);
+		menuPanel.bus().register(this);
+		
+		menuWrapper.add(menuPanel, BorderLayout.CENTER);
+	}
+	
+	@EventHandler
+	private void doMenuItemCreated(MenuItemCreateEvent event) {
+		kiosk.addMenuItem(event.getItem());
+		
+		menuPanel.refreshMenuItems(kiosk.viewMenu());
+	}
+	
+	@EventHandler
+	private void doMenuItemEdited(MenuItemEditEvent event) {
+		kiosk.removeMenuItem(event.getOriginalItem());
+		kiosk.addMenuItem(event.getNewItem());
+		
+		menuPanel.refreshMenuItems(kiosk.viewMenu());
+	}
+	
+	@EventHandler
+	private void doMenuItemRemoved(MenuItemRemoveEvent event) {
+		kiosk.removeMenuItem(event.getItem());
+		
+		menuPanel.refreshMenuItems(kiosk.viewMenu());
 	}
 
+	private MenuPanel menuPanel;
+	
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton closeButton;
+    private JPanel menuWrapper;
     // End of variables declaration//GEN-END:variables
 }

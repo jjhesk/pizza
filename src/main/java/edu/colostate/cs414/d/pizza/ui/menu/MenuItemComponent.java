@@ -7,9 +7,11 @@ import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
 import edu.colostate.cs414.d.pizza.ui.event.OrderItemCreateEvent;
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -148,9 +150,17 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MenuItemEditDialog d = new MenuItemEditDialog(
-					(JFrame) SwingUtilities.getWindowAncestor(MenuItemComponent.this),
-					item);
+			Object ancestor = SwingUtilities.getWindowAncestor(MenuItemComponent.this);
+			
+			MenuItemEditDialog d;
+			if (ancestor instanceof Frame) {
+				d = new MenuItemEditDialog((Frame) ancestor, item);
+			} else if (ancestor instanceof Dialog) {
+				d = new MenuItemEditDialog((Dialog) ancestor, item);
+			} else {
+				d = new MenuItemEditDialog((Frame) null, item);
+			}
+			
 			d.setVisible(true);
 			
 			// wait for user input ...

@@ -3,23 +3,24 @@ package edu.colostate.cs414.d.pizza.ui.menu;
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.ui.OrderDialog;
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.LayoutStyle;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 
-public class MenuFrame extends javax.swing.JFrame {
+public class MenuFrame extends JFrame {
 
-	private Kiosk kiosk;
+	private final Kiosk kiosk;
 	
 	/**
 	 * Creates new form MainFrame
@@ -48,7 +49,9 @@ public class MenuFrame extends javax.swing.JFrame {
         placeOrderButton = new JButton();
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
+        exitItem = new JMenuItem();
         adminMenu = new JMenu();
+        editMenuItem = new JMenuItem();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,9 +72,27 @@ public class MenuFrame extends javax.swing.JFrame {
         buttonPanel.add(placeOrderButton);
 
         fileMenu.setText("File");
+
+        exitItem.setText("Exit");
+        exitItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                exitItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exitItem);
+
         menuBar.add(fileMenu);
 
         adminMenu.setText("Admin");
+
+        editMenuItem.setText("Edit Menu");
+        editMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editMenuItemActionPerformed(evt);
+            }
+        });
+        adminMenu.add(editMenuItem);
+
         menuBar.add(adminMenu);
 
         setJMenuBar(menuBar);
@@ -95,16 +116,27 @@ public class MenuFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+	private void initMenu() {
+		menuPanel = new MenuPanel(kiosk.viewMenu(), MenuFeature.NONE, 2);
+		menuWrapper.add(menuPanel, BorderLayout.CENTER);
+		pack();
+	}
+	
     private void placeOrderButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonActionPerformed
         OrderDialog d = new OrderDialog(this, kiosk);
 		d.setVisible(true);
     }//GEN-LAST:event_placeOrderButtonActionPerformed
 
-	private void initMenu() {
-		MenuPanel panel = new MenuPanel(kiosk.viewMenu(), MenuFeature.NONE, 2);
-		menuWrapper.add(panel, BorderLayout.CENTER);
-		pack();
-	}
+    private void editMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editMenuItemActionPerformed
+        MenuEditDialog d = new MenuEditDialog(this, kiosk);
+		d.setVisible(true);
+		
+		menuPanel.refreshMenuItems(kiosk.viewMenu());
+    }//GEN-LAST:event_editMenuItemActionPerformed
+
+    private void exitItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
+        dispose();
+    }//GEN-LAST:event_exitItemActionPerformed
 	
 	/**
 	 * @param args the command line arguments
@@ -134,16 +166,20 @@ public class MenuFrame extends javax.swing.JFrame {
         //</editor-fold>
 
 		/* Create and display the form */
-		java.awt.EventQueue.invokeLater(new Runnable() {
+		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new MenuFrame().setVisible(true);
 			}
 		});
 	}
 
+	private MenuPanel menuPanel;
+	
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JMenu adminMenu;
     private JPanel buttonPanel;
+    private JMenuItem editMenuItem;
+    private JMenuItem exitItem;
     private JMenu fileMenu;
     private JMenuBar menuBar;
     private JPanel menuWrapper;

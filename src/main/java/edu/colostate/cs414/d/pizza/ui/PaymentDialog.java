@@ -11,6 +11,8 @@ public class PaymentDialog extends javax.swing.JDialog {
 	public PaymentDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
+		
+		setLocationRelativeTo(parent);
 	}
 
 	/**

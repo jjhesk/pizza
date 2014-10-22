@@ -17,7 +17,7 @@ public class MenuManager {
 
     private List<DailySpecial> dailySpecials;
 	
-	public MenuManager() {
+	private MenuManager() {
         menuDatabase  = new MenuDatabaseController();
         dailySpecialDatabase = new DailySpecialDatabaseController();
         menuItems = new ArrayList<MenuItem>();

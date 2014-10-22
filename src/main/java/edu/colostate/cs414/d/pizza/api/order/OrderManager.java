@@ -14,7 +14,7 @@ public class OrderManager {
     private List<Order> orders;
     private List<MenuItem> menuItems;
 
-	public OrderManager(List<MenuItem> menuItems) {
+	private OrderManager(List<MenuItem> menuItems) {
             this.menuItems = menuItems;
             orderDatabase = new OrderDatabaseController();
             orders = new ArrayList<Order>();

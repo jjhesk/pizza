@@ -1,4 +1,4 @@
-package edu.colostate.cs414.d.pizza.ui;
+package edu.colostate.cs414.d.pizza.ui.menu;
 
 import javax.swing.GroupLayout;
 import javax.swing.WindowConstants;
@@ -10,6 +10,7 @@ public class MenuEditDialog extends javax.swing.JDialog {
 	 */
 	public MenuEditDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
+		
 		initComponents();
 	}
 
@@ -22,7 +23,7 @@ public class MenuEditDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

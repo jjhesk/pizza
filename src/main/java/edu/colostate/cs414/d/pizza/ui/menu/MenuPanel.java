@@ -1,6 +1,9 @@
-package edu.colostate.cs414.d.pizza.ui.component;
+package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
+import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
+import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
 import edu.colostate.cs414.d.pizza.ui.event.OrderItemCreateEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,34 +21,51 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import org.timothyb89.eventbus.EventBus;
+import org.timothyb89.eventbus.EventBusClient;
+import org.timothyb89.eventbus.EventBusProvider;
 import org.timothyb89.eventbus.EventHandler;
 import org.timothyb89.eventbus.EventScanMode;
 import org.timothyb89.eventbus.EventScanType;
 
 @EventScanMode(type = EventScanType.EXTENDED)
-public class MenuPanel extends JPanel {
+public class MenuPanel extends JPanel implements EventBusProvider {
 
 	private final List<MenuItem> items;
-	private final boolean orderingEnabled;
+	private final MenuFeature feature;
+	private final int columns;
 	
 	private final EventBus bus;
 	
-	public MenuPanel(List<MenuItem> items, boolean orderingEnabled) {
+	public MenuPanel(List<MenuItem> items, MenuFeature feature, int columns) {
 		this.items = items;
-		this.orderingEnabled = orderingEnabled;
+		this.feature = feature;
+		this.columns = columns;
 		
 		bus = new EventBus() {{
 			add(OrderItemCreateEvent.class);
+			
+			add(MenuItemCreateEvent.class);
+			add(MenuItemEditEvent.class);
+			add(MenuItemRemoveEvent.class);
 		}};
 		
 		initComponents();
+	}
+	
+	public MenuPanel(List<MenuItem> items, MenuFeature feature) {
+		this(items, feature, 1);
+	}
+
+	@Override
+	public EventBusClient bus() {
+		return bus.getClient();
 	}
 	
 	private void initComponents() {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(400, 300));
 		
-		itemContainer = new JPanel(new GridLayout(0, 1));
+		itemContainer = new JPanel(new GridLayout(0, columns));
 		initMenuItems(items);
 		
 		itemScrollPane = new JScrollPane(itemContainer);
@@ -83,14 +103,41 @@ public class MenuPanel extends JPanel {
 		itemContainer.removeAll();
 		
 		for (MenuItem item : items) {
-			MenuItemComponent c = new MenuItemComponent(item, orderingEnabled);
+			MenuItemComponent c = new MenuItemComponent(item, feature);
+			c.bus().register(this);
 			itemContainer.add(c);
 		}
+		
+		revalidate();
+		repaint();
+	}
+	
+	public void refreshMenuItems(List<MenuItem> newItems) {
+		initMenuItems(items);
+		
+		// reset the filter for good measure
+		filterField.setText("filter...");
+		filterField.setForeground(Color.gray);
 	}
 	
 	@EventHandler
 	private void doOrderItemCreated(OrderItemCreateEvent event) {
-		// push it up
+		// push event from child up
+		bus.push(event);
+	}
+	
+	@EventHandler
+	private void doMenuItemCreated(MenuItemCreateEvent event) {
+		bus.push(event);
+	}
+	
+	@EventHandler
+	private void doMenuItemEdited(MenuItemEditEvent event) {
+		bus.push(event);
+	}
+	
+	@EventHandler
+	private void doMenuItemRemoved(MenuItemRemoveEvent event) {
 		bus.push(event);
 	}
 	
@@ -109,6 +156,8 @@ public class MenuPanel extends JPanel {
 			if (filterField.getText().equals("")) {
 				filterField.setText("filter...");
 				filterField.setForeground(Color.gray);
+				
+				initMenuItems(items);
 			}
 		}
 	};
@@ -121,6 +170,8 @@ public class MenuPanel extends JPanel {
 			
 			if (text.length() > 0) {
 				initMenuItems(filterItems(text));
+			} else {
+				initMenuItems(items);
 			}
 		}
 		

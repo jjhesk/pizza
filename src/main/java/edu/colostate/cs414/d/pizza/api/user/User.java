@@ -34,4 +34,23 @@ public class User {
 
     public void setUserType(UserType userType) { this.userType = userType; }
 
+    public boolean equals(Object other)
+    {
+        if (!this.userName.equalsIgnoreCase(((User)other).userName))
+        {
+            return false;
+        }
+
+        if (!(this.password == (((User)other).password)))
+        {
+            return false;
+        }
+
+        if (!(this.userType == (((User)other).userType)))
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

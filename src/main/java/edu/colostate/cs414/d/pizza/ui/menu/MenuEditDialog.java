@@ -1,6 +1,7 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
+import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
@@ -9,9 +10,11 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
@@ -56,6 +59,8 @@ public class MenuEditDialog extends JDialog {
 
         closeButton = new JButton();
         menuWrapper = new JPanel();
+        newMenuButton = new JButton();
+        specialsButton = new JButton();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -69,12 +74,25 @@ public class MenuEditDialog extends JDialog {
         menuWrapper.setPreferredSize(new Dimension(400, 449));
         menuWrapper.setLayout(new BorderLayout());
 
+        newMenuButton.setText("New Menu");
+        newMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                newMenuButtonActionPerformed(evt);
+            }
+        });
+
+        specialsButton.setText("Specials...");
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(newMenuButton)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(specialsButton)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(closeButton)
                 .addContainerGap())
             .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
@@ -84,7 +102,10 @@ public class MenuEditDialog extends JDialog {
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(closeButton)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(closeButton)
+                    .addComponent(newMenuButton)
+                    .addComponent(specialsButton))
                 .addContainerGap())
         );
 
@@ -94,6 +115,20 @@ public class MenuEditDialog extends JDialog {
     private void closeButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
+
+    private void newMenuButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_newMenuButtonActionPerformed
+        int ret = JOptionPane.showOptionDialog(this,
+                "Creating a new menu will remove all current menu items."
+                        + " Really continue?",
+                "Confirm",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null, null, null);
+        
+        if (ret == JOptionPane.YES_OPTION) {
+            kiosk.saveMenu(new ArrayList<MenuItem>());
+        }
+    }//GEN-LAST:event_newMenuButtonActionPerformed
 
 	private void initMenu() {
 		menuPanel = new MenuPanel(kiosk.viewMenu(), MenuFeature.ADMIN, 2);
@@ -146,5 +181,7 @@ public class MenuEditDialog extends JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JButton closeButton;
     private JPanel menuWrapper;
+    private JButton newMenuButton;
+    private JButton specialsButton;
     // End of variables declaration//GEN-END:variables
 }

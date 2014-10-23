@@ -24,13 +24,13 @@ public class DailySpecialDatabaseController {
         PreparedStatement preparedStatement = null;
         ResultSet dailySpecialResultSet = null;
         ResultSet resultSet = null;
-        List<MenuItem> dailySpecialItems = new ArrayList<MenuItem>();
+
 
         try {
             dailySpecialPreparedStatement = connection.prepareStatement("SELECT * FROM DailySpecial");
             dailySpecialResultSet = dailySpecialPreparedStatement.executeQuery();
             while(dailySpecialResultSet.next()){
-
+                List<MenuItem> dailySpecialItems = new ArrayList<MenuItem>();
                 //get ids
                 int id = dailySpecialResultSet.getInt(1);
 

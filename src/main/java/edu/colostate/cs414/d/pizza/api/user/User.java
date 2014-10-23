@@ -1,5 +1,7 @@
 package edu.colostate.cs414.d.pizza.api.user;
 
+import java.util.Objects;
+
 public class User {
 
 	private String userName;
@@ -34,23 +36,38 @@ public class User {
 
     public void setUserType(UserType userType) { this.userType = userType; }
 
-    public boolean equals(Object other)
-    {
-        if (!this.userName.equalsIgnoreCase(((User)other).userName))
-        {
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.userName);
+        hash = 59 * hash + Objects.hashCode(this.password);
+        hash = 59 * hash + (this.userType != null ? this.userType.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-
-        if (!(this.password == (((User)other).password)))
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-
-        if (!(this.userType == (((User)other).userType)))
-        {
+        final User other = (User) obj;
+        if (!Objects.equals(this.userName, other.userName)) {
             return false;
         }
-
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (this.userType != other.userType) {
+            return false;
+        }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "userName=" + userName + ", password=" + password + ", userType=" + userType + '}';
     }
 }

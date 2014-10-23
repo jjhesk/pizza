@@ -44,10 +44,11 @@ public class DailySpecialDatabaseController {
                     dailySpecialItems.add(Utility.getMenuItem(menuItemID, menuItems));
                 }
 
-                boolean active = (resultSet.getString(2).equalsIgnoreCase("active")) ? true : false;
-                double price = resultSet.getDouble(3);
+                boolean active = (dailySpecialResultSet.getString(2).equalsIgnoreCase("active")) ? true : false;
+                double price = dailySpecialResultSet.getDouble(3);
 
                 DailySpecial dailySpecial = new DailySpecial(id, price, dailySpecialItems, active);
+                dailySpecials.add(dailySpecial);
             }
         } catch (SQLException e) {
             e.printStackTrace();

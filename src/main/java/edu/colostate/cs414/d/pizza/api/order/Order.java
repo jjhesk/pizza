@@ -1,6 +1,9 @@
 package edu.colostate.cs414.d.pizza.api.order;
 
+import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.utilities.Utility;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -106,6 +109,34 @@ public class Order {
 		items.remove(item);
 	}
 
+    public double calculateSubtotal(List<DailySpecial> dailySpecials, List<DailySpecial> currentDailySpecials) {
+        double totalCost = 0.0;
+        List<MenuItem> menuItems = new ArrayList<MenuItem>();
+        for(OrderItem orderItem : this.getItems()){
+            for(int i = 0; i < orderItem.getQuantity(); i++){
+                menuItems.add(new MenuItem(orderItem.getItem()));
+            }
+        }
+
+        for(DailySpecial dailySpecial : dailySpecials) {
+            if(Utility.tryApplyDailySpecial(dailySpecial, menuItems)){
+                totalCost += dailySpecial.getPrice();
+            }
+        }
+
+        for(DailySpecial dailySpecial : currentDailySpecials) {
+            if(Utility.tryApplyDailySpecial(dailySpecial,menuItems)){
+                totalCost += dailySpecial.getPrice();
+            }
+        }
+
+        for(MenuItem menuItem : menuItems) {
+            totalCost += menuItem.getPrice();
+        }
+
+        return totalCost;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -151,5 +182,5 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" + "id=" + id + ", status=" + status + ", type=" + type + ", startDate=" + startDate + ", customerAddress=" + customerAddress + ", items=" + items + '}';
-    }  
+    }
 }

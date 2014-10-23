@@ -58,31 +58,7 @@ public class OrderManager {
 	}
 
     public double calculateSubtotal(Order order, List<DailySpecial> dailySpecials, List<DailySpecial> currentDailySpecials) {
-        double totalCost = 0.0;
-        List<MenuItem> menuItems = new ArrayList<MenuItem>();
-        for(OrderItem orderItem : order.getItems()){
-            for(int i = 0; i < orderItem.getQuantity(); i++){
-                menuItems.add(new MenuItem(orderItem.getItem()));
-            }
-        }
-
-        for(DailySpecial dailySpecial : dailySpecials) {
-            if(Utility.tryApplyDailySpecial(dailySpecial,menuItems)){
-                totalCost += dailySpecial.getPrice();
-            }
-        }
-
-        for(DailySpecial dailySpecial : currentDailySpecials) {
-            if(Utility.tryApplyDailySpecial(dailySpecial,menuItems)){
-                totalCost += dailySpecial.getPrice();
-            }
-        }
-
-        for(MenuItem menuItem : menuItems) {
-            totalCost += menuItem.getPrice();
-        }
-
-        return totalCost;
+        return order.calculateSubtotal(dailySpecials, currentDailySpecials);
     }
 
     public OrderItem createOrderItem(MenuItem menuItem, int quantity) {

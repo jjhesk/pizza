@@ -19,10 +19,6 @@ public class UserFactory {
             case MANAGER:
                 user = new Manager(userName,password,userType);
                 break;
-
-            default:
-                // throw some exception
-                break;
         }
         return user;
     }

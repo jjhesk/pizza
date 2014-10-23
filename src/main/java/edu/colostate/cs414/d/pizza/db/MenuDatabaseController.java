@@ -71,31 +71,4 @@ public class MenuDatabaseController {
             e.printStackTrace();
         }
     }
-
-    /*Testing purpose*/
-    public static void main(String args[]) {
-        MenuDatabaseController menuDatabaseController = new MenuDatabaseController();
-        ArrayList<MenuItem> items = new ArrayList<MenuItem>();
-        /*menuDatabaseController.getMenu(items);
-        System.out.println(items.toString());
-        menuDatabaseController.setExpired(items.get(0));
-        items.clear();
-        menuDatabaseController.getMenu(items);
-        System.out.println(items.toString());
-
-        ArrayList<MenuItem> itemsToEnter = new ArrayList<MenuItem>();
-        itemsToEnter.add(new MenuItem("test",99.3,""));
-        itemsToEnter.add(new MenuItem("phone",33.3,"this is a phone not a pizza"));
-        itemsToEnter.add(new MenuItem("lets go",222,null));
-
-        menuDatabaseController.addMenuItems(itemsToEnter);
-
-        System.out.println(itemsToEnter.toString());
-
-        menuDatabaseController.getMenu(items);
-        System.out.println(items.toString());
-        */
-
-    }
-
 }

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.colostate.cs414.d.pizza.db;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
@@ -26,15 +22,7 @@ import static org.junit.Assert.*;
 public class OrderDatabaseControllerTest {
     
     Connection orderDB = null;
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
     @Before
     public void setUp() {
         Utility.removeDataFromDatabase();

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.colostate.cs414.d.pizza.db;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
@@ -51,14 +47,6 @@ public class MenuDatabaseControllerTest {
     @AfterClass
     public static void tearDownClass() {
         Utility.removeDataFromDatabase();
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     @Test

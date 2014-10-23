@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.colostate.cs414.d.pizza.api.order;
 
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
@@ -20,15 +16,7 @@ public class OrderManagerTest {
     
     private List<MenuItem> menuItems;
     private OrderManager orderManager;
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
     @Before
     public void setUp() {
         Utility.removeDataFromDatabase();
@@ -38,7 +26,8 @@ public class OrderManagerTest {
         menuItems.add(new MenuItem(2, "testMenuItem2", 1, "a description", true));
         menuItems.add(new MenuItem(3, "testMenuItem3", 1, "a description", true));
         menuItems.add(new MenuItem(4, "testMenuItem4", 1, "a description", true));
-        orderManager = OrderManager.getInstance(menuItems);
+        orderManager = new OrderManager(menuItems);
+        orderManager.enableTest();
     }
     
     @After

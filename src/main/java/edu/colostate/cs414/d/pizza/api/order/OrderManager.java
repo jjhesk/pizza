@@ -14,7 +14,9 @@ public class OrderManager {
     private List<Order> orders;
     private List<MenuItem> menuItems;
 
-    private OrderManager(List<MenuItem> menuItems) {
+    private boolean testing = false;
+
+    public OrderManager(List<MenuItem> menuItems) {
         this.menuItems = menuItems;
         orderDatabase = new OrderDatabaseController();
         orders = new ArrayList<Order>();
@@ -47,7 +49,7 @@ public class OrderManager {
 	}
 	
 	public void addOrder(Order order) {
-            orderDatabase.addOrder(order);
+            if(!testing) orderDatabase.addOrder(order);
             this.orders.add(order);
 	}
 	
@@ -96,7 +98,9 @@ public class OrderManager {
     }
 
     public void completeOrder(Order order) {
-        orderDatabase.completeOrder(order);
+        if(!testing) orderDatabase.completeOrder(order);
         order.setStatus(OrderStatus.COMPLETE);
     }
+
+    public void enableTest(){ this.testing = true; }
 }

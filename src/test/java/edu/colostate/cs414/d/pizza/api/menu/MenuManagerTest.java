@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.colostate.cs414.d.pizza.api.menu;
 
 import java.util.ArrayList;
@@ -22,7 +17,10 @@ public class MenuManagerTest {
     
     @Before
     public void setUp() {
-        Utility.removeDataFromDatabase();
+        menuManager = new MenuManager();
+        menuManager.enableTest();
+        menuManager.getAllMenuItems().clear();
+        menuManager.getDailySpecials().clear();
         menuManager.addMenuItem(new MenuItem(1, "testMenuItem1", 1.5, "", true));
         menuManager.addMenuItem(new MenuItem(2, "testMenuItem2", 14, null, true));
         menuManager.addMenuItem(new MenuItem(3, "testMenuItem3", 1.4, "a description", true));
@@ -30,15 +28,9 @@ public class MenuManagerTest {
         menuManager.addMenuItem(new MenuItem(5, "testMenuItem5", 1, "a description", true));
     }
 
-
-    @BeforeClass
-    public static void setUpClass() {
-        menuManager = MenuManager.getInstance();
-    }
-    
     @After
     public void tearDown() {
-       Utility.removeDataFromDatabase();
+        Utility.removeDataFromDatabase();
     }
 
     @Test
@@ -198,5 +190,4 @@ public class MenuManagerTest {
         assertFalse(specialDelete.isActive());
         assertTrue(menuManager.getDailySpecials().size() == 0);
     }
-    
 }

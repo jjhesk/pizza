@@ -60,14 +60,6 @@ public class DailySpecialDatabaseControllerTest {
     public static void tearDownClass() {
         //Utility.removeDataFromDatabase();
     }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     @Test
     public void testGetDailySpecials() {

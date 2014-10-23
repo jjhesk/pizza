@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.colostate.cs414.d.pizza.db;
 
 import edu.colostate.cs414.d.pizza.api.user.Cashier;
@@ -27,18 +23,7 @@ import static org.junit.Assert.*;
 public class UserDatabaseControllerTest {
     
     Connection userDB = null;
-    
-    public UserDatabaseControllerTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
     @Before
     public void setUp() {
         Utility.removeDataFromDatabase();

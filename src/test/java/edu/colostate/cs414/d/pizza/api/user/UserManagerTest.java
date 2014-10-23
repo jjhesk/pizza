@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.colostate.cs414.d.pizza.api.user;
 
 import java.util.List;
@@ -21,7 +17,8 @@ public class UserManagerTest {
     @Before
     public void setUp() {
         Utility.removeDataFromDatabase();
-        userManager = UserManager.getInstance();
+        userManager = new UserManager();
+        userManager.enableTest();
         userManager.addUser("Michael", "Password1234",(UserType.CASHIER));
         userManager.addUser("Rawlin", "cookingaway",(UserType.CHEF));
         userManager.addUser("Tim", "Manager?",(UserType.MANAGER));

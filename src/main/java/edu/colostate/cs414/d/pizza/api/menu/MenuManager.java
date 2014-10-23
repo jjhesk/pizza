@@ -10,6 +10,8 @@ public class MenuManager {
 
 	private static MenuManager instance;
 
+    private boolean testing = false;
+
     private MenuDatabaseController menuDatabase;
     private DailySpecialDatabaseController dailySpecialDatabase;
 
@@ -17,7 +19,7 @@ public class MenuManager {
 
     private List<DailySpecial> dailySpecials;
 	
-	private MenuManager() {
+	public MenuManager() {
         menuDatabase  = new MenuDatabaseController();
         dailySpecialDatabase = new DailySpecialDatabaseController();
         menuItems = new ArrayList<MenuItem>();
@@ -41,10 +43,10 @@ public class MenuManager {
     public void saveMenu(List<MenuItem> menuItems) {
         for (MenuItem menuItem: this.menuItems) {
             menuItem.setActive(false);
-            menuDatabase.setExpired(menuItem);
+            if(!testing) menuDatabase.setExpired(menuItem);
         }
         this.checkDailySpecials();
-        menuDatabase.addMenuItems(menuItems);
+        if(!testing) menuDatabase.addMenuItems(menuItems);
         this.menuItems.addAll(menuItems);
     }
 
@@ -68,13 +70,13 @@ public class MenuManager {
 	public void addMenuItem(MenuItem item) {
         if(!this.menuItems.contains(item)){
             this.menuItems.add(item);
-            menuDatabase.addMenuItem(item);
+            if(!testing) menuDatabase.addMenuItem(item);
         }
 	}
 	
 	public void removeMenuItem(MenuItem item) {
         item.setActive(false);
-        menuDatabase.setExpired(item);
+        if(!testing) menuDatabase.setExpired(item);
         this.checkDailySpecials();
 	}
 
@@ -91,25 +93,25 @@ public class MenuManager {
 
     public DailySpecial createDailySpecial(List<MenuItem> menuItems, Double price) {
         DailySpecial dailySpecial = new DailySpecial(price, menuItems);
-        dailySpecialDatabase.addDailySpecial(dailySpecial);
+        if(!testing) dailySpecialDatabase.addDailySpecial(dailySpecial);
         this.dailySpecials.add(dailySpecial);
         return dailySpecial;
     }
 
 	public void removeDailySpecial(DailySpecial special) {
 		special.setActive(false);
-        dailySpecialDatabase.setExpired(special);
+        if(!testing) dailySpecialDatabase.setExpired(special);
 	}
 
     public void checkDailySpecials(){
         for (DailySpecial dailySpecial : this.dailySpecials) {
             if(dailySpecial.isActive()) {
                 if(!dailySpecial.checkStatus()) {
-                    dailySpecialDatabase.setExpired(dailySpecial);
+                    if(!testing) dailySpecialDatabase.setExpired(dailySpecial);
                 }
             }
         }
     }
 
-
+    public void enableTest(){ this.testing = true; }
 }

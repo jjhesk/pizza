@@ -11,7 +11,9 @@ public class UserManager {
     private static UserManager instance;
     private UserDatabaseController userDatabase;
 
-    private UserManager(){
+    private boolean testing = false;
+
+    public UserManager(){
         userDatabase = new UserDatabaseController();
         users = new ArrayList<User>();
         userDatabase.getUsers(users);
@@ -44,7 +46,7 @@ public class UserManager {
             }
         }
         User user = UserFactory.createUser(userType,userName,password);
-        userDatabase.addUser(user);
+        if(!testing)userDatabase.addUser(user);
         this.users.add(user);
         return true;
 	}
@@ -53,10 +55,11 @@ public class UserManager {
         for(int i = 0; i < users.size(); i++){
             if(users.get(i).getUserName().equals(userName)){
                 users.remove(i);
-                userDatabase.removeUser(userName);
+                if(!testing)userDatabase.removeUser(userName);
                 return;
             }
         }
     }
-	
+
+    public void enableTest(){ this.testing = true; }
 }

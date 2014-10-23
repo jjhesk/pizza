@@ -51,4 +51,28 @@ public class DailySpecial {
 
     public void setId(int id) { this.id = id; }
 
+    public boolean equals(Object other)
+    {
+        if (!(this.price == (((DailySpecial)other).price)))
+        {
+            return false;
+        }
+
+        if (!(this.items.size() == (((DailySpecial)other).items.size())))
+        {
+            return false;
+        }
+
+        for (MenuItem menuItem : this.getItems()) {
+            if(!((DailySpecial)other).items.contains(menuItem)){
+                return  false;
+            }
+        }
+
+        if(!(this.active == ((DailySpecial)other).active)){
+            return false;
+        }
+
+        return true;
+    }
 }

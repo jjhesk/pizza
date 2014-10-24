@@ -1,9 +1,14 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
+import edu.colostate.cs414.d.pizza.api.user.Chef;
+import edu.colostate.cs414.d.pizza.api.user.Manager;
+import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.ui.LoginDialog;
 import edu.colostate.cs414.d.pizza.ui.OrderDialog;
 import edu.colostate.cs414.d.pizza.ui.PendingOrderFrame;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,9 +19,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.LayoutStyle;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 public class MenuFrame extends JFrame {
@@ -31,7 +39,8 @@ public class MenuFrame extends JFrame {
 		
 		initComponents();
 		initMenu();
-		
+        initUserButtons();
+        
 		placeOrderButton.requestFocusInWindow();
 	}
 
@@ -46,8 +55,15 @@ public class MenuFrame extends JFrame {
 
         menuWrapperScroll = new JScrollPane();
         menuWrapper = new JPanel();
+        buttonWrapper = new JPanel();
         buttonPanel = new JPanel();
         placeOrderButton = new JButton();
+        buttonLeftPanel = new JPanel();
+        editMenuButton = new JButton();
+        chefViewButton = new JButton();
+        buttonRightPanel = new JPanel();
+        loginButton = new JButton();
+        logoutButton = new JButton();
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
         exitItem = new JMenuItem();
@@ -64,6 +80,8 @@ public class MenuFrame extends JFrame {
         menuWrapper.setLayout(new BorderLayout());
         menuWrapperScroll.setViewportView(menuWrapper);
 
+        buttonWrapper.setLayout(new BorderLayout());
+
         placeOrderButton.setIcon(new ImageIcon(getClass().getResource("/edu/colostate/cs414/d/pizza/ui/add.png"))); // NOI18N
         placeOrderButton.setText("Place Order");
         placeOrderButton.addActionListener(new ActionListener() {
@@ -72,6 +90,67 @@ public class MenuFrame extends JFrame {
             }
         });
         buttonPanel.add(placeOrderButton);
+
+        buttonWrapper.add(buttonPanel, BorderLayout.CENTER);
+
+        buttonLeftPanel.setPreferredSize(new Dimension(100, 71));
+
+        editMenuButton.setText("Edit Menu");
+        editMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editMenuButtonActionPerformed(evt);
+            }
+        });
+        buttonLeftPanel.add(editMenuButton);
+
+        chefViewButton.setText("Chef View");
+        chefViewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                chefViewButtonActionPerformed(evt);
+            }
+        });
+        buttonLeftPanel.add(chefViewButton);
+
+        buttonWrapper.add(buttonLeftPanel, BorderLayout.WEST);
+
+        buttonRightPanel.setPreferredSize(new Dimension(100, 71));
+
+        loginButton.setText("Login");
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
+
+        logoutButton.setText("Logout");
+        logoutButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
+
+        GroupLayout buttonRightPanelLayout = new GroupLayout(buttonRightPanel);
+        buttonRightPanel.setLayout(buttonRightPanelLayout);
+        buttonRightPanelLayout.setHorizontalGroup(
+            buttonRightPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(buttonRightPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(buttonRightPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(loginButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(logoutButton, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        buttonRightPanelLayout.setVerticalGroup(
+            buttonRightPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(GroupLayout.Alignment.TRAILING, buttonRightPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(logoutButton)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(loginButton)
+                .addContainerGap())
+        );
+
+        buttonWrapper.add(buttonRightPanel, BorderLayout.EAST);
 
         fileMenu.setText("File");
 
@@ -111,16 +190,15 @@ public class MenuFrame extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
-            .addComponent(menuWrapperScroll, GroupLayout.Alignment.TRAILING)
+            .addComponent(menuWrapperScroll, GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
+            .addComponent(buttonWrapper, GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menuWrapperScroll, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                .addGap(1, 1, 1)
-                .addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonWrapper, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -152,7 +230,74 @@ public class MenuFrame extends JFrame {
         PendingOrderFrame f = new PendingOrderFrame(kiosk);
 		f.setVisible(true);
     }//GEN-LAST:event_chefMenuItemActionPerformed
+
+    private void editMenuButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editMenuButtonActionPerformed
+        if (!(kiosk.getLoggedInUser() instanceof Manager)) {
+            error("You are not allowed to do that.");
+            return;
+        }
+        
+        MenuEditDialog d = new MenuEditDialog(this, kiosk);
+		d.setVisible(true);
+		
+		menuPanel.refreshMenuItems(kiosk.viewMenu());
+    }//GEN-LAST:event_editMenuButtonActionPerformed
+
+    private void chefViewButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chefViewButtonActionPerformed
+        if (!(kiosk.getLoggedInUser() instanceof Chef)) {
+            error("You are not allowed to do that.");
+            return;
+        }
+        
+        PendingOrderFrame f = new PendingOrderFrame(kiosk);
+		f.setVisible(true);
+    }//GEN-LAST:event_chefViewButtonActionPerformed
+
+    private void loginButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        LoginDialog d = new LoginDialog(this, kiosk);
+        d.setVisible(true);
+        
+        initUserButtons();
+    }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void logoutButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        kiosk.loginUser(null);
+        
+        initUserButtons();
+    }//GEN-LAST:event_logoutButtonActionPerformed
 	
+    private void initUserButtons() {
+        User user = kiosk.getLoggedInUser();
+        
+        if (user == null) {
+            chefViewButton.setVisible(false);
+            editMenuButton.setVisible(false);
+            
+            loginButton.setVisible(true);
+            logoutButton.setVisible(false);
+        } else {
+            loginButton.setVisible(false);
+            logoutButton.setVisible(true);
+            
+            if (user instanceof Chef) {
+                chefViewButton.setVisible(true);
+                editMenuButton.setVisible(false);
+            } else if (user instanceof Manager) {
+                chefViewButton.setVisible(false);
+                editMenuButton.setVisible(true);
+            } else {
+                chefViewButton.setVisible(false);
+                editMenuButton.setVisible(false);
+            }
+        }
+    }
+    
+    private void error(String message) {
+        JOptionPane.showMessageDialog(
+                this, message, "Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
+    
 	/**
 	 * @param args the command line arguments
 	 */
@@ -192,11 +337,18 @@ public class MenuFrame extends JFrame {
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JMenu adminMenu;
+    private JPanel buttonLeftPanel;
     private JPanel buttonPanel;
+    private JPanel buttonRightPanel;
+    private JPanel buttonWrapper;
     private JMenuItem chefMenuItem;
+    private JButton chefViewButton;
+    private JButton editMenuButton;
     private JMenuItem editMenuItem;
     private JMenuItem exitItem;
     private JMenu fileMenu;
+    private JButton loginButton;
+    private JButton logoutButton;
     private JMenuBar menuBar;
     private JPanel menuWrapper;
     private JScrollPane menuWrapperScroll;

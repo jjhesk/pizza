@@ -114,6 +114,10 @@ public class Kiosk {
     public void removeUser(String userName) {
         userManager.removeUser(userName);
     }
+
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
     
     public void loginUser(User user) {
         this.loggedInUser = user;

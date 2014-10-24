@@ -17,11 +17,13 @@ public class Kiosk {
     private MenuManager menuManager;
     private OrderManager orderManager;
     private UserManager userManager;
+    private User loggedInUser;
 
     public Kiosk(){
         menuManager = MenuManager.getInstance();
         orderManager = OrderManager.getInstance(menuManager.getAllMenuItems());
         userManager = UserManager.getInstance();
+        loggedInUser = null;
     }
 
     //View Menu (returns active menu items)
@@ -111,6 +113,10 @@ public class Kiosk {
 
     public void removeUser(String userName) {
         userManager.removeUser(userName);
+    }
+    
+    public void loginUser(User user) {
+        this.loggedInUser = user;
     }
 
 }

@@ -2,6 +2,7 @@ package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.ui.OrderDialog;
+import edu.colostate.cs414.d.pizza.ui.PendingOrderFrame;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -52,6 +53,7 @@ public class MenuFrame extends JFrame {
         exitItem = new JMenuItem();
         adminMenu = new JMenu();
         editMenuItem = new JMenuItem();
+        chefMenuItem = new JMenuItem();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,6 +94,14 @@ public class MenuFrame extends JFrame {
             }
         });
         adminMenu.add(editMenuItem);
+
+        chefMenuItem.setText("Chef Menu");
+        chefMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                chefMenuItemActionPerformed(evt);
+            }
+        });
+        adminMenu.add(chefMenuItem);
 
         menuBar.add(adminMenu);
 
@@ -137,6 +147,11 @@ public class MenuFrame extends JFrame {
     private void exitItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_exitItemActionPerformed
         dispose();
     }//GEN-LAST:event_exitItemActionPerformed
+
+    private void chefMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chefMenuItemActionPerformed
+        PendingOrderFrame f = new PendingOrderFrame(kiosk);
+		f.setVisible(true);
+    }//GEN-LAST:event_chefMenuItemActionPerformed
 	
 	/**
 	 * @param args the command line arguments
@@ -178,6 +193,7 @@ public class MenuFrame extends JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JMenu adminMenu;
     private JPanel buttonPanel;
+    private JMenuItem chefMenuItem;
     private JMenuItem editMenuItem;
     private JMenuItem exitItem;
     private JMenu fileMenu;

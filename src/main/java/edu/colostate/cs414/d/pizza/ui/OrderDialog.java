@@ -4,6 +4,7 @@ import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderItem;
+import edu.colostate.cs414.d.pizza.api.order.OrderStatus;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
 import edu.colostate.cs414.d.pizza.ui.event.OrderItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuFeature;
@@ -15,6 +16,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -352,6 +354,9 @@ public class OrderDialog extends JDialog {
                 getOrderType(),
                 nameField.getText(),
                 addressField.getText());
+		
+		ret.setStartDate(new Date());
+		ret.setStatus(OrderStatus.PENDING);
         
         for (OrderItem item : orderTableModel.getItems()) {
             ret.addItem(item);

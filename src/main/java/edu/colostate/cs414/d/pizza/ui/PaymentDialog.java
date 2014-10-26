@@ -1,5 +1,9 @@
 package edu.colostate.cs414.d.pizza.ui;
 
+import edu.colostate.cs414.d.pizza.Kiosk;
+import edu.colostate.cs414.d.pizza.api.order.Order;
+import edu.colostate.cs414.d.pizza.api.order.OrderStatus;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
@@ -8,24 +12,55 @@ import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 
 public class PaymentDialog extends javax.swing.JDialog {
 
-	/**
-	 * Creates new form PaymentDialog
-	 */
-	public PaymentDialog(java.awt.Frame parent, boolean modal) {
-		super(parent, modal);
+    
+        private final Kiosk kiosk;
+        private Order order;
+        private double total;
+        
+        public PaymentDialog(Frame parent, Kiosk kiosk, Order order, Double total) {
+		super(parent, true);
 		initComponents();
 		
 		setLocationRelativeTo(parent);
+                this.kiosk = kiosk;
+                this.order = order;
+                this.total = total;
+                totalDueCash.setText(String.format("$%.2f", total));
+                creditTotalDue.setText(String.format("$%.2f", total));
+                checkTotal.setText(String.format("$%.2f", total));
 	}
+        
+        public PaymentDialog(JDialog parent, Kiosk kiosk, Order order, Double total) {
+		super(parent, true);
+		initComponents();
+		
+		setLocationRelativeTo(parent);
+                this.kiosk = kiosk;
+                this.order = order;
+                this.total = total;
+                totalDueCash.setText(String.format("$%.2f", total));
+                creditTotalDue.setText(String.format("$%.2f", total));
+                checkTotal.setText(String.format("$%.2f", total));
+	}
+        
+        private void error(String message) {
+            JOptionPane.showMessageDialog(
+                this, message, "Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
@@ -44,50 +79,48 @@ public class PaymentDialog extends javax.swing.JDialog {
         jPanel4 = new JPanel();
         jPanel5 = new JPanel();
         jTextField1 = new JTextField();
+        jSpinner1 = new JSpinner();
+        jSpinner3 = new JSpinner();
         jTabbedPane1 = new JTabbedPane();
         jPanel2 = new JPanel();
         jLabel15 = new JLabel();
-        totalField4 = new JLabel();
+        totalDueCash = new JLabel();
         jLabel16 = new JLabel();
-        jTextField10 = new JTextField();
-        jLabel17 = new JLabel();
-        totalField5 = new JLabel();
-        jButton3 = new JButton();
+        cashSubmit = new JButton();
+        cashTotalGiven = new JSpinner();
         jPanel1 = new JPanel();
         jLabel1 = new JLabel();
         jLabel2 = new JLabel();
-        jTextField2 = new JTextField();
+        creditCardNumber = new JTextField();
         jLabel3 = new JLabel();
-        jTextField3 = new JTextField();
+        creditSecurityCode = new JTextField();
         jLabel4 = new JLabel();
         jLabel5 = new JLabel();
         jLabel6 = new JLabel();
-        jTextField6 = new JTextField();
-        jTextField7 = new JTextField();
-        totalField2 = new JLabel();
-        jTextField8 = new JTextField();
+        creditCardName = new JTextField();
+        creditBillingAddress = new JTextField();
+        creditTotalDue = new JLabel();
+        creditCity = new JTextField();
         jLabel7 = new JLabel();
-        jComboBox1 = new JComboBox();
-        jComboBox2 = new JComboBox();
+        creditMonthExpiration = new JComboBox();
+        creditYearExpiration = new JComboBox();
         jLabel9 = new JLabel();
-        jTextField9 = new JTextField();
-        jButton1 = new JButton();
+        creditZipCode = new JTextField();
+        creditSubmit = new JButton();
         jPanel3 = new JPanel();
         jLabel8 = new JLabel();
-        totalField3 = new JLabel();
+        checkTotal = new JLabel();
         jLabel10 = new JLabel();
         jLabel11 = new JLabel();
         jLabel12 = new JLabel();
         jLabel13 = new JLabel();
-        jTextField15 = new JTextField();
-        jTextField16 = new JTextField();
-        jTextField17 = new JTextField();
-        jTextField18 = new JTextField();
-        jButton2 = new JButton();
+        checkName = new JTextField();
+        checkAccountNumber = new JTextField();
+        checkRouting = new JTextField();
+        checkNumber = new JTextField();
+        checkSubmit = new JButton();
         jLabel18 = new JLabel();
-        jTextField11 = new JTextField();
-        jLabel19 = new JLabel();
-        totalField6 = new JLabel();
+        checkTotalGiven = new JSpinner();
 
         jTextField5.setText("jTextField5");
 
@@ -129,22 +162,19 @@ public class PaymentDialog extends javax.swing.JDialog {
 
         jLabel15.setText("Total Due");
 
-        totalField4.setText("$0.00");
+        totalDueCash.setText("$0.00");
 
         jLabel16.setText("Total Given");
 
-        jTextField10.addActionListener(new ActionListener() {
+        cashSubmit.setIcon(new ImageIcon(getClass().getResource("/edu/colostate/cs414/d/pizza/ui/okay.png"))); // NOI18N
+        cashSubmit.setText("Submit Payment");
+        cashSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
+                cashSubmitActionPerformed(evt);
             }
         });
 
-        jLabel17.setText("Change");
-
-        totalField5.setText("$0.00");
-
-        jButton3.setIcon(new ImageIcon(getClass().getResource("/edu/colostate/cs414/d/pizza/ui/okay.png"))); // NOI18N
-        jButton3.setText("Submit Payment");
+        cashTotalGiven.setModel(new SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
 
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -154,37 +184,30 @@ public class PaymentDialog extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel16, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                        .addGap(12, 12, 12)
-                        .addComponent(jTextField10, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cashTotalGiven, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel17))
+                        .addComponent(jLabel15)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(totalField5)
-                            .addComponent(jButton3)
-                            .addComponent(totalField4))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(cashSubmit)
+                            .addComponent(totalDueCash))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(totalField4))
+                    .addComponent(totalDueCash))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jTextField10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cashTotalGiven, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(totalField5))
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addContainerGap(254, Short.MAX_VALUE))
+                .addComponent(cashSubmit)
+                .addContainerGap(288, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cash", jPanel2);
@@ -193,17 +216,17 @@ public class PaymentDialog extends javax.swing.JDialog {
 
         jLabel2.setText("Security Code");
 
-        jTextField2.addActionListener(new ActionListener() {
+        creditCardNumber.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                creditCardNumberActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Expiration Date");
 
-        jTextField3.addActionListener(new ActionListener() {
+        creditSecurityCode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                creditSecurityCodeActionPerformed(evt);
             }
         });
 
@@ -213,53 +236,58 @@ public class PaymentDialog extends javax.swing.JDialog {
 
         jLabel6.setText("Card Holder Name");
 
-        jTextField6.addActionListener(new ActionListener() {
+        creditCardName.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                creditCardNameActionPerformed(evt);
             }
         });
 
-        jTextField7.addActionListener(new ActionListener() {
+        creditBillingAddress.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                creditBillingAddressActionPerformed(evt);
             }
         });
 
-        totalField2.setText("$0.00");
+        creditTotalDue.setText("$0.00");
 
-        jTextField8.addActionListener(new ActionListener() {
+        creditCity.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                creditCityActionPerformed(evt);
             }
         });
 
         jLabel7.setText("City");
 
-        jComboBox1.setModel(new DefaultComboBoxModel(new String[] { "01", "02 ", "03", "04 ", "05 ", "06 ", "07 ", "08 ", "09 ", "10 ", "11 ", "12" }));
-        jComboBox1.setAlignmentX(0.0F);
-        jComboBox1.addActionListener(new ActionListener() {
+        creditMonthExpiration.setModel(new DefaultComboBoxModel(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        creditMonthExpiration.setAlignmentX(0.0F);
+        creditMonthExpiration.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                creditMonthExpirationActionPerformed(evt);
             }
         });
 
-        jComboBox2.setModel(new DefaultComboBoxModel(new String[] { "2014", "2015", "2016", "2017", "2018", "2019", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034" }));
-        jComboBox2.addActionListener(new ActionListener() {
+        creditYearExpiration.setModel(new DefaultComboBoxModel(new String[] { "2014", "2015", "2016", "2017", "2018", "2019", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034" }));
+        creditYearExpiration.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                creditYearExpirationActionPerformed(evt);
             }
         });
 
         jLabel9.setText("Zip Code");
 
-        jTextField9.addActionListener(new ActionListener() {
+        creditZipCode.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                creditZipCodeActionPerformed(evt);
             }
         });
 
-        jButton1.setIcon(new ImageIcon(getClass().getResource("/edu/colostate/cs414/d/pizza/ui/okay.png"))); // NOI18N
-        jButton1.setText("Submit Payment");
+        creditSubmit.setIcon(new ImageIcon(getClass().getResource("/edu/colostate/cs414/d/pizza/ui/okay.png"))); // NOI18N
+        creditSubmit.setText("Submit Payment");
+        creditSubmit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                creditSubmitActionPerformed(evt);
+            }
+        });
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -270,7 +298,7 @@ public class PaymentDialog extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(totalField2))
+                        .addComponent(creditTotalDue))
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -280,21 +308,21 @@ public class PaymentDialog extends javax.swing.JDialog {
                     .addComponent(jLabel6, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField9)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField7)
-                    .addComponent(jTextField8)
+                    .addComponent(creditZipCode)
+                    .addComponent(creditCardNumber)
+                    .addComponent(creditBillingAddress)
+                    .addComponent(creditCity)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(creditMonthExpiration, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(creditYearExpiration, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 13, Short.MAX_VALUE))
-                    .addComponent(jTextField3, GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField6, GroupLayout.Alignment.TRAILING))
+                    .addComponent(creditSecurityCode, GroupLayout.Alignment.TRAILING)
+                    .addComponent(creditCardName, GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(91, 91, 91)
-                .addComponent(jButton1)
+                .addComponent(creditSubmit)
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -302,38 +330,38 @@ public class PaymentDialog extends javax.swing.JDialog {
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(totalField2))
+                    .addComponent(creditTotalDue))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(creditCardName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(creditCardNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(creditSecurityCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(creditMonthExpiration, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(creditYearExpiration, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(creditBillingAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(creditCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(creditZipCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(creditSubmit)
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -341,7 +369,7 @@ public class PaymentDialog extends javax.swing.JDialog {
 
         jLabel8.setText("Total Due");
 
-        totalField3.setText("$0.00");
+        checkTotal.setText("$0.00");
 
         jLabel10.setText("Name");
 
@@ -351,44 +379,41 @@ public class PaymentDialog extends javax.swing.JDialog {
 
         jLabel13.setText("Check Number");
 
-        jTextField15.addActionListener(new ActionListener() {
+        checkName.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField15ActionPerformed(evt);
+                checkNameActionPerformed(evt);
             }
         });
 
-        jTextField16.addActionListener(new ActionListener() {
+        checkAccountNumber.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField16ActionPerformed(evt);
+                checkAccountNumberActionPerformed(evt);
             }
         });
 
-        jTextField17.addActionListener(new ActionListener() {
+        checkRouting.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField17ActionPerformed(evt);
+                checkRoutingActionPerformed(evt);
             }
         });
 
-        jTextField18.addActionListener(new ActionListener() {
+        checkNumber.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                jTextField18ActionPerformed(evt);
+                checkNumberActionPerformed(evt);
             }
         });
 
-        jButton2.setIcon(new ImageIcon(getClass().getResource("/edu/colostate/cs414/d/pizza/ui/okay.png"))); // NOI18N
-        jButton2.setText("Submit Payment");
+        checkSubmit.setIcon(new ImageIcon(getClass().getResource("/edu/colostate/cs414/d/pizza/ui/okay.png"))); // NOI18N
+        checkSubmit.setText("Submit Payment");
+        checkSubmit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                checkSubmitActionPerformed(evt);
+            }
+        });
 
         jLabel18.setText("Total Given");
 
-        jTextField11.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jTextField11ActionPerformed(evt);
-            }
-        });
-
-        jLabel19.setText("Change");
-
-        totalField6.setText("$0.00");
+        checkTotalGiven.setModel(new SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
 
         GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -399,68 +424,64 @@ public class PaymentDialog extends javax.swing.JDialog {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel13, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                        .addComponent(jTextField18, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE))
+                        .addComponent(checkNumber, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel18, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel12, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel10, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel11, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField16, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField15, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField17, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField11, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(checkAccountNumber, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(checkName, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(checkRouting, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(checkTotalGiven, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel19, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(totalField6))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(totalField3))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(77, 77, 77)
-                                .addComponent(jButton2)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(checkTotal)
+                        .addGap(0, 190, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addComponent(checkSubmit)
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(totalField3))
+                    .addComponent(checkTotal))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField15, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(checkName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField16, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(checkAccountNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField17, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(checkRouting, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField18, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField11, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18))
+                    .addComponent(jLabel18)
+                    .addComponent(checkTotalGiven, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(totalField6))
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addComponent(checkSubmit)
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Check", jPanel3);
@@ -479,66 +500,197 @@ public class PaymentDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void creditSecurityCodeActionPerformed(ActionEvent evt) {//GEN-FIRST:event_creditSecurityCodeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_creditSecurityCodeActionPerformed
 
-    private void jTextField2ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void creditCardNumberActionPerformed(ActionEvent evt) {//GEN-FIRST:event_creditCardNumberActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_creditCardNumberActionPerformed
 
     private void jTextField1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jTextField6ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void creditCardNameActionPerformed(ActionEvent evt) {//GEN-FIRST:event_creditCardNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_creditCardNameActionPerformed
 
-    private void jTextField7ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+    private void creditBillingAddressActionPerformed(ActionEvent evt) {//GEN-FIRST:event_creditBillingAddressActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+    }//GEN-LAST:event_creditBillingAddressActionPerformed
 
-    private void jTextField8ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+    private void creditCityActionPerformed(ActionEvent evt) {//GEN-FIRST:event_creditCityActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_creditCityActionPerformed
 
-    private void jComboBox1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void creditMonthExpirationActionPerformed(ActionEvent evt) {//GEN-FIRST:event_creditMonthExpirationActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_creditMonthExpirationActionPerformed
 
-    private void jComboBox2ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void creditYearExpirationActionPerformed(ActionEvent evt) {//GEN-FIRST:event_creditYearExpirationActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_creditYearExpirationActionPerformed
 
-    private void jTextField9ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+    private void creditZipCodeActionPerformed(ActionEvent evt) {//GEN-FIRST:event_creditZipCodeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+    }//GEN-LAST:event_creditZipCodeActionPerformed
 
-    private void jTextField15ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField15ActionPerformed
+    private void checkNameActionPerformed(ActionEvent evt) {//GEN-FIRST:event_checkNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField15ActionPerformed
+    }//GEN-LAST:event_checkNameActionPerformed
 
-    private void jTextField16ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField16ActionPerformed
+    private void checkAccountNumberActionPerformed(ActionEvent evt) {//GEN-FIRST:event_checkAccountNumberActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField16ActionPerformed
+    }//GEN-LAST:event_checkAccountNumberActionPerformed
 
-    private void jTextField17ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField17ActionPerformed
+    private void checkRoutingActionPerformed(ActionEvent evt) {//GEN-FIRST:event_checkRoutingActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField17ActionPerformed
+    }//GEN-LAST:event_checkRoutingActionPerformed
 
-    private void jTextField18ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField18ActionPerformed
+    private void checkNumberActionPerformed(ActionEvent evt) {//GEN-FIRST:event_checkNumberActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField18ActionPerformed
+    }//GEN-LAST:event_checkNumberActionPerformed
 
-    private void jTextField10ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
+    private void checkSubmitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_checkSubmitActionPerformed
+        double totalGiven = (double) checkTotalGiven.getValue();
+        if(checkName.getText().isEmpty()){
+            error("Name must be entered in from check");
+            return;
+        }
+        
+        if(checkNumber.getText().isEmpty()){
+            error("Check Number must be entered in from check");
+            return;
+        }
+        
+        if(!isNumber(checkNumber.getText())){
+            error("Check Number must be zero or above");
+            return;
+        }
+        
+        if(checkRouting.getText().isEmpty()){
+            error("Check Routing Number must be entered in from check");
+            return;
+        }
+        
+        if(!isNumber(checkRouting.getText()) || checkRouting.getText().length() != 9){
+            error("Check routing number from check must be all numbers and a length of 9 digits");
+            return;
+        }
+        
+        if(totalGiven <= 0){
+            error("Check total from check must bigger than 0");
+            return;
+        }
+        
+        if(totalGiven < this.total){
+            error("Check total not enough for the total");
+            return;
+        }
+        
+        if(checkAccountNumber.getText().isEmpty()){
+            error("Check Account number must be entered in from check");
+            return;
+        }
+        
+        if(!isNumber(checkAccountNumber.getText()) || checkAccountNumber.getText().length() < 4 || checkAccountNumber.getText().length() > 17){
+            error("Check Account number must be all numbers and a length of from 4 to 17 digits");
+            return;
+        }
+        
+        this.order.setStatus(OrderStatus.PENDING);
+        
+        double change = totalGiven - total;
+        JOptionPane.showMessageDialog(this, "Thank you for the payment the change is: " + String.format("$%.2f", change) + ". The order was placed");
 
-    private void jTextField11ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField11ActionPerformed
+        dispose();
+    }//GEN-LAST:event_checkSubmitActionPerformed
 
+    private void creditSubmitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_creditSubmitActionPerformed
+        if(creditCardName.getText().isEmpty()){
+            error("Name must be entered in from card");
+            return;
+        }
+        
+        if(creditCardNumber.getText().isEmpty()){
+            error("Credit Card number must be entered in from card");
+            return;
+        }
+        
+        if(!isNumber(creditCardNumber.getText()) || creditCardNumber.getText().length() != 16){
+            error("Credit Card number must be all numbers and a length of 16 digits");
+            return;
+        }
+        
+        if(creditCity.getText().isEmpty()){
+            error("City must be entered in for billing purposes");
+            return;
+        }
+        
+        if(creditSecurityCode.getText().isEmpty()){
+            error("Secuirty code must be entered in from card");
+            return;
+        }
+        
+        if(!isNumber(creditSecurityCode.getText()) || creditSecurityCode.getText().length() < 3 || creditSecurityCode.getText().length() > 4){
+            error("Credit Card security number must be all numbers and a length of 3 or 4 digits depending on the type of card you have");
+            return;
+        }
+        
+        if(creditZipCode.getText().isEmpty()){
+            error("Zip code must be entered in for billing purposes");
+            return;
+        }
+        
+        if(creditBillingAddress.getText().isEmpty()){
+            error("Address must be entered in for billing purposes");
+            return;
+        }
+        
+        String monthExpiration = creditMonthExpiration.getSelectedItem().toString();
+        String yearExpiration = creditYearExpiration.getSelectedItem().toString();
+        if((!monthExpiration.equals("11") && !monthExpiration.equals("11") && !monthExpiration.equals("11")) && yearExpiration.equals("2014")){
+            error("Card has already expired");
+            return;
+        }
+        
+        this.order.setStatus(OrderStatus.PENDING);
+        
+        JOptionPane.showMessageDialog(this, "Thank you for the payment, the order was placed");
+
+        dispose();
+    }//GEN-LAST:event_creditSubmitActionPerformed
+
+    private void cashSubmitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cashSubmitActionPerformed
+        double totalGiven = (double) cashTotalGiven.getValue();
+        
+        if(totalGiven <= 0){
+            error("Cash total must bigger than 0");
+            return;
+        }
+        
+        if(totalGiven < this.total){
+            error("Cash total not enough for the total");
+            return;
+        }
+        
+        this.order.setStatus(OrderStatus.PENDING);
+        
+        double change = totalGiven - total;
+        JOptionPane.showMessageDialog(this, "Thank you for the payment the change is: " + String.format("$%.2f", change) + ". The order was placed");
+        
+        dispose();
+    }//GEN-LAST:event_cashSubmitActionPerformed
+
+    public boolean isNumber(String number) { 
+        for(int i = 0; i<number.length(); i++ ){
+            if(!Character.isDigit(number.charAt(i))){
+                return false;
+            }
+        }
+        return true;
+    } 
 	/**
 	 * @param args the command line arguments
 	 */
@@ -569,7 +721,7 @@ public class PaymentDialog extends javax.swing.JDialog {
 		/* Create and display the dialog */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				PaymentDialog dialog = new PaymentDialog(new javax.swing.JFrame(), true);
+				PaymentDialog dialog = new PaymentDialog(new javax.swing.JFrame(), new Kiosk(), new Order(), 20.1);
 				dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 					@Override
 					public void windowClosing(java.awt.event.WindowEvent e) {
@@ -582,11 +734,25 @@ public class PaymentDialog extends javax.swing.JDialog {
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JButton jButton1;
-    private JButton jButton2;
-    private JButton jButton3;
-    private JComboBox jComboBox1;
-    private JComboBox jComboBox2;
+    private JButton cashSubmit;
+    private JSpinner cashTotalGiven;
+    private JTextField checkAccountNumber;
+    private JTextField checkName;
+    private JTextField checkNumber;
+    private JTextField checkRouting;
+    private JButton checkSubmit;
+    private JLabel checkTotal;
+    private JSpinner checkTotalGiven;
+    private JTextField creditBillingAddress;
+    private JTextField creditCardName;
+    private JTextField creditCardNumber;
+    private JTextField creditCity;
+    private JComboBox creditMonthExpiration;
+    private JTextField creditSecurityCode;
+    private JButton creditSubmit;
+    private JLabel creditTotalDue;
+    private JComboBox creditYearExpiration;
+    private JTextField creditZipCode;
     private JLabel jLabel1;
     private JLabel jLabel10;
     private JLabel jLabel11;
@@ -594,9 +760,7 @@ public class PaymentDialog extends javax.swing.JDialog {
     private JLabel jLabel13;
     private JLabel jLabel15;
     private JLabel jLabel16;
-    private JLabel jLabel17;
     private JLabel jLabel18;
-    private JLabel jLabel19;
     private JLabel jLabel2;
     private JLabel jLabel3;
     private JLabel jLabel4;
@@ -610,28 +774,14 @@ public class PaymentDialog extends javax.swing.JDialog {
     private JPanel jPanel3;
     private JPanel jPanel4;
     private JPanel jPanel5;
+    private JSpinner jSpinner1;
+    private JSpinner jSpinner3;
     private JTabbedPane jTabbedPane1;
     private JTextField jTextField1;
-    private JTextField jTextField10;
-    private JTextField jTextField11;
-    private JTextField jTextField15;
-    private JTextField jTextField16;
-    private JTextField jTextField17;
-    private JTextField jTextField18;
-    private JTextField jTextField2;
-    private JTextField jTextField3;
     private JTextField jTextField5;
-    private JTextField jTextField6;
-    private JTextField jTextField7;
-    private JTextField jTextField8;
-    private JTextField jTextField9;
+    private JLabel totalDueCash;
     private JLabel totalField;
     private JLabel totalField1;
-    private JLabel totalField2;
-    private JLabel totalField3;
-    private JLabel totalField4;
-    private JLabel totalField5;
-    private JLabel totalField6;
     private JLabel totalLabel;
     private JLabel totalLabel1;
     // End of variables declaration//GEN-END:variables

@@ -304,10 +304,24 @@ public class OrderDialog extends JDialog {
         }
         
         Order order = createOrder();
-        kiosk.placeOrder(order);
         
         // TODO: show payment dialog here
-        JOptionPane.showMessageDialog(this, "TODO show payment dialog");
+        double total = updateTotals();
+        
+        if(orderTableModel.getItems().size() == 0){
+            error("You must order 1 or more items in order to place an order");
+            return;
+        }
+        
+        PaymentDialog paymentDialog = new PaymentDialog(this, kiosk, order, total);
+        paymentDialog.setVisible(true);
+          
+        if(order.getStatus() != OrderStatus.PENDING){
+            error("Incorrect Payment was given please try again");
+            return;
+        }
+        
+        kiosk.placeOrder(order);
         
         dispose();
     }//GEN-LAST:event_placeOrderButtonActionPerformed
@@ -356,7 +370,7 @@ public class OrderDialog extends JDialog {
                 addressField.getText());
 		
 		ret.setStartDate(new Date());
-		ret.setStatus(OrderStatus.PENDING);
+		ret.setStatus(OrderStatus.NEW);
         
         for (OrderItem item : orderTableModel.getItems()) {
             ret.addItem(item);
@@ -365,7 +379,7 @@ public class OrderDialog extends JDialog {
         return ret;
     }
     
-    private void updateTotals() {
+    private double updateTotals() {
         // TODO: daily specials
         List<DailySpecial> dummy = new ArrayList<>();
         double subtotal = kiosk.calculateSubtotal(createOrder(), dummy);
@@ -375,6 +389,8 @@ public class OrderDialog extends JDialog {
         subtotalField.setText(String.format("$%.2f", subtotal));
         taxField.setText(String.format("$%.2f", tax));
         totalField.setText(String.format("$%.2f", total));
+        
+        return total;
     }
     
     @EventHandler

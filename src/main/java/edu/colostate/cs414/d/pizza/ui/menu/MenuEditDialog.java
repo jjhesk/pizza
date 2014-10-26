@@ -128,6 +128,8 @@ public class MenuEditDialog extends JDialog {
         if (ret == JOptionPane.YES_OPTION) {
             kiosk.saveMenu(new ArrayList<MenuItem>());
         }
+        
+        menuPanel.refreshMenuItems(new ArrayList<MenuItem>());
     }//GEN-LAST:event_newMenuButtonActionPerformed
 
 	private void initMenu() {

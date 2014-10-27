@@ -2,16 +2,12 @@ package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import java.awt.Dialog;
-import java.awt.EventQueue;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -24,7 +20,7 @@ import javax.swing.WindowConstants;
 
 public class MenuItemEditDialog extends JDialog {
 
-	private MenuItem originalItem;
+	private final MenuItem originalItem;
 	private MenuItem returnedItem;
 	
 	/**
@@ -72,6 +68,7 @@ public class MenuItemEditDialog extends JDialog {
         descriptionField = new JTextArea();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Edit Menu Item");
 
         saveButton.setText("Save");
         saveButton.addActionListener(new ActionListener() {

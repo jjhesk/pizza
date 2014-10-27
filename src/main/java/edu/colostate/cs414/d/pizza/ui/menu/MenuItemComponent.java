@@ -2,6 +2,7 @@ package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.api.order.OrderItem;
+import edu.colostate.cs414.d.pizza.ui.event.DailySpecialItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
@@ -88,11 +89,11 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 		priceLabel.setPreferredSize(new Dimension(150, 0));
 		add(priceLabel, BorderLayout.EAST);
 		
-		if (feature == MenuFeature.ORDERING) {
-			initOrderPanel();
-		} else if (feature == MenuFeature.ADMIN) {
-			initAdminPanel();
-		}
+        switch (feature) {
+            case ORDERING:      initOrderPanel();        break;
+            case ADMIN_SPECIAL: initAdminSpecialPanel(); break;
+            case ADMIN:         initAdminPanel();        break;
+        }
 	}
 	
 	protected void initOrderPanel() {
@@ -110,6 +111,18 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 		add(buttonContainer, BorderLayout.SOUTH);
 	}
 	
+    private void initAdminSpecialPanel() {
+        // variant of order panel with different labels + no quantity
+        // event will be DailySpecialItemAddedEvent instead
+        buttonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+		addButton = new JButton("Add to Special");
+		addButton.addActionListener(specialAddListener);
+		buttonContainer.add(addButton);
+
+		add(buttonContainer, BorderLayout.SOUTH);
+    }
+    
 	protected void initAdminPanel() {
 		buttonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -141,6 +154,15 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 			bus.push(new OrderItemCreateEvent(i));
 			
 			quantitySpinner.setValue(1);
+		}
+		
+	};
+    
+    private final ActionListener specialAddListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			bus.push(new DailySpecialItemAddedEvent(item));
 		}
 		
 	};

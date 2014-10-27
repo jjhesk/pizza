@@ -1,6 +1,7 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.ui.event.DailySpecialItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
@@ -54,6 +55,7 @@ public class MenuPanel extends JPanel implements EventBusProvider {
         
 		bus = new EventBus() {{
 			add(OrderItemCreateEvent.class);
+            add(DailySpecialItemAddedEvent.class);
 			
 			add(MenuItemCreateEvent.class);
 			add(MenuItemEditEvent.class);
@@ -133,13 +135,13 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 	}
 	
 	public void refreshMenuItems(List<MenuItem> newItems) {
-                //Set the local copy of active items to the new item list.
-                items = newItems;
-		initMenuItems(newItems);
-		
-		// reset the filter for good measure
-		filterField.setText("filter...");
-		filterField.setForeground(Color.gray);
+        //Set the local copy of active items to the new item list.
+        items = newItems;
+        initMenuItems(newItems);
+
+        // reset the filter for good measure
+        filterField.setText("filter...");
+        filterField.setForeground(Color.gray);
 	}
 	
 	@EventHandler
@@ -147,57 +149,63 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 		// push event from child up
 		bus.push(event);
 	}
+    
+    @EventHandler
+    private void doDailySpecialItemAdded(DailySpecialItemAddedEvent event) {
+        bus.push(event);
+    }
         
 	@EventHandler
 	private void doMenuItemEdited(MenuItemEditEvent event) {
 		bus.push(event);
                 
-                //Update the local copy of active items.
-                items.remove(event.getOriginalItem());
-                items.add(event.getNewItem());
-                
-                //If a filter is being used, recalculate the items since a name may have changed.
-                if (filterField.getText().length() > 0 && filterField.getForeground() == Color.black)
-                    initMenuItems(filterItems(filterField.getText()));
+        //Update the local copy of active items.
+        items.remove(event.getOriginalItem());
+        items.add(event.getNewItem());
+
+        //If a filter is being used, recalculate the items since a name may have changed.
+        if (!filterField.getText().isEmpty() && filterField.getForeground() == Color.black) {
+            initMenuItems(filterItems(filterField.getText()));
+        }
 	}
 	
 	@EventHandler
 	private void doMenuItemRemoved(MenuItemRemoveEvent event) {
 		bus.push(event);
         
-                MenuItemComponent c = itemMap.get(event.getItem());
-                itemContainer.remove(c);
-                itemMap.remove(event.getItem());
-                
-                //Update the local copy of active items. No need to redo filter.
-                items.remove(event.getItem());
+        MenuItemComponent c = itemMap.get(event.getItem());
+        itemContainer.remove(c);
+        itemMap.remove(event.getItem());
 
-                revalidate();
-                repaint();
+        //Update the local copy of active items. No need to redo filter.
+        items.remove(event.getItem());
+
+        revalidate();
+        repaint();
 	}
 	
 	private final FocusListener filterFocusHandler = new FocusListener() {
 
-		@Override
-		public void focusGained(FocusEvent e) {
-			if (filterField.getText().equals("filter...")) {
-				filterField.setText("");
-				filterField.setForeground(Color.black);
-			}
-		}
+        @Override
+        public void focusGained(FocusEvent e) {
+            if (filterField.getText().equals("filter...")) {
+                filterField.setText("");
+                filterField.setForeground(Color.black);
+            }
+        }
 
-		@Override
-		public void focusLost(FocusEvent e) {
-			if (filterField.getText().equals("")) {
-				filterField.setText("filter...");
-				filterField.setForeground(Color.gray);
-				
-                                //This was causing the items to be recreated instantly, 
-                                //so the buttons were never getting pressed.
-				//initMenuItems(items);
-			}
-		}
-	};
+        @Override
+        public void focusLost(FocusEvent e) {
+            if (filterField.getText().equals("")) {
+                filterField.setText("filter...");
+                filterField.setForeground(Color.gray);
+
+                //This was causing the items to be recreated instantly, 
+                //so the buttons were never getting pressed.
+                //initMenuItems(items);
+            }
+        }
+    };
 	
 	private final KeyAdapter filterTextHandler = new KeyAdapter() {
 

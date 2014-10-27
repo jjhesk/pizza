@@ -60,6 +60,7 @@ public class LoginDialog extends JDialog {
         loginButton = new JButton();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("User Login");
 
         loginLabel.setText("Login");
 

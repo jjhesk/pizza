@@ -72,6 +72,7 @@ public class MenuFrame extends JFrame {
         chefMenuItem = new JMenuItem();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Main Menu");
 
         menuWrapperScroll.setBorder(null);
         menuWrapperScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

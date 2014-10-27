@@ -99,6 +99,7 @@ public class OrderDialog extends JDialog {
         specialsPanel = new JPanel();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Place Order");
         setMinimumSize(new Dimension(400, 300));
 
         orderPanel.setBorder(BorderFactory.createTitledBorder("My Order"));

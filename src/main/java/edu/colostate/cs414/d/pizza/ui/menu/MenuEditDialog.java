@@ -63,6 +63,7 @@ public class MenuEditDialog extends JDialog {
         specialsButton = new JButton();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Edit Menu");
 
         closeButton.setText("Close");
         closeButton.addActionListener(new ActionListener() {

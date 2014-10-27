@@ -38,7 +38,7 @@ import org.timothyb89.eventbus.EventScanType;
 @EventScanMode(type = EventScanType.EXTENDED)
 public class MenuPanel extends JPanel implements EventBusProvider {
 
-	private final List<MenuItem> items;
+	private List<MenuItem> items;
     private final Map<MenuItem, MenuItemComponent> itemMap;
 	private final MenuFeature feature;
 	private final int columns;
@@ -133,6 +133,8 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 	}
 	
 	public void refreshMenuItems(List<MenuItem> newItems) {
+                //Set the local copy of active items to the new item list.
+                items = newItems;
 		initMenuItems(newItems);
 		
 		// reset the filter for good measure
@@ -145,22 +147,33 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 		// push event from child up
 		bus.push(event);
 	}
-	
+        
 	@EventHandler
 	private void doMenuItemEdited(MenuItemEditEvent event) {
 		bus.push(event);
+                
+                //Update the local copy of active items.
+                items.remove(event.getOriginalItem());
+                items.add(event.getNewItem());
+                
+                //If a filter is being used, recalculate the items since a name may have changed.
+                if (filterField.getText().length() > 0 && filterField.getForeground() == Color.black)
+                    initMenuItems(filterItems(filterField.getText()));
 	}
 	
 	@EventHandler
 	private void doMenuItemRemoved(MenuItemRemoveEvent event) {
 		bus.push(event);
         
-        MenuItemComponent c = itemMap.get(event.getItem());
-        itemContainer.remove(c);
-        itemMap.remove(event.getItem());
-        
-        revalidate();
-        repaint();
+                MenuItemComponent c = itemMap.get(event.getItem());
+                itemContainer.remove(c);
+                itemMap.remove(event.getItem());
+                
+                //Update the local copy of active items. No need to redo filter.
+                items.remove(event.getItem());
+
+                revalidate();
+                repaint();
 	}
 	
 	private final FocusListener filterFocusHandler = new FocusListener() {
@@ -179,7 +192,9 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 				filterField.setText("filter...");
 				filterField.setForeground(Color.gray);
 				
-				initMenuItems(items);
+                                //This was causing the items to be recreated instantly, 
+                                //so the buttons were never getting pressed.
+				//initMenuItems(items);
 			}
 		}
 	};
@@ -225,15 +240,25 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 			
 			bus.push(new MenuItemCreateEvent(i));
             
-            // update the UI
-            MenuItemComponent c = new MenuItemComponent(i, feature);
-			c.bus().register(MenuPanel.this);
+                        //Update the local list of active items.
+                        items.add(i);
+                        
+                        //If a filter is being applied, recalculate filter.
+                        //Otherwise just add it to the current UI.
+                        if (filterField.getText().length() > 0 && filterField.getForeground() == Color.black) {
+                            initMenuItems(filterItems(filterField.getText()));
+                        }
+                        else {
+                            // update the UI
+                            MenuItemComponent c = new MenuItemComponent(i, feature);
+                            c.bus().register(MenuPanel.this);
+
+                            itemContainer.add(c);
+                            itemMap.put(i, c);
+                        }
             
-			itemContainer.add(c);
-            itemMap.put(i, c);
-            
-            revalidate();
-            repaint();
+                        revalidate();
+                        repaint();
 		}
 		
 	};

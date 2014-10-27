@@ -61,17 +61,14 @@ public class MenuManagerTest {
     }
 
     @Test
-    public void testSaveMenu() {
+    public void testClearMenu() {
         List<MenuItem> menuItems = new ArrayList<MenuItem>();
-        menuItems.add(new MenuItem(6, "newMenuItem6", 1, "a description", true));
-        menuItems.add(new MenuItem(7, "newMenuItem7", 1, "a description", true));
-        menuItems.add(new MenuItem(8, "newMenuItem8", 1, "a description", true));
-        assertTrue(menuManager.getMenuItems().size() == 4);
-        menuManager.saveMenu(menuItems);
-        assertTrue(menuManager.getMenuItems().size() == 3);
-        assertTrue(menuManager.getMenuItems().contains(menuItems.get(0)));
-        assertTrue(menuManager.getMenuItems().contains(menuItems.get(1)));
-        assertTrue(menuManager.getMenuItems().contains(menuItems.get(2)));
+        menuItems = menuManager.getMenuItems();
+        menuManager.clearMenu();
+        assertTrue(menuManager.getMenuItems().size() == 0);
+        assertFalse(menuItems.get(0).isActive());
+        assertFalse(menuItems.get(1).isActive());
+        assertFalse(menuItems.get(2).isActive());
     }
 
     @Test

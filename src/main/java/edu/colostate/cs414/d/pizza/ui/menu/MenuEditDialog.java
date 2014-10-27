@@ -126,7 +126,7 @@ public class MenuEditDialog extends JDialog {
                 null, null, null);
         
         if (ret == JOptionPane.YES_OPTION) {
-            kiosk.saveMenu(new ArrayList<MenuItem>());
+            kiosk.clearMenu();
         }
         
         menuPanel.refreshMenuItems(new ArrayList<MenuItem>());

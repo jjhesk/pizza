@@ -50,8 +50,8 @@ public class Kiosk {
         return menuManager.createMenuItem(name, price, description);
     }
 
-    public void saveMenu(List<MenuItem> menuItems) {
-        menuManager.saveMenu(menuItems);
+    public void clearMenu() {
+        menuManager.clearMenu();
     }
 
     public void addMenuItem(MenuItem menuItem){

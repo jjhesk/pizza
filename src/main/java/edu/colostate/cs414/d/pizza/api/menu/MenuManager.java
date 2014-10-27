@@ -40,14 +40,12 @@ public class MenuManager {
         return new MenuItem(name, price, description);
     }
 
-    public void saveMenu(List<MenuItem> menuItems) {
+    public void clearMenu() {
         for (MenuItem menuItem: this.menuItems) {
             menuItem.setActive(false);
             if(!testing) menuDatabase.setExpired(menuItem);
         }
         this.checkDailySpecials();
-        if(!testing) menuDatabase.addMenuItems(menuItems);
-        this.menuItems.addAll(menuItems);
     }
 
     //returns current menu Items

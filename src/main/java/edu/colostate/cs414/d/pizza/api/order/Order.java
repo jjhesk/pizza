@@ -2,6 +2,7 @@ package edu.colostate.cs414.d.pizza.api.order;
 
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.order.payment.Payment;
 import edu.colostate.cs414.d.pizza.utilities.Utility;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class Order {
 	private String customerName;
 	private String customerAddress;
 	private List<OrderItem> items;
+    private Payment payment;
+    private double total;
 
     public Order(){
         status = OrderStatus.NEW;
@@ -135,6 +138,22 @@ public class Order {
         }
 
         return totalCost;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     @Override

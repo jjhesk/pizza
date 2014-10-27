@@ -127,9 +127,8 @@ public class MenuEditDialog extends JDialog {
         
         if (ret == JOptionPane.YES_OPTION) {
             kiosk.clearMenu();
+            menuPanel.refreshMenuItems(new ArrayList<MenuItem>());
         }
-        
-        menuPanel.refreshMenuItems(new ArrayList<MenuItem>());
     }//GEN-LAST:event_newMenuButtonActionPerformed
 
 	private void initMenu() {

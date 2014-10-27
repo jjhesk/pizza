@@ -12,9 +12,11 @@ import java.util.List;
 
 public class UserDatabaseController {
     private Connection connection;
+    private UserFactory userFactory;
 
     public UserDatabaseController(){
         connection = Database.getInstance().getConnection();
+        userFactory = new UserFactory();
     }
 
     public void getUsers(List<User> users) {
@@ -28,7 +30,7 @@ public class UserDatabaseController {
                 String userName = resultSet.getString("userName");
                 String password = resultSet.getString("password");
                 UserType userType = UserType.valueOf(resultSet.getString("userType").toUpperCase());
-                users.add(UserFactory.createUser(userType, userName, password));
+                users.add(userFactory.createUser(userType, userName, password));
             }
         } catch (SQLException e) {
             e.printStackTrace();

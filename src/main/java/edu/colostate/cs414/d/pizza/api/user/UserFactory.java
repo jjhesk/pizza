@@ -1,7 +1,10 @@
 package edu.colostate.cs414.d.pizza.api.user;
 
 public class UserFactory {
-    public static User createUser(UserType userType, String userName, String password){
+    public UserFactory(){
+
+    }
+    public User createUser(UserType userType, String userName, String password){
         User user = null;
         switch(userType){
             case CASHIER:

@@ -35,7 +35,7 @@ public class MenuFrame extends JFrame {
 	 * Creates new form MainFrame
 	 */
 	public MenuFrame() {
-		kiosk = new Kiosk();
+		kiosk = Kiosk.getInstance();
 		
 		initComponents();
 		initMenu();

@@ -49,7 +49,7 @@ public class MenuManager {
     }
 
     //returns current menu Items
-	public List<MenuItem> getMenuItems() {
+	public List<MenuItem> getActiveMenuItems() {
         ArrayList<MenuItem> currentItems = new ArrayList<MenuItem>();
         for (MenuItem menuItem: this.menuItems) {
             if(menuItem.isActive()) {
@@ -79,7 +79,7 @@ public class MenuManager {
 	}
 
     //returns current daily specials
-	public List<DailySpecial> getDailySpecials() {
+	public List<DailySpecial> getCurrentDailySpecials() {
         ArrayList<DailySpecial> currentDailySpecials = new ArrayList<DailySpecial>();
         for (DailySpecial dailySpecial : this.dailySpecials) {
             if(dailySpecial.isActive()) {

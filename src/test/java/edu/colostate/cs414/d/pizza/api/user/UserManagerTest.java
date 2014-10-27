@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 public class UserManagerTest {
 
     private UserManager userManager;
+    private UserFactory userFactory;
     
     @Before
     public void setUp() {
@@ -38,7 +39,7 @@ public class UserManagerTest {
 
     @Test
     public void testAuthenticateUserValid() {
-        User user = UserFactory.createUser(UserType.CASHIER, "Michael", "Password1234");
+        User user = userFactory.createUser(UserType.CASHIER, "Michael", "Password1234");
         User returnedUser = userManager.authenticateUser("Michael", "Password1234");
         assertEquals(user, returnedUser);
     }
@@ -57,21 +58,21 @@ public class UserManagerTest {
 
     @Test
     public void testAddUserValid() {
-        User newUser = UserFactory.createUser(UserType.CASHIER, "Jeff", "Iamfinallyhere");
+        User newUser = userFactory.createUser(UserType.CASHIER, "Jeff", "Iamfinallyhere");
         boolean added = userManager.addUser("Jeff","Iamfinallyhere",UserType.CASHIER);
         assertTrue(userManager.getUsers().contains(newUser) && added);
     }
 
     @Test
     public void testAddUserInValidUserName() {
-        User newUser = UserFactory.createUser(UserType.CASHIER, "Michael", "thesecondcomingofmichael");
+        User newUser = userFactory.createUser(UserType.CASHIER, "Michael", "thesecondcomingofmichael");
         boolean added = userManager.addUser("Michael","thesecondcomingofmichael",UserType.CASHIER);
         assertFalse(userManager.getUsers().contains(newUser) || added);
     }
 
     @Test
     public void testRemoveUserExistingUser() {
-        User user = UserFactory.createUser(UserType.CASHIER, "Rawlin", "cookingaway");
+        User user = userFactory.createUser(UserType.CASHIER, "Rawlin", "cookingaway");
         userManager.removeUser("Rawlin");
         assertFalse(userManager.getUsers().contains(user));
         assertTrue(userManager.getUsers().size() == 2);
@@ -79,7 +80,7 @@ public class UserManagerTest {
 
     @Test
     public void testRemoveUserNonExistentUser() {
-        User user = UserFactory.createUser(UserType.CASHIER, "Jeff", "javaftw");
+        User user = userFactory.createUser(UserType.CASHIER, "Jeff", "javaftw");
         userManager.removeUser("Jeff");
         assertTrue(userManager.getUsers().size() == 3);
     }

@@ -721,7 +721,7 @@ public class PaymentDialog extends javax.swing.JDialog {
 		/* Create and display the dialog */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				PaymentDialog dialog = new PaymentDialog(new javax.swing.JFrame(), new Kiosk(), new Order(), 20.1);
+				PaymentDialog dialog = new PaymentDialog(new javax.swing.JFrame(), null, new Order(), 20.1);
 				dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 					@Override
 					public void windowClosing(java.awt.event.WindowEvent e) {

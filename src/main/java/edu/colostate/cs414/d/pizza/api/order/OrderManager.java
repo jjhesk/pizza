@@ -12,12 +12,10 @@ public class OrderManager {
     private static OrderManager instance;
     private OrderDatabaseController orderDatabase;
     private List<Order> orders;
-    private List<MenuItem> menuItems;
 
     private boolean testing = false;
 
     public OrderManager(List<MenuItem> menuItems) {
-        this.menuItems = menuItems;
         orderDatabase = new OrderDatabaseController();
         orders = new ArrayList<Order>();
         orderDatabase.getOrders(orders, menuItems);
@@ -57,8 +55,8 @@ public class OrderManager {
 		return order.getItems();
 	}
 
-    public double calculateSubtotal(Order order, List<DailySpecial> dailySpecials, List<DailySpecial> currentDailySpecials) {
-        return order.calculateSubtotal(dailySpecials, currentDailySpecials);
+    public double calculateSubtotal(Order order, List<DailySpecial> orderedDailySpecials, List<DailySpecial> currentDailySpecials) {
+        return order.calculateSubtotal(orderedDailySpecials, currentDailySpecials);
     }
 
     public OrderItem createOrderItem(MenuItem menuItem, int quantity) {

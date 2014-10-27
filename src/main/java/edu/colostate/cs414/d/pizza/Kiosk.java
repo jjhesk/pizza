@@ -18,8 +18,16 @@ public class Kiosk {
     private OrderManager orderManager;
     private UserManager userManager;
     private User loggedInUser;
+    private static Kiosk instance;
 
-    public Kiosk(){
+    public static Kiosk getInstance() {
+        if (instance == null) {
+            instance = new Kiosk();
+        }
+        return instance;
+    }
+
+    private Kiosk(){
         menuManager = MenuManager.getInstance();
         orderManager = OrderManager.getInstance(menuManager.getAllMenuItems());
         userManager = UserManager.getInstance();
@@ -28,7 +36,7 @@ public class Kiosk {
 
     //View Menu (returns active menu items)
     public List<MenuItem> viewMenu(){
-        return menuManager.getMenuItems();
+        return menuManager.getActiveMenuItems();
     }
 
     //View Orders (returns pending orders)
@@ -42,7 +50,7 @@ public class Kiosk {
 
     //View Daily Specials
     public List<DailySpecial> viewDailySpecials(){
-        return menuManager.getDailySpecials();
+        return menuManager.getCurrentDailySpecials();
     }
 
     //Creating and modifying the Menu

@@ -10,6 +10,7 @@ public class UserManager {
     private List<User> users;
     private static UserManager instance;
     private UserDatabaseController userDatabase;
+    private UserFactory userFactory;
 
     private boolean testing = false;
 
@@ -17,6 +18,7 @@ public class UserManager {
         userDatabase = new UserDatabaseController();
         users = new ArrayList<User>();
         userDatabase.getUsers(users);
+        userFactory = new UserFactory();
     }
 
     public static UserManager getInstance() {
@@ -45,7 +47,7 @@ public class UserManager {
                 return false;
             }
         }
-        User user = UserFactory.createUser(userType,userName,password);
+        User user = userFactory.createUser(userType,userName,password);
         if(!testing)userDatabase.addUser(user);
         this.users.add(user);
         return true;

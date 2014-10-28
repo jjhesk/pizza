@@ -25,14 +25,25 @@ public class Utility {
     }
 
     public static boolean tryApplyDailySpecial(DailySpecial dailySpecial, List<MenuItem> menuItems){
+        boolean apply = false;
+        List<MenuItem> tempMenuItems = new ArrayList<>();
+        for(MenuItem menuItem : menuItems){
+            tempMenuItems.add(new MenuItem(menuItem));
+        }
+
         for(MenuItem menuItem : dailySpecial.getItems()){
-            if(!menuItems.contains(menuItem)){
+            if(tempMenuItems.contains(menuItem)){
+                tempMenuItems.remove(menuItem);
+            }
+            else{
                 return false;
             }
         }
-        for(MenuItem menuItem : dailySpecial.getItems()){
+
+        for (MenuItem menuItem : dailySpecial.getItems()) {
             menuItems.remove(menuItem);
         }
+
         return true;
     }
 

@@ -47,6 +47,43 @@ public class UtilityTest {
     }
 
     @Test
+    public void testTryApplyDailySpecialFail() {
+        DailySpecial dailySpecial = null;
+        List<MenuItem> dsMenuItems = new ArrayList<MenuItem>();
+        MenuItem menuItem = new MenuItem(2, "testMenuItem2", 0, "a description", true);
+        dsMenuItems.add(menuItem);
+        dsMenuItems.add(new MenuItem(0, "testMenuItem0", 0, "a description", true));
+        dsMenuItems.add(new MenuItem(1, "testMenuItem1", 0, "a description", true));
+        dsMenuItems.add(menuItem);
+        dailySpecial = new DailySpecial(0, 5.00, dsMenuItems, true);
+        List<MenuItem> testItems = new ArrayList<MenuItem>();
+        testItems.add(menuItem);
+        testItems.add(new MenuItem(0, "testMenuItem0", 0, "a description", true));
+        testItems.add(new MenuItem(1, "testMenuItem1", 0, "a description", true));
+        assertEquals(false, Utility.tryApplyDailySpecial(dailySpecial, testItems));
+    }
+
+    @Test
+    public void testTryApplyDailySpecialMultipleItems() {
+        DailySpecial dailySpecial = null;
+        List<MenuItem> dsMenuItems = new ArrayList<MenuItem>();
+        MenuItem menuItem = new MenuItem(2, "testMenuItem2", 0, "a description", true);
+        dsMenuItems.add(menuItem);
+        dsMenuItems.add(new MenuItem(0, "testMenuItem0", 0, "a description", true));
+        dsMenuItems.add(new MenuItem(1, "testMenuItem1", 0, "a description", true));
+        dsMenuItems.add(menuItem);
+        dailySpecial = new DailySpecial(0, 5.00, dsMenuItems, true);
+        List<MenuItem> testItems = new ArrayList<MenuItem>();
+        testItems.add(menuItem);
+        testItems.add(new MenuItem(0, "testMenuItem0", 0, "a description", true));
+        testItems.add(new MenuItem(1, "testMenuItem1", 0, "a description", true));
+        testItems.add(menuItem);
+        testItems.add(new MenuItem(3, "testMenuItem3", 0, "a description", true));
+        assertEquals(true, Utility.tryApplyDailySpecial(dailySpecial, testItems));
+        assertTrue(testItems.size()==1);
+    }
+
+    @Test
     public void testCalculateTax() {
         double subtotal = 1.00;
         double expResult = .07;

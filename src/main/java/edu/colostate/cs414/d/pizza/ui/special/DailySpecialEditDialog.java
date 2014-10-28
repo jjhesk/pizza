@@ -228,6 +228,11 @@ public class DailySpecialEditDialog extends JDialog {
 			error("Price must not be negative.");
 			return;
 		}
+		
+		if (tableModel.getItems().isEmpty()) {
+			error("Specials must have at least one item.");
+			return;
+		}
         
 		returnedSpecial = new DailySpecial(price, tableModel.getItems());
 		dispose();

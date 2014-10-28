@@ -7,6 +7,7 @@ import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.ui.LoginDialog;
 import edu.colostate.cs414.d.pizza.ui.OrderDialog;
 import edu.colostate.cs414.d.pizza.ui.PendingOrderFrame;
+import edu.colostate.cs414.d.pizza.ui.special.DailySpecialAdminDialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -61,6 +62,7 @@ public class MenuFrame extends JFrame {
         buttonLeftPanel = new JPanel();
         editMenuButton = new JButton();
         chefViewButton = new JButton();
+        editSpecialsButton = new JButton();
         buttonRightPanel = new JPanel();
         loginButton = new JButton();
         logoutButton = new JButton();
@@ -111,6 +113,14 @@ public class MenuFrame extends JFrame {
             }
         });
         buttonLeftPanel.add(chefViewButton);
+
+        editSpecialsButton.setText("Edit Specials");
+        editSpecialsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editSpecialsButtonActionPerformed(evt);
+            }
+        });
+        buttonLeftPanel.add(editSpecialsButton);
 
         buttonWrapper.add(buttonLeftPanel, BorderLayout.WEST);
 
@@ -266,6 +276,16 @@ public class MenuFrame extends JFrame {
         
         initUserButtons();
     }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private void editSpecialsButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editSpecialsButtonActionPerformed
+        if (!(kiosk.getLoggedInUser() instanceof Manager)) {
+            error("You are not allowed to do that.");
+            return;
+        }
+		
+		DailySpecialAdminDialog d = new DailySpecialAdminDialog(this);
+		d.setVisible(true);
+    }//GEN-LAST:event_editSpecialsButtonActionPerformed
 	
     private void initUserButtons() {
         User user = kiosk.getLoggedInUser();
@@ -273,6 +293,7 @@ public class MenuFrame extends JFrame {
         if (user == null) {
             chefViewButton.setVisible(false);
             editMenuButton.setVisible(false);
+			editSpecialsButton.setVisible(false);
             
             loginButton.setVisible(true);
             logoutButton.setVisible(false);
@@ -283,12 +304,15 @@ public class MenuFrame extends JFrame {
             if (user instanceof Chef) {
                 chefViewButton.setVisible(true);
                 editMenuButton.setVisible(false);
+				editSpecialsButton.setVisible(false);
             } else if (user instanceof Manager) {
                 chefViewButton.setVisible(false);
                 editMenuButton.setVisible(true);
+				editSpecialsButton.setVisible(true);
             } else {
                 chefViewButton.setVisible(false);
                 editMenuButton.setVisible(false);
+				editSpecialsButton.setVisible(false);
             }
         }
     }
@@ -346,6 +370,7 @@ public class MenuFrame extends JFrame {
     private JButton chefViewButton;
     private JButton editMenuButton;
     private JMenuItem editMenuItem;
+    private JButton editSpecialsButton;
     private JMenuItem exitItem;
     private JMenu fileMenu;
     private JButton loginButton;

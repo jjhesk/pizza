@@ -46,6 +46,7 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 		
 		bus = new EventBus() {{
 			add(OrderItemCreateEvent.class);
+			add(DailySpecialItemAddedEvent.class);
 			
 			add(MenuItemCreateEvent.class);
 			add(MenuItemEditEvent.class);

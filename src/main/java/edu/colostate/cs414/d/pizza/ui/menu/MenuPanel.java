@@ -153,6 +153,8 @@ public class MenuPanel extends JPanel implements EventBusProvider {
     @EventHandler
     private void doDailySpecialItemAdded(DailySpecialItemAddedEvent event) {
         bus.push(event);
+		
+		System.out.println("event sent");
     }
         
 	@EventHandler

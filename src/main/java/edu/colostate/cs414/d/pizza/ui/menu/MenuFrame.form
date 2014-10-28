@@ -161,6 +161,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chefViewButtonActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JButton" name="editSpecialsButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Edit Specials"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editSpecialsButtonActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="buttonRightPanel">

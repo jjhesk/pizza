@@ -28,6 +28,8 @@ import javax.swing.JTable;
 import javax.swing.LayoutStyle;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import org.timothyb89.eventbus.EventHandler;
 import org.timothyb89.eventbus.EventScanMode;
@@ -66,6 +68,8 @@ public class DailySpecialEditDialog extends JDialog {
         initComponents();
         initMenu();
         initSpecial();
+		
+		itemTable.getSelectionModel().addListSelectionListener(selectionListener);
         
         setLocationRelativeTo(parent);
     }
@@ -182,10 +186,10 @@ public class DailySpecialEditDialog extends JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+                .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(propertiesPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -257,6 +261,15 @@ public class DailySpecialEditDialog extends JDialog {
         tableModel.addItem(event.getItem());
     }
     
+	private final ListSelectionListener selectionListener = new ListSelectionListener() {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            removeButton.setEnabled(true);
+        }
+        
+    };
+	
     private void error(String message) {
         JOptionPane.showMessageDialog(
                 this, message, "Error",

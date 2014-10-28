@@ -15,12 +15,13 @@ import edu.colostate.cs414.d.pizza.utilities.Utility;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -37,7 +38,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -50,6 +50,9 @@ public class OrderDialog extends JDialog {
 
 	private final Kiosk kiosk;
 	
+	private Map<DailySpecial, List<OrderItem>> specialMap;
+	private Map<OrderItem, DailySpecial> specialReverseMap;
+	
 	/**
 	 * Creates new form OrderDialog
 	 */
@@ -57,6 +60,9 @@ public class OrderDialog extends JDialog {
 		super(parent, true);
 		
 		this.kiosk = kiosk;
+		
+		specialMap = new HashMap<>();
+		specialReverseMap = new HashMap<>();
 		
         orderTableModel = new OrderItemTableModel();
         
@@ -334,7 +340,17 @@ public class OrderDialog extends JDialog {
 		}
 		
 		OrderItem item = orderTableModel.getItem(row);
-        
+        if (specialReverseMap.containsKey(item)) {
+			// remove the whole special from the order if one item is removed
+			DailySpecial special = specialReverseMap.get(item);
+			
+			for (OrderItem other : specialMap.get(special)) {
+				specialReverseMap.remove(other);
+			}
+			
+			specialMap.remove(special);
+		}
+		
         orderTableModel.removeItem(item);
         
         updateTotals();
@@ -390,11 +406,17 @@ public class OrderDialog extends JDialog {
         
         return ret;
     }
+	
+	private List<DailySpecial> getSpecials() {
+		List<DailySpecial> ret = new ArrayList<>();
+		ret.addAll(specialMap.keySet());
+		
+		return ret;
+	}
     
     private double updateTotals() {
         // TODO: daily specials
-        List<DailySpecial> dummy = new ArrayList<>();
-        double subtotal = kiosk.calculateSubtotal(createOrder(), dummy);
+        double subtotal = kiosk.calculateSubtotal(createOrder(), getSpecials());
         double tax = Utility.calculateTax(subtotal);
         double total = Utility.calculateTotalWithTax(subtotal);
         
@@ -416,8 +438,12 @@ public class OrderDialog extends JDialog {
 	private void doSpecialOrderAdded(DailySpecialOrderAddedEvent event) {
 		DailySpecial special = event.getSpecial();
 		
-		for (OrderItem i : kiosk.createDailySpecialOrderItems(special)) {
+		List<OrderItem> items = kiosk.createDailySpecialOrderItems(special);
+		specialMap.put(special, items);
+		
+		for (OrderItem i : items) {
 			orderTableModel.addItem(i);
+			specialReverseMap.put(i, special);
 		}
 		
 		updateTotals();

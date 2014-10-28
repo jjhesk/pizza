@@ -6,13 +6,16 @@ import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderItem;
 import edu.colostate.cs414.d.pizza.api.order.OrderStatus;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
+import edu.colostate.cs414.d.pizza.ui.event.DailySpecialOrderAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.OrderItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuFeature;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuPanel;
+import edu.colostate.cs414.d.pizza.ui.special.DailySpecialPanel;
 import edu.colostate.cs414.d.pizza.utilities.Utility;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -58,6 +62,7 @@ public class OrderDialog extends JDialog {
         
 		initComponents();
 		initMenu();
+		initSpecials();
 		
         orderTable.getSelectionModel().addListSelectionListener(selectionListener);
         
@@ -96,7 +101,7 @@ public class OrderDialog extends JDialog {
         addressFieldScroll = new JScrollPane();
         addressField = new JTextArea();
         menuWrapper = new JPanel();
-        specialsPanel = new JPanel();
+        specialsWrapper = new JPanel();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Place Order");
@@ -232,7 +237,7 @@ public class OrderDialog extends JDialog {
                 .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(addressLabel)
                     .addComponent(addressFieldScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                 .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(subtotalLabel)
                     .addComponent(subtotalField))
@@ -254,18 +259,8 @@ public class OrderDialog extends JDialog {
         menuWrapper.setBorder(BorderFactory.createTitledBorder("Menu"));
         menuWrapper.setLayout(new BorderLayout());
 
-        specialsPanel.setBorder(BorderFactory.createTitledBorder("Today's Specials"));
-
-        GroupLayout specialsPanelLayout = new GroupLayout(specialsPanel);
-        specialsPanel.setLayout(specialsPanelLayout);
-        specialsPanelLayout.setHorizontalGroup(
-            specialsPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        specialsPanelLayout.setVerticalGroup(
-            specialsPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 130, Short.MAX_VALUE)
-        );
+        specialsWrapper.setBorder(BorderFactory.createTitledBorder("Today's Specials"));
+        specialsWrapper.setLayout(new BorderLayout());
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -273,8 +268,8 @@ public class OrderDialog extends JDialog {
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
-                    .addComponent(specialsPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+                    .addComponent(specialsWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(orderPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
@@ -284,7 +279,7 @@ public class OrderDialog extends JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(specialsPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(specialsWrapper, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -309,7 +304,7 @@ public class OrderDialog extends JDialog {
         // TODO: show payment dialog here
         double total = updateTotals();
         
-        if(orderTableModel.getItems().size() == 0){
+        if(orderTableModel.getItems().isEmpty()){
             error("You must order 1 or more items in order to place an order");
             return;
         }
@@ -332,11 +327,21 @@ public class OrderDialog extends JDialog {
     }//GEN-LAST:event_cancelOrderButtonActionPerformed
 
     private void removeItemButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_removeItemButtonActionPerformed
-        OrderItem item = orderTableModel.getItem(orderTable.getSelectedRow());
+        int row = orderTable.getSelectedRow();
+		if (row < 0) {
+			error("No order item selected!");
+			return;
+		}
+		
+		OrderItem item = orderTableModel.getItem(row);
         
         orderTableModel.removeItem(item);
         
         updateTotals();
+		
+		if (orderTableModel.getItems().isEmpty()) {
+			removeItemButton.setEnabled(false);
+		}
     }//GEN-LAST:event_removeItemButtonActionPerformed
 
 	private void initMenu() {
@@ -344,6 +349,12 @@ public class OrderDialog extends JDialog {
         panel.bus().register(this);
         
 		menuWrapper.add(panel, BorderLayout.CENTER);
+	}
+	
+	private void initSpecials() {
+		specialsPanel = new DailySpecialPanel();
+		specialsPanel.bus().register(this);
+		specialsWrapper.add(specialsPanel, BorderLayout.CENTER);
 	}
     
     private void error(String message) {
@@ -401,6 +412,17 @@ public class OrderDialog extends JDialog {
         updateTotals();
     }
     
+	@EventHandler
+	private void doSpecialOrderAdded(DailySpecialOrderAddedEvent event) {
+		DailySpecial special = event.getSpecial();
+		
+		for (OrderItem i : kiosk.createDailySpecialOrderItems(special)) {
+			orderTableModel.addItem(i);
+		}
+		
+		updateTotals();
+	}
+	
     private final ListSelectionListener selectionListener = new ListSelectionListener() {
 
         @Override
@@ -411,6 +433,7 @@ public class OrderDialog extends JDialog {
     };
     
     private OrderItemTableModel orderTableModel;
+	private DailySpecialPanel specialsPanel;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JTextArea addressField;
@@ -429,7 +452,7 @@ public class OrderDialog extends JDialog {
     private JRadioButton orderTypeTakeout;
     private JButton placeOrderButton;
     private JButton removeItemButton;
-    private JPanel specialsPanel;
+    private JPanel specialsWrapper;
     private JLabel subtotalField;
     private JLabel subtotalLabel;
     private JLabel taxField;

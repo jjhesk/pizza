@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import org.timothyb89.eventbus.EventBus;
 import org.timothyb89.eventbus.EventBusClient;
@@ -37,6 +38,7 @@ public class DailySpecialComponent extends JComponent implements EventBusProvide
 	private void initComponents() {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEtchedBorder());
+		setPreferredSize(new Dimension(250, 0));
 		
 		StringBuilder b = new StringBuilder("<html><ul>");
 		for (MenuItem i : special.getItems()) {
@@ -45,11 +47,20 @@ public class DailySpecialComponent extends JComponent implements EventBusProvide
 			b.append("</li>");
 		}
 		itemsLabel = new JLabel(b.toString());
-		add(itemsLabel, BorderLayout.CENTER);
+		itemsLabel.setVerticalTextPosition(SwingConstants.TOP);
+		itemsLabel.setVerticalAlignment(SwingConstants.TOP);
+		
+		JScrollPane labelScroll = new JScrollPane(itemsLabel);
+		labelScroll.setBorder(null);
+		labelScroll.setViewportBorder(null);
+		//labelScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		labelScroll.setPreferredSize(new Dimension(200, 75));
+		add(labelScroll, BorderLayout.CENTER);
 		
 		priceLabel = new JLabel(String.format("$%.2f", special.getPrice()));
 		priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 28));
-		priceLabel.setPreferredSize(new Dimension(150, 0));
+		priceLabel.setPreferredSize(new Dimension(100, 0));
+		priceLabel.setMaximumSize(new Dimension(150, 150));
 		priceLabel.setVerticalAlignment(SwingConstants.CENTER);
 		priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		add(priceLabel, BorderLayout.EAST);

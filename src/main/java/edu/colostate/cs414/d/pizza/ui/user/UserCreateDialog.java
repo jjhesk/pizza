@@ -225,6 +225,7 @@ public class UserCreateDialog extends JDialog {
 		typeManagerRadio.setEnabled(false);
 		typeChefRadio.setEnabled(false);
 		typeCashierRadio.setEnabled(false);
+                cancelButton.setEnabled(false);
 	}
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables

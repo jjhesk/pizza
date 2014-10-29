@@ -5,6 +5,7 @@ import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
+import edu.colostate.cs414.d.pizza.ui.special.DailySpecialAdminDialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -83,6 +84,11 @@ public class MenuEditDialog extends JDialog {
         });
 
         specialsButton.setText("Specials...");
+        specialsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                specialsButtonActionPerformed(evt);
+            }
+        });
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,6 +137,11 @@ public class MenuEditDialog extends JDialog {
             menuPanel.refreshMenuItems(new ArrayList<MenuItem>());
         }
     }//GEN-LAST:event_newMenuButtonActionPerformed
+
+    private void specialsButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_specialsButtonActionPerformed
+        DailySpecialAdminDialog d = new DailySpecialAdminDialog(this);
+		d.setVisible(true);
+    }//GEN-LAST:event_specialsButtonActionPerformed
 
 	private void initMenu() {
 		menuPanel = new MenuPanel(kiosk.viewMenu(), MenuFeature.ADMIN, 2);

@@ -1,16 +1,39 @@
 package edu.colostate.cs414.d.pizza.ui.user;
 
+import edu.colostate.cs414.d.pizza.Kiosk;
+import edu.colostate.cs414.d.pizza.api.user.User;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.AbstractListModel;
 import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.LayoutStyle;
+import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-public class UserAdminDialog extends javax.swing.JDialog {
+public class UserAdminDialog extends JDialog {
 
+	private Kiosk kiosk;
+	
 	/**
 	 * Creates new form UserAdminDialog
 	 */
-	public UserAdminDialog(java.awt.Frame parent, boolean modal) {
-		super(parent, modal);
+	public UserAdminDialog(Frame parent) {
+		super(parent, true);
+		
+		kiosk = Kiosk.getInstance();
+		
 		initComponents();
+		initUsers();
+		
+		setLocationRelativeTo(parent);
 	}
 
 	/**
@@ -22,64 +45,148 @@ public class UserAdminDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        userListScroll = new JScrollPane();
+        userList = new JList();
+        closeButton = new JButton();
+        createUserButton = new JButton();
+        deleteUserButton = new JButton();
 
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Manage Users");
+
+        userList.setModel(new AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        userList.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent evt) {
+                userListValueChanged(evt);
+            }
+        });
+        userListScroll.setViewportView(userList);
+
+        closeButton.setText("Close");
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
+
+        createUserButton.setText("Create User");
+        createUserButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                createUserButtonActionPerformed(evt);
+            }
+        });
+
+        deleteUserButton.setText("Delete User");
+        deleteUserButton.setEnabled(false);
+        deleteUserButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                deleteUserButtonActionPerformed(evt);
+            }
+        });
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(userListScroll)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(createUserButton)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteUserButton)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addComponent(closeButton)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(userListScroll, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(closeButton)
+                    .addComponent(createUserButton)
+                    .addComponent(deleteUserButton))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
-		/* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-		 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-		 */
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(UserAdminDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(UserAdminDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(UserAdminDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(UserAdminDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		}
-        //</editor-fold>
-
-		/* Create and display the dialog */
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				UserAdminDialog dialog = new UserAdminDialog(new javax.swing.JFrame(), true);
-				dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-					@Override
-					public void windowClosing(java.awt.event.WindowEvent e) {
-						System.exit(0);
-					}
-				});
-				dialog.setVisible(true);
-			}
-		});
+	private void initUsers() {
+		listModel = new UserListModel(kiosk.getUsers());
+		userList.setModel(listModel);
+		
+		userList.clearSelection();
+		deleteUserButton.setEnabled(false);
 	}
+	
+    private void closeButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_closeButtonActionPerformed
 
+    private void userListValueChanged(ListSelectionEvent evt) {//GEN-FIRST:event_userListValueChanged
+        int index = userList.getSelectedIndex();
+		if (index < 0) {
+			return;
+		}
+		
+		deleteUserButton.setEnabled(true);
+    }//GEN-LAST:event_userListValueChanged
+
+    private void createUserButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_createUserButtonActionPerformed
+        UserCreateDialog d = new UserCreateDialog(this);
+		d.setVisible(true);
+		
+		// ... wait and refresh when finished ...
+		
+		initUsers();
+    }//GEN-LAST:event_createUserButtonActionPerformed
+
+    private void deleteUserButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deleteUserButtonActionPerformed
+        int index = userList.getSelectedIndex();
+		if (index < 0) {
+			error("No user selected!");
+			return;
+		}
+		
+		User user = listModel.getUser(index);
+		
+		int ret = JOptionPane.showOptionDialog(this,
+                String.format("Really delete user %s?", user.getUserName()),
+                "Confirm",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null, null, null);
+        
+        if (ret == JOptionPane.YES_OPTION) {
+            kiosk.removeUser(user.getUserName());
+			
+			initUsers();
+        }
+    }//GEN-LAST:event_deleteUserButtonActionPerformed
+
+	private void error(String message) {
+        JOptionPane.showMessageDialog(
+                this, message, "Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
+	
+	private UserListModel listModel;
+	
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton closeButton;
+    private JButton createUserButton;
+    private JButton deleteUserButton;
+    private JList userList;
+    private JScrollPane userListScroll;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,7 +7,8 @@ import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.ui.LoginDialog;
 import edu.colostate.cs414.d.pizza.ui.OrderDialog;
 import edu.colostate.cs414.d.pizza.ui.PendingOrderFrame;
-import edu.colostate.cs414.d.pizza.ui.special.DailySpecialAdminDialog;
+import edu.colostate.cs414.d.pizza.ui.user.UserAdminDialog;
+import edu.colostate.cs414.d.pizza.ui.user.UserCreateDialog;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -25,7 +26,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 public class MenuFrame extends JFrame {
@@ -43,6 +43,10 @@ public class MenuFrame extends JFrame {
         initUserButtons();
         
 		placeOrderButton.requestFocusInWindow();
+		
+		setVisible(true);
+		
+		checkFirstRun();
 	}
 
 	/**
@@ -65,7 +69,7 @@ public class MenuFrame extends JFrame {
         buttonLeftPanel = new JPanel();
         editMenuButton = new JButton();
         chefViewButton = new JButton();
-        editSpecialsButton = new JButton();
+        editUsersButton = new JButton();
         buttonRightPanel = new JPanel();
         loginButton = new JButton();
         logoutButton = new JButton();
@@ -132,13 +136,13 @@ public class MenuFrame extends JFrame {
         });
         buttonLeftPanel.add(chefViewButton);
 
-        editSpecialsButton.setText("Edit Specials");
-        editSpecialsButton.addActionListener(new ActionListener() {
+        editUsersButton.setText("Edit Users");
+        editUsersButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                editSpecialsButtonActionPerformed(evt);
+                editUsersButtonActionPerformed(evt);
             }
         });
-        buttonLeftPanel.add(editSpecialsButton);
+        buttonLeftPanel.add(editUsersButton);
 
         buttonWrapper.add(buttonLeftPanel, BorderLayout.WEST);
 
@@ -275,15 +279,15 @@ public class MenuFrame extends JFrame {
         initUserButtons();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
-    private void editSpecialsButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editSpecialsButtonActionPerformed
+    private void editUsersButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editUsersButtonActionPerformed
         if (!(kiosk.getLoggedInUser() instanceof Manager)) {
             error("You are not allowed to do that.");
             return;
         }
 		
-		DailySpecialAdminDialog d = new DailySpecialAdminDialog(this);
+		UserAdminDialog d = new UserAdminDialog(this);
 		d.setVisible(true);
-    }//GEN-LAST:event_editSpecialsButtonActionPerformed
+    }//GEN-LAST:event_editUsersButtonActionPerformed
 	
     private void initUserButtons() {
         User user = kiosk.getLoggedInUser();
@@ -291,7 +295,7 @@ public class MenuFrame extends JFrame {
         if (user == null) {
             chefViewButton.setVisible(false);
             editMenuButton.setVisible(false);
-			editSpecialsButton.setVisible(false);
+			editUsersButton.setVisible(false);
             
             loginButton.setVisible(true);
             logoutButton.setVisible(false);
@@ -302,25 +306,36 @@ public class MenuFrame extends JFrame {
             if (user instanceof Chef) {
                 chefViewButton.setVisible(true);
                 editMenuButton.setVisible(false);
-				editSpecialsButton.setVisible(false);
+				editUsersButton.setVisible(false);
             } else if (user instanceof Manager) {
                 chefViewButton.setVisible(false);
                 editMenuButton.setVisible(true);
-				editSpecialsButton.setVisible(true);
+				editUsersButton.setVisible(true);
             } else {
                 chefViewButton.setVisible(false);
                 editMenuButton.setVisible(false);
-				editSpecialsButton.setVisible(false);
+				editUsersButton.setVisible(false);
             }
         }
     }
     
+	private void checkFirstRun() {
+		if (kiosk.getUsers().isEmpty()) {
+			JOptionPane.showMessageDialog(this,
+					"No users currently exist. Please create a manager user now.");
+			
+			UserCreateDialog d = new UserCreateDialog(this);
+			d.forceManager();
+			d.setVisible(true);
+		}
+	}
+	
     private void error(String message) {
         JOptionPane.showMessageDialog(
                 this, message, "Error",
                 JOptionPane.ERROR_MESSAGE);
     }
-    
+	
 	/**
 	 * @param args the command line arguments
 	 */
@@ -351,7 +366,7 @@ public class MenuFrame extends JFrame {
 		/* Create and display the form */
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new MenuFrame().setVisible(true);
+				new MenuFrame();
 			}
 		});
 	}
@@ -368,7 +383,7 @@ public class MenuFrame extends JFrame {
     private JButton chefViewButton;
     private JButton editMenuButton;
     private JMenuItem editMenuItem;
-    private JButton editSpecialsButton;
+    private JButton editUsersButton;
     private JMenuItem exitItem;
     private JMenu fileMenu;
     private JButton loginButton;
@@ -378,4 +393,5 @@ public class MenuFrame extends JFrame {
     private JScrollPane menuWrapperScroll;
     private JButton placeOrderButton;
     // End of variables declaration//GEN-END:variables
+
 }

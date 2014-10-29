@@ -4,10 +4,10 @@ import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,7 +26,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-public class DailySpecialAdminDialog extends javax.swing.JDialog {
+public class DailySpecialAdminDialog extends JDialog {
 
 	private final Kiosk kiosk;
 	
@@ -34,7 +35,7 @@ public class DailySpecialAdminDialog extends javax.swing.JDialog {
     /**
      * Creates new form DailySpecialAdminDialog
      */
-    public DailySpecialAdminDialog(Frame parent) {
+    public DailySpecialAdminDialog(Dialog parent) {
         super(parent, true);
         
 		kiosk = Kiosk.getInstance();
@@ -214,7 +215,6 @@ public class DailySpecialAdminDialog extends javax.swing.JDialog {
 			panelMap.put(s, panel);
 		}
 	}
-	
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JButton closeButton;

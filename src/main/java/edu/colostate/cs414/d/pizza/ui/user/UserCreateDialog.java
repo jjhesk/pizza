@@ -193,7 +193,10 @@ public class UserCreateDialog extends JDialog {
 			return;
 		}
 		
-		Kiosk.getInstance().addUser(user, password, type);
+		if (!Kiosk.getInstance().addUser(user, password, type)) {
+			error("A user with that name already exists.");
+			return;
+		}
 		
 		dispose();
     }//GEN-LAST:event_saveButtonActionPerformed

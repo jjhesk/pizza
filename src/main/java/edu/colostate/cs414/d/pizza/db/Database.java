@@ -112,15 +112,15 @@ public class Database {
 
     //Take out later used for testing
      
-    public static void main(String args[]) throws SQLException {
-
-        Database database = new Database();
-
-        PreparedStatement preparedStatement = database.connection.prepareStatement("SELECT * FROM User");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
-        }
-    }
+//    public static void main(String args[]) throws SQLException {
+//
+//        Database database = new Database();
+//
+//        PreparedStatement preparedStatement = database.connection.prepareStatement("SELECT * FROM User");
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//        while (resultSet.next()) {
+//            System.out.println(resultSet.getString(1) + " " + resultSet.getString(2));
+//        }
+//    }
      
 }

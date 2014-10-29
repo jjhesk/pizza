@@ -579,8 +579,8 @@ public class PaymentDialog extends javax.swing.JDialog {
             return;
         }
         
-        if(totalGiven <= 0){
-            error("Check total from check must bigger than 0");
+        if(totalGiven < 0){
+            error("Check total from check must be 0 or bigger");
             return;
         }
         
@@ -675,8 +675,8 @@ public class PaymentDialog extends javax.swing.JDialog {
     private void cashSubmitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cashSubmitActionPerformed
         double totalGiven = (double) cashTotalGiven.getValue();
         
-        if(totalGiven <= 0){
-            error("Cash total must bigger than 0");
+        if(totalGiven < 0){
+            error("Cash total must 0 or bigger");
             return;
         }
         

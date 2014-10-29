@@ -6,6 +6,7 @@ import edu.colostate.cs414.d.pizza.api.menu.MenuManager;
 import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderItem;
 import edu.colostate.cs414.d.pizza.api.order.OrderManager;
+import edu.colostate.cs414.d.pizza.api.order.payment.CashPayment;
 import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.api.user.UserManager;
 import edu.colostate.cs414.d.pizza.api.user.UserType;
@@ -100,6 +101,21 @@ public class Kiosk {
 	public double calculateSubtotal(Order order, List<DailySpecial> dailySpecials) {
 		return orderManager.calculateSubtotal(order, dailySpecials, this.viewDailySpecials());
 	}
+        
+        public void submitCashPayment(Order order, double amountGiven) {
+            
+        }
+        
+        public void submitCheckPayment(Order order, String name, int routingNo,
+                int accountNo, int checkNo, double amtGiven) {
+            
+        }
+        
+        public void submitCardPayment(Order order, String name, int cardNo,
+                int secCode, int expYear, int expMonth, String billingAddr,
+                String billingCity, String billingZipCode) {
+            
+        }
 
     //Completing Order
 	public void completeOrder(Order order) {

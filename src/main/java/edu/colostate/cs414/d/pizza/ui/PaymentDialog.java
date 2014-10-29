@@ -600,6 +600,7 @@ public class PaymentDialog extends javax.swing.JDialog {
         }
         
         this.order.setStatus(OrderStatus.PENDING);
+        this.order.setTotal(total);
         
         double change = totalGiven - total;
         JOptionPane.showMessageDialog(this, "Thank you for the payment the change is: " + String.format("$%.2f", change) + ". The order was placed");
@@ -656,6 +657,7 @@ public class PaymentDialog extends javax.swing.JDialog {
         }
         
         this.order.setStatus(OrderStatus.PENDING);
+        this.order.setTotal(total);
         
         JOptionPane.showMessageDialog(this, "Thank you for the payment, the order was placed");
 
@@ -676,7 +678,7 @@ public class PaymentDialog extends javax.swing.JDialog {
         }
         
         this.order.setStatus(OrderStatus.PENDING);
-        
+        this.order.setTotal(total);
         double change = totalGiven - total;
         JOptionPane.showMessageDialog(this, "Thank you for the payment the change is: " + String.format("$%.2f", change) + ". The order was placed");
         

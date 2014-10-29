@@ -6,7 +6,9 @@ import edu.colostate.cs414.d.pizza.api.menu.MenuManager;
 import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderItem;
 import edu.colostate.cs414.d.pizza.api.order.OrderManager;
+import edu.colostate.cs414.d.pizza.api.order.payment.CardPayment;
 import edu.colostate.cs414.d.pizza.api.order.payment.CashPayment;
+import edu.colostate.cs414.d.pizza.api.order.payment.CheckPayment;
 import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.api.user.UserManager;
 import edu.colostate.cs414.d.pizza.api.user.UserType;
@@ -103,18 +105,23 @@ public class Kiosk {
 	}
         
         public void submitCashPayment(Order order, double amountGiven) {
-            
+            CashPayment cash = new CashPayment(amountGiven);
+            order.setPayment(cash);
         }
         
         public void submitCheckPayment(Order order, String name, int routingNo,
                 int accountNo, int checkNo, double amtGiven) {
-            
+            CheckPayment check = new CheckPayment(name, routingNo, accountNo,
+                    checkNo, amtGiven);
+            order.setPayment(check);
         }
         
         public void submitCardPayment(Order order, String name, int cardNo,
                 int secCode, int expYear, int expMonth, String billingAddr,
                 String billingCity, String billingZipCode) {
-            
+            CardPayment card = new CardPayment(name, cardNo, secCode, expYear,
+                    expMonth, billingAddr, billingCity, billingZipCode);
+            order.setPayment(card);
         }
 
     //Completing Order

@@ -1,4 +1,4 @@
-package edu.colostate.cs414.d.pizza.db;
+package edu.colostate.cs414.d.pizza.test.db;
 
 import edu.colostate.cs414.d.pizza.api.user.Cashier;
 import edu.colostate.cs414.d.pizza.api.user.Chef;
@@ -6,6 +6,8 @@ import edu.colostate.cs414.d.pizza.api.user.Customer;
 import edu.colostate.cs414.d.pizza.api.user.Manager;
 import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.api.user.UserType;
+import edu.colostate.cs414.d.pizza.db.Database;
+import edu.colostate.cs414.d.pizza.db.UserDatabaseController;
 import edu.colostate.cs414.d.pizza.utilities.Utility;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

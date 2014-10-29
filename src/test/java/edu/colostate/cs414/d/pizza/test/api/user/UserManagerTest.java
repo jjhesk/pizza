@@ -1,5 +1,9 @@
-package edu.colostate.cs414.d.pizza.api.user;
+package edu.colostate.cs414.d.pizza.test.api.user;
 
+import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.api.user.UserFactory;
+import edu.colostate.cs414.d.pizza.api.user.UserManager;
+import edu.colostate.cs414.d.pizza.api.user.UserType;
 import java.util.List;
 
 import edu.colostate.cs414.d.pizza.utilities.Utility;

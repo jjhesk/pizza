@@ -1,6 +1,8 @@
-package edu.colostate.cs414.d.pizza.db;
+package edu.colostate.cs414.d.pizza.test.db;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.db.Database;
+import edu.colostate.cs414.d.pizza.db.MenuDatabaseController;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

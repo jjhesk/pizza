@@ -1,5 +1,8 @@
-package edu.colostate.cs414.d.pizza.api.menu;
+package edu.colostate.cs414.d.pizza.test.api.menu;
 
+import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
+import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.MenuManager;
 import java.util.ArrayList;
 import java.util.List;
 

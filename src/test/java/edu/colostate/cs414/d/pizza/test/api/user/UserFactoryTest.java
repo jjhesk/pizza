@@ -1,5 +1,12 @@
-package edu.colostate.cs414.d.pizza.api.user;
+package edu.colostate.cs414.d.pizza.test.api.user;
 
+import edu.colostate.cs414.d.pizza.api.user.Cashier;
+import edu.colostate.cs414.d.pizza.api.user.Chef;
+import edu.colostate.cs414.d.pizza.api.user.Customer;
+import edu.colostate.cs414.d.pizza.api.user.Manager;
+import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.api.user.UserFactory;
+import edu.colostate.cs414.d.pizza.api.user.UserType;
 import edu.colostate.cs414.d.pizza.utilities.Utility;
 import org.junit.After;
 import org.junit.AfterClass;

@@ -19,6 +19,7 @@ public class UserManagerTest {
     public void setUp() {
         Utility.removeDataFromDatabase();
         userManager = new UserManager();
+        userFactory = new UserFactory();
         userManager.enableTest();
         userManager.addUser("Michael", "Password1234",(UserType.CASHIER));
         userManager.addUser("Rawlin", "cookingaway",(UserType.CHEF));

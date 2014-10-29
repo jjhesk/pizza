@@ -160,6 +160,11 @@ public class UserAdminDialog extends JDialog {
 		
 		User user = listModel.getUser(index);
 		
+		if (kiosk.getLoggedInUser().equals(user)) {
+			error("You can't delete yourself.");
+			return;
+		}
+		
 		int ret = JOptionPane.showOptionDialog(this,
                 String.format("Really delete user %s?", user.getUserName()),
                 "Confirm",

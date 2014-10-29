@@ -5,3 +5,35 @@ Jeff Stern
 CS414
 
 Pizza Ordering System
+
+Installation and Usage
+======================
+
+This project uses Maven and can be installed as such:
+
+    mvn install
+
+A jar file will be generated under the `target/` directory. It can be run with:
+
+    java -jar target/pizza-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+Running Unit Tests
+==================
+
+Unit tests are skipped by default, but can be run with:
+
+    mvn test -DskipTests=false
+
+Usage in IDEs
+=============
+
+NetBeans and IntelliJ IDEA both natively support Maven projects and can open it
+use it without any trouble. Eclipse (on department machines) cannot without
+additional plugins.
+
+NetBeans is recommended and can be run using:
+
+    /usr/local/netbeans-8.0/bin/netbeans
+
+The project can then be opened by browsing to the directory. It can be built,
+run, and tested using the standard IDE actions.

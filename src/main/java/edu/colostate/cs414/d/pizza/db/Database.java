@@ -90,7 +90,7 @@ public class Database {
         logger.debug("Searching for config file: {}", config);
 
         // check on classpath (db.properties in src/main/resources/)
-        InputStream is = getClass().getResourceAsStream(config);
+        InputStream is = getClass().getResourceAsStream("/" + config);
         if (is != null) {
             logger.debug("Config file {} found in classpath", config);
             return is;

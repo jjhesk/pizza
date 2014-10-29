@@ -29,7 +29,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>edu.colostate.cs414.d.pizza.Kiosk</mainClass>
+                            <mainClass>edu.colostate.cs414.d.pizza.ui.menu.MenuFrame</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -42,7 +42,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>edu.colostate.cs414.d.pizza.Kiosk</mainClass>
+                            <mainClass>edu.colostate.cs414.d.pizza.ui.menu.MenuFrame</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

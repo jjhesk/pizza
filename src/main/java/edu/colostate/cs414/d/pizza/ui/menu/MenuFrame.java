@@ -54,6 +54,9 @@ public class MenuFrame extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        adminMenu = new JMenu();
+        editMenuItem = new JMenuItem();
+        chefMenuItem = new JMenuItem();
         menuWrapperScroll = new JScrollPane();
         menuWrapper = new JPanel();
         buttonWrapper = new JPanel();
@@ -69,9 +72,24 @@ public class MenuFrame extends JFrame {
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
         exitItem = new JMenuItem();
-        adminMenu = new JMenu();
-        editMenuItem = new JMenuItem();
-        chefMenuItem = new JMenuItem();
+
+        adminMenu.setText("Admin");
+
+        editMenuItem.setText("Edit Menu");
+        editMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editMenuItemActionPerformed(evt);
+            }
+        });
+        adminMenu.add(editMenuItem);
+
+        chefMenuItem.setText("Chef Menu");
+        chefMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                chefMenuItemActionPerformed(evt);
+            }
+        });
+        adminMenu.add(chefMenuItem);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Menu");
@@ -174,26 +192,6 @@ public class MenuFrame extends JFrame {
         fileMenu.add(exitItem);
 
         menuBar.add(fileMenu);
-
-        adminMenu.setText("Admin");
-
-        editMenuItem.setText("Edit Menu");
-        editMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                editMenuItemActionPerformed(evt);
-            }
-        });
-        adminMenu.add(editMenuItem);
-
-        chefMenuItem.setText("Chef Menu");
-        chefMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                chefMenuItemActionPerformed(evt);
-            }
-        });
-        adminMenu.add(chefMenuItem);
-
-        menuBar.add(adminMenu);
 
         setJMenuBar(menuBar);
 

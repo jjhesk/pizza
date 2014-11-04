@@ -7,6 +7,7 @@ public class PizzaServerConfig extends ResourceConfig {
 
     public PizzaServerConfig() {
         super(MenuResource.class,
+                AuthenticationFilter.class,
                 JacksonFeature.class);
     }
     

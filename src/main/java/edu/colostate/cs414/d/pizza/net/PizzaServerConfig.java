@@ -1,5 +1,6 @@
 package edu.colostate.cs414.d.pizza.net;
 
+import edu.colostate.cs414.d.pizza.net.res.MenuResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 

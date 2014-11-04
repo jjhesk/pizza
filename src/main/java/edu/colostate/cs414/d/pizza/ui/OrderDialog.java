@@ -307,7 +307,6 @@ public class OrderDialog extends JDialog {
         
         Order order = createOrder();
         
-        // TODO: show payment dialog here
         double total = updateTotals();
         
         if(orderTableModel.getItems().isEmpty()){

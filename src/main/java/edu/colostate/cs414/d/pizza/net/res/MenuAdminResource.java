@@ -1,7 +1,9 @@
-package edu.colostate.cs414.d.pizza.net;
+package edu.colostate.cs414.d.pizza.net.res;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.net.Errors;
+import edu.colostate.cs414.d.pizza.net.UserRole;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.POST;
@@ -19,11 +21,11 @@ public class MenuAdminResource {
     @RolesAllowed(UserRole.MANAGER)
     public MenuItem itemCreate(String name, double price, String description) {
         if (name == null || name.isEmpty()) {
-            throw new BadRequestException("A non-empty name is required");
+            throw Errors.badRequest("A non-empty name is required");
         }
         
         if (price < 0) {
-            throw new BadRequestException("Price must not be less than zero");
+            throw Errors.badRequest("Price must not be less than zero");
         }
         
         if (description == null) {
@@ -44,7 +46,7 @@ public class MenuAdminResource {
         // TODO: need some way to get a menu item by id
         MenuItem item = null;
         if (item == null) {
-            throw new BadRequestException("No item with id " + itemId + " found");
+            throw Errors.badRequest("No item with id " + itemId + " found");
         }
         
         Kiosk.getInstance().removeMenuItem(item);

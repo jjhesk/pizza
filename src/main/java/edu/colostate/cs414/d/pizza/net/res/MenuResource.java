@@ -1,4 +1,4 @@
-package edu.colostate.cs414.d.pizza.net;
+package edu.colostate.cs414.d.pizza.net.res;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;

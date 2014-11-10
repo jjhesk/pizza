@@ -1,5 +1,6 @@
 package edu.colostate.cs414.d.pizza.api.menu;
 
+import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.db.CouponDatabaseController;
 import edu.colostate.cs414.d.pizza.db.DailySpecialDatabaseController;
 import edu.colostate.cs414.d.pizza.db.MenuDatabaseController;
@@ -140,4 +141,31 @@ public class MenuManager {
     }
 
     public void enableTest(){ this.testing = true; }
+
+    public DailySpecial getDailySpecial(int id) {
+        for(DailySpecial dailySpecial : this.dailySpecials){
+            if(dailySpecial.getID() == id){
+                return dailySpecial;
+            }
+        }
+        return null;
+    }
+
+    public MenuItem getMenuItem(int id) {
+        for(MenuItem menuItem : this.menuItems){
+            if(menuItem.getId() == id){
+                return menuItem;
+            }
+        }
+        return null;
+    }
+
+    public Coupon getCoupon(int id) {
+        for(Coupon coupon : this.coupons){
+            if(coupon.getId() == id){
+                return coupon;
+            }
+        }
+        return null;
+    }
 }

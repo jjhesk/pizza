@@ -87,4 +87,13 @@ public class OrderManager {
         }
         return deliveredOrders;
     }
+
+    public Order getOrder(int id) {
+        for(Order order : this.orders){
+            if(order.getId() == id){
+                return order;
+            }
+        }
+        return null;
+    }
 }

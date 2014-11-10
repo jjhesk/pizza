@@ -64,4 +64,13 @@ public class UserManager {
     }
 
     public void enableTest(){ this.testing = true; }
+
+    public User getUser(String userName) {
+        for (User user : this.users){
+            if(user.getUserName().compareTo(userName) == 0){
+                return user;
+            }
+        }
+        return null;
+    }
 }

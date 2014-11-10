@@ -166,4 +166,14 @@ public class Kiosk {
     public void removeCoupon(Coupon coupon){
         menuManager.removeCoupon(coupon);
     }
+
+    public User getUser(String userName){ return userManager.getUser(userName); }
+
+    public DailySpecial getDailySpecial(int id){ return menuManager.getDailySpecial(id); }
+
+    public MenuItem getMenuItem(int id){ return menuManager.getMenuItem(id); }
+
+    public Order getOrder(int id){ return orderManager.getOrder(id); }
+
+    public Coupon getCoupon(int id){ return menuManager.getCoupon(id);}
 }

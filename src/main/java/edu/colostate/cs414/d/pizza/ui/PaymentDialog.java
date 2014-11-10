@@ -601,10 +601,10 @@ public class PaymentDialog extends javax.swing.JDialog {
         
         this.order.setStatus(OrderStatus.PENDING);
         this.order.setTotal(total);
-        kiosk.submitCheckPayment(this.order, checkName.getText(), 
+        /*kiosk.submitCheckPayment(this.order, checkName.getText(),
                 Integer.parseInt(checkRouting.getText()), 
                 Integer.parseInt(checkAccountNumber.getText()),
-                Integer.parseInt(checkNumber.getText()), totalGiven);
+                Integer.parseInt(checkNumber.getText()), totalGiven);*/
         double change = totalGiven - total;
         JOptionPane.showMessageDialog(this, "Thank you for the payment the change is: " + String.format("$%.2f", change) + ". The order was placed");
 
@@ -661,12 +661,12 @@ public class PaymentDialog extends javax.swing.JDialog {
         
         this.order.setStatus(OrderStatus.PENDING);
         this.order.setTotal(total);
-        kiosk.submitCardPayment(this.order, creditCardName.getText(),
+        /*kiosk.submitCardPayment(this.order, creditCardName.getText(),
                 Integer.parseInt(creditCardNumber.getText()),
                 Integer.parseInt(creditSecurityCode.getText()),
                 Integer.parseInt(yearExpiration),
                 Integer.parseInt(monthExpiration), creditBillingAddress.getText(),
-                creditCity.getText(), creditZipCode.getText());
+                creditCity.getText(), creditZipCode.getText());*/
         JOptionPane.showMessageDialog(this, "Thank you for the payment, the order was placed");
 
         dispose();
@@ -687,7 +687,7 @@ public class PaymentDialog extends javax.swing.JDialog {
         
         this.order.setStatus(OrderStatus.PENDING);
         this.order.setTotal(total);
-        kiosk.submitCashPayment(this.order, totalGiven);
+        //kiosk.submitCashPayment(this.order, totalGiven);
         double change = totalGiven - total;
         JOptionPane.showMessageDialog(this, "Thank you for the payment the change is: " + String.format("$%.2f", change) + ". The order was placed");
         

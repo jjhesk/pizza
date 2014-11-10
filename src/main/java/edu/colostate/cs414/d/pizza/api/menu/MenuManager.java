@@ -168,4 +168,14 @@ public class MenuManager {
         }
         return null;
     }
+
+    public List<Coupon> getActiveCoupons() {
+        ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+        for (Coupon coupon : this.coupons) {
+            if(coupon.isActive()) {
+                coupons.add(coupon);
+            }
+        }
+        return coupons;
+    }
 }

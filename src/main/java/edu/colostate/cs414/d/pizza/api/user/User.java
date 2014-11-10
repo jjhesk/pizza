@@ -10,13 +10,24 @@ public class User {
 
     private UserType userType;
 
-	public User(String userName, String password, UserType userType) {
+    private int rewardPoints;
+
+	public User(String userName, String password, UserType userType, int rewardPoints) {
 		this.userName = userName;
         this.password = password;
         this.userType = userType;
+        this.rewardPoints = rewardPoints;
 	}
 
-	public String getUserName() {
+    public int getRewardPoints() {
+        return rewardPoints;
+    }
+
+    public void setRewardPoints(int rewardPoints) {
+        this.rewardPoints = rewardPoints;
+    }
+
+    public String getUserName() {
 		return userName;
 	}
 

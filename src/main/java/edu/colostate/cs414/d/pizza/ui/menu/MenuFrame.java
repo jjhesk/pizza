@@ -4,6 +4,7 @@ import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.user.Chef;
 import edu.colostate.cs414.d.pizza.api.user.Manager;
 import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.ui.DeliveredOrdersFrame;
 import edu.colostate.cs414.d.pizza.ui.LoginDialog;
 import edu.colostate.cs414.d.pizza.ui.OrderDialog;
 import edu.colostate.cs414.d.pizza.ui.PendingOrderFrame;
@@ -73,6 +74,7 @@ public class MenuFrame extends JFrame {
         buttonRightPanel = new JPanel();
         loginButton = new JButton();
         logoutButton = new JButton();
+        deliveredOrders = new JButton();
         menuBar = new JMenuBar();
         fileMenu = new JMenu();
         exitItem = new JMenuItem();
@@ -101,7 +103,6 @@ public class MenuFrame extends JFrame {
         menuWrapperScroll.setBorder(null);
         menuWrapperScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        menuWrapper.setBorder(null);
         menuWrapper.setLayout(new BorderLayout());
         menuWrapperScroll.setViewportView(menuWrapper);
 
@@ -154,6 +155,7 @@ public class MenuFrame extends JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
+        buttonRightPanel.add(loginButton);
 
         logoutButton.setText("Logout");
         logoutButton.addActionListener(new ActionListener() {
@@ -161,27 +163,15 @@ public class MenuFrame extends JFrame {
                 logoutButtonActionPerformed(evt);
             }
         });
+        buttonRightPanel.add(logoutButton);
 
-        GroupLayout buttonRightPanelLayout = new GroupLayout(buttonRightPanel);
-        buttonRightPanel.setLayout(buttonRightPanelLayout);
-        buttonRightPanelLayout.setHorizontalGroup(
-            buttonRightPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(buttonRightPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(buttonRightPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(loginButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(logoutButton, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        buttonRightPanelLayout.setVerticalGroup(
-            buttonRightPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(GroupLayout.Alignment.TRAILING, buttonRightPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(logoutButton)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(loginButton)
-                .addContainerGap())
-        );
+        deliveredOrders.setText("Delivered");
+        deliveredOrders.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                deliveredOrdersActionPerformed(evt);
+            }
+        });
+        buttonRightPanel.add(deliveredOrders);
 
         buttonWrapper.add(buttonRightPanel, BorderLayout.EAST);
 
@@ -201,13 +191,11 @@ public class MenuFrame extends JFrame {
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(menuWrapperScroll, GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
-            .addComponent(buttonWrapper, GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(menuWrapperScroll, GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
+            .addComponent(buttonWrapper, GroupLayout.PREFERRED_SIZE, 661, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menuWrapperScroll, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -288,6 +276,12 @@ public class MenuFrame extends JFrame {
 		UserAdminDialog d = new UserAdminDialog(this);
 		d.setVisible(true);
     }//GEN-LAST:event_editUsersButtonActionPerformed
+
+    private void deliveredOrdersActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deliveredOrdersActionPerformed
+        // TODO add your handling code here:
+                DeliveredOrdersFrame f = new DeliveredOrdersFrame(kiosk);
+		f.setVisible(true);
+    }//GEN-LAST:event_deliveredOrdersActionPerformed
 	
     private void initUserButtons() {
         User user = kiosk.getLoggedInUser();
@@ -299,10 +293,12 @@ public class MenuFrame extends JFrame {
             
             loginButton.setVisible(true);
             logoutButton.setVisible(false);
+            deliveredOrders.setVisible(false);
+            
         } else {
             loginButton.setVisible(false);
             logoutButton.setVisible(true);
-            
+            deliveredOrders.setVisible(true);
             if (user instanceof Chef) {
                 chefViewButton.setVisible(true);
                 editMenuButton.setVisible(false);
@@ -381,6 +377,7 @@ public class MenuFrame extends JFrame {
     private JPanel buttonWrapper;
     private JMenuItem chefMenuItem;
     private JButton chefViewButton;
+    private JButton deliveredOrders;
     private JButton editMenuButton;
     private JMenuItem editMenuItem;
     private JButton editUsersButton;

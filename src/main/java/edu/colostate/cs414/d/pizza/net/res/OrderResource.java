@@ -39,6 +39,14 @@ public class OrderResource {
         return Response.ok().build();
     }
     
+    @Path("/history")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed(UserRole.CUSTOMER)
+    public List<Order> viewUserHistory() {
+        // TODO order history
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+    
     @Path("/view-pending")
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.CHEF)
@@ -50,8 +58,7 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.CHEF)
     public Response complete(int id) {
-        // TODO: need a way to get orders by id
-        Order order = null; // OrderManager.getOrder(id) ?
+        Order order = Kiosk.getInstance().getOrder(id);
         if (order == null) {
             throw Errors.badRequest("No order found with the given id: " + id);
         }

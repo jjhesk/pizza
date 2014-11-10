@@ -2,8 +2,10 @@ package edu.colostate.cs414.d.pizza.net.res;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
+import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.net.Errors;
 import edu.colostate.cs414.d.pizza.net.UserRole;
+import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
@@ -19,21 +21,32 @@ public class DailySpecialAdminResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.MANAGER)
-    public Response specialCreate(List<Integer> itemIds, double price) {
-        // TODO
-        
-        if (true) {
-            throw new UnsupportedOperationException("not implemented yet");
+    public Response specialCreate(DailySpecial special) {
+        if (special.getItems().isEmpty()) {
+            throw Errors.badRequest("Specials must contain at least one item");
         }
+        
+        List<MenuItem> foundItems = new LinkedList<>();
+        for (MenuItem rawItem : special.getItems()) {
+            MenuItem i = Kiosk.getInstance().getMenuItem(rawItem.getId());
+            if (i == null) {
+                throw Errors.badRequest("No menu item found with id: " + i.getId());
+            }
+            
+            foundItems.add(i);
+        }
+        
+        Kiosk.getInstance().createDailySpecial(foundItems, special.getPrice());
         
         return Response.ok().build();
     }
     
     @Path("/remove")
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.MANAGER)
     public Response specialRemove(int id) {
-        DailySpecial special = null; // getSpecial(id) ?
+        DailySpecial special = Kiosk.getInstance().getDailySpecial(id);
         if (special == null) {
             throw Errors.badRequest("No special found with id: " + id);
         }

@@ -25,8 +25,7 @@ public class DailySpecialResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public List<OrderItem> getItems(int id) {
-        // TODO: need some way to get specials by ID
-        DailySpecial special = null; // getSpecial(id) ?
+        DailySpecial special = Kiosk.getInstance().getDailySpecial(id);
         if (special == null) {
             throw Errors.badRequest("No special found with id: " + id);
         }

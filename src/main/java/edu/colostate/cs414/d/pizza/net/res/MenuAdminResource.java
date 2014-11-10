@@ -43,8 +43,7 @@ public class MenuAdminResource {
     @POST
     @RolesAllowed(UserRole.MANAGER)
     public Response itemRemove(int itemId) {
-        // TODO: need some way to get a menu item by id
-        MenuItem item = null;
+        MenuItem item = Kiosk.getInstance().getMenuItem(itemId);
         if (item == null) {
             throw Errors.badRequest("No item with id " + itemId + " found");
         }

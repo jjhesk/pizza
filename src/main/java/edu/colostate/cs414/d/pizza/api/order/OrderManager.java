@@ -77,4 +77,14 @@ public class OrderManager {
     }
 
     public void enableTest(){ this.testing = true; }
+
+    public List<Order> getDeliveredOrders() {
+        List<Order> deliveredOrders = new ArrayList<Order>();
+        for (Order order : this.orders) {
+            if (order.getStatus() == OrderStatus.COMPLETE && order.getType() == OrderType.DELIVERY) {
+                deliveredOrders.add(order);
+            }
+        }
+        return deliveredOrders;
+    }
 }

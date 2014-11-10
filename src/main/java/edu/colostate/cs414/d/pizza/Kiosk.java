@@ -48,6 +48,9 @@ public class Kiosk {
             return orderManager.getPendingOrders();
 	}
 
+    //View delivered Orders (returns delivered orders)
+    public List<Order> getDeliveredOrders() { return orderManager.getDeliveredOrders();}
+
     public List<OrderItem> viewOrderItems(Order order) {
         return orderManager.getOrderItems(order);
     }
@@ -163,5 +166,4 @@ public class Kiosk {
     public void removeCoupon(Coupon coupon){
         menuManager.removeCoupon(coupon);
     }
-
 }

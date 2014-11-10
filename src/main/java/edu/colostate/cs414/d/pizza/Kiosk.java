@@ -157,11 +157,10 @@ public class Kiosk {
         this.loggedInUser = user;
     }
 
-    //View Menu (returns active menu items)
+    //View coupons (returns active coupons)
     public List<Coupon> viewCoupons(){
         return menuManager.getActiveCoupons();
     }
-
 
     //Deleting, adding coupons
 

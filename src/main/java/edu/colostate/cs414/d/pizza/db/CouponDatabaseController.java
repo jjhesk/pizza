@@ -11,10 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CouponController {
+public class CouponDatabaseController {
     private Connection connection;
 
-    public CouponController(){
+    public CouponDatabaseController(){
         connection = Database.getInstance().getConnection();
     }
 

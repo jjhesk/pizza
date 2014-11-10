@@ -1,5 +1,6 @@
 package edu.colostate.cs414.d.pizza.api.menu;
 
+import edu.colostate.cs414.d.pizza.db.CouponDatabaseController;
 import edu.colostate.cs414.d.pizza.db.DailySpecialDatabaseController;
 import edu.colostate.cs414.d.pizza.db.MenuDatabaseController;
 
@@ -14,19 +15,24 @@ public class MenuManager {
 
     private MenuDatabaseController menuDatabase;
     private DailySpecialDatabaseController dailySpecialDatabase;
+    private CouponDatabaseController couponDatabaseController;
 
     private List<MenuItem> menuItems;
 
     private List<DailySpecial> dailySpecials;
+
+    private List<Coupon> coupons;
 	
 	public MenuManager() {
         menuDatabase  = new MenuDatabaseController();
         dailySpecialDatabase = new DailySpecialDatabaseController();
+        couponDatabaseController = new CouponDatabaseController();
         menuItems = new ArrayList<MenuItem>();
+        coupons = new ArrayList<Coupon>();
         menuDatabase.getMenu(menuItems);
         dailySpecials = new ArrayList<DailySpecial>();
         dailySpecialDatabase.getDailySpecials(dailySpecials, menuItems);
-
+        couponDatabaseController.getCoupons(coupons,menuItems);
 	}
 
     public static MenuManager getInstance() {
@@ -46,6 +52,7 @@ public class MenuManager {
             if(!testing) menuDatabase.setExpired(menuItem);
         }
         this.checkDailySpecials();
+        this.checkCoupons();
     }
 
     //returns current menu Items
@@ -76,6 +83,7 @@ public class MenuManager {
         item.setActive(false);
         if(!testing) menuDatabase.setExpired(item);
         this.checkDailySpecials();
+        this.checkCoupons();
 	}
 
     //returns current daily specials
@@ -109,6 +117,26 @@ public class MenuManager {
                 }
             }
         }
+    }
+
+    public void checkCoupons(){
+        for (Coupon coupon : this.coupons) {
+            if(coupon.isActive()) {
+                if(!coupon.getMenuItem().isActive()) {
+                    if(!testing) couponDatabaseController.setExpired(coupon);
+                }
+            }
+        }
+    }
+
+    public void addCoupon(Coupon coupon) {
+        this.coupons.add(coupon);
+        if(!testing) couponDatabaseController.addCoupon(coupon);
+    }
+
+    public void removeCoupon(Coupon coupon) {
+        coupon.setActive(false);
+        if(!testing) couponDatabaseController.setExpired(coupon);
     }
 
     public void enableTest(){ this.testing = true; }

@@ -1,5 +1,6 @@
 package edu.colostate.cs414.d.pizza;
 
+import edu.colostate.cs414.d.pizza.api.menu.Coupon;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.api.menu.MenuManager;
@@ -104,25 +105,24 @@ public class Kiosk {
 		return orderManager.calculateSubtotal(order, dailySpecials, this.viewDailySpecials());
 	}
         
-        public void submitCashPayment(Order order, double amountGiven) {
-            CashPayment cash = new CashPayment(amountGiven);
-            order.setPayment(cash);
-        }
+    public void submitCashPayment(Order order, double amountGiven) {
+        CashPayment cash = new CashPayment(amountGiven);
+        order.setPayment(cash);
+    }
         
-        public void submitCheckPayment(Order order, String name, int routingNo,
-                int accountNo, int checkNo, double amtGiven) {
-            CheckPayment check = new CheckPayment(name, routingNo, accountNo,
-                    checkNo, amtGiven);
-            order.setPayment(check);
-        }
+    public void submitCheckPayment(Order order, String name, int routingNo,
+        int accountNo, int checkNo, double amtGiven) {
+        CheckPayment check = new CheckPayment(name, routingNo, accountNo, checkNo, amtGiven);
+        order.setPayment(check);
+    }
         
-        public void submitCardPayment(Order order, String name, int cardNo,
-                int secCode, int expYear, int expMonth, String billingAddr,
-                String billingCity, String billingZipCode) {
-            CardPayment card = new CardPayment(name, cardNo, secCode, expYear,
-                    expMonth, billingAddr, billingCity, billingZipCode);
-            order.setPayment(card);
-        }
+    public void submitCardPayment(Order order, String name, int cardNo,
+        int secCode, int expYear, int expMonth, String billingAddr,
+        String billingCity, String billingZipCode) {
+        CardPayment card = new CardPayment(name, cardNo, secCode, expYear,
+        expMonth, billingAddr, billingCity, billingZipCode);
+        order.setPayment(card);
+    }
 
     //Completing Order
 	public void completeOrder(Order order) {
@@ -152,6 +152,16 @@ public class Kiosk {
     
     public void loginUser(User user) {
         this.loggedInUser = user;
+    }
+
+    //Deleting, adding coupons
+
+    public void addCoupon(Coupon coupon){
+        menuManager.addCoupon(coupon);
+    }
+
+    public void removeCoupon(Coupon coupon){
+        menuManager.removeCoupon(coupon);
     }
 
 }

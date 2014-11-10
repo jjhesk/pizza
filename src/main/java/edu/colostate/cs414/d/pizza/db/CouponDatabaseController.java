@@ -61,7 +61,7 @@ public class CouponDatabaseController {
     }
 
     public void setExpired(Coupon coupon) {
-        String query = "UPDATE MenuItem SET status = 'expired' WHERE couponID = ?";
+        String query = "UPDATE Coupon SET status = 'expired' WHERE couponID = ?";
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(query);

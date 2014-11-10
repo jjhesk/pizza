@@ -2,6 +2,7 @@ package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.ui.coupon.CouponAdminDialog;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemRemoveEvent;
@@ -62,6 +63,7 @@ public class MenuEditDialog extends JDialog {
         menuWrapper = new JPanel();
         newMenuButton = new JButton();
         specialsButton = new JButton();
+        CertificateButton = new JButton();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Edit Menu");
@@ -90,29 +92,37 @@ public class MenuEditDialog extends JDialog {
             }
         });
 
+        CertificateButton.setText("Certificates");
+        CertificateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                CertificateButtonActionPerformed(evt);
+            }
+        });
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(newMenuButton)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(specialsButton)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CertificateButton)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(closeButton)
                 .addContainerGap())
             .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(closeButton)
                     .addComponent(newMenuButton)
-                    .addComponent(specialsButton))
+                    .addComponent(specialsButton)
+                    .addComponent(CertificateButton))
                 .addContainerGap())
         );
 
@@ -142,6 +152,11 @@ public class MenuEditDialog extends JDialog {
         DailySpecialAdminDialog d = new DailySpecialAdminDialog(this);
 		d.setVisible(true);
     }//GEN-LAST:event_specialsButtonActionPerformed
+
+    private void CertificateButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_CertificateButtonActionPerformed
+        CouponAdminDialog d = new CouponAdminDialog(this);
+        d.setVisible(true);
+    }//GEN-LAST:event_CertificateButtonActionPerformed
 
 	private void initMenu() {
 		menuPanel = new MenuPanel(kiosk.viewMenu(), MenuFeature.ADMIN, 2);
@@ -192,6 +207,7 @@ public class MenuEditDialog extends JDialog {
 	private MenuPanel menuPanel;
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton CertificateButton;
     private JButton closeButton;
     private JPanel menuWrapper;
     private JButton newMenuButton;

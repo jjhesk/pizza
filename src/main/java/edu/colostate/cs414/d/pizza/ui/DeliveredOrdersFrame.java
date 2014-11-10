@@ -62,7 +62,7 @@ public class DeliveredOrdersFrame extends javax.swing.JFrame {
         });
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pending Orders");
+        setTitle("Delivered Orders");
 
         orderTable.setModel(new DefaultTableModel(
             new Object [][] {

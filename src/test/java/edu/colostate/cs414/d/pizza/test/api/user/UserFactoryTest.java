@@ -27,28 +27,28 @@ public class UserFactoryTest {
     @Test
     public void testCreateUserManager() {
         UserType userType = UserType.MANAGER;
-        User user = userFactory.createUser(userType, "Rawlin", "passwordsaredumb");
+        User user = userFactory.createUser(userType, "Rawlin", "passwordsaredumb",0);
         assertTrue(user instanceof Manager);
     }
 
     @Test
     public void testCreateUserCustomer() {
         UserType userType = UserType.CUSTOMER;
-        User user = userFactory.createUser(userType, "Michael", "IWANNAEAT");
+        User user = userFactory.createUser(userType, "Michael", "IWANNAEAT",0);
         assertTrue(user instanceof Customer);
     }
 
     @Test
     public void testCreateUserCashier() {
         UserType userType = UserType.CASHIER;
-        User user = userFactory.createUser(userType, "Jeff", "chaching");
+        User user = userFactory.createUser(userType, "Jeff", "chaching",0);
         assertTrue(user instanceof Cashier);
     }
 
     @Test
     public void testCreateUserChef() {
         UserType userType = UserType.CHEF;
-        User user = userFactory.createUser(userType, "Tim", "Cookofftime");
+        User user = userFactory.createUser(userType, "Tim", "Cookofftime",0);
         assertTrue(user instanceof Chef);
     }
     

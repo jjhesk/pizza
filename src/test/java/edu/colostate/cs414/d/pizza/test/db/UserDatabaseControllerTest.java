@@ -31,10 +31,10 @@ public class UserDatabaseControllerTest {
         Utility.removeDataFromDatabase();
         userDB = Database.getInstance().getConnection();
         List<String> queries = Arrays.asList(
-                "INSERT INTO User (userName, password, userType) VALUES ('cashier', 'pw', 'cashier');",
-                "INSERT INTO User (userName, password, userType) VALUES ('chef', 'pw', 'chef');",
-                "INSERT INTO User (userName, password, userType) VALUES ('customer', 'pw', 'customer');",
-                "INSERT INTO User (userName, password, userType) VALUES ('manager', 'pw', 'manager');"
+                "INSERT INTO User (userName, password, userType,rewardpoints) VALUES ('cashier', 'pw', 'cashier',0);",
+                "INSERT INTO User (userName, password, userType,rewardpoints) VALUES ('chef', 'pw', 'chef',0);",
+                "INSERT INTO User (userName, password, userType,rewardpoints) VALUES ('customer', 'pw', 'customer',0);",
+                "INSERT INTO User (userName, password, userType,rewardpoints) VALUES ('manager', 'pw', 'manager',0);"
                 );
         try {
             for (String query : queries) {
@@ -57,7 +57,7 @@ public class UserDatabaseControllerTest {
         List<User> expectedUsers = new ArrayList<User>();
         expectedUsers.add(new Cashier("cashier", "pw", UserType.CASHIER));
         expectedUsers.add(new Chef("chef", "pw", UserType.CHEF));
-        expectedUsers.add(new Customer("customer", "pw", UserType.CUSTOMER));
+        expectedUsers.add(new Customer("customer", "pw", UserType.CUSTOMER,0));
         expectedUsers.add(new Manager("manager", "pw", UserType.MANAGER));
         List<User> actualUsers = new ArrayList<User>();
         UserDatabaseController instance = new UserDatabaseController();

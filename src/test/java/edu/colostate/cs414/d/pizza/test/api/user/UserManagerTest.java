@@ -44,7 +44,7 @@ public class UserManagerTest {
 
     @Test
     public void testAuthenticateUserValid() {
-        User user = userFactory.createUser(UserType.CASHIER, "Michael", "Password1234");
+        User user = userFactory.createUser(UserType.CASHIER, "Michael", "Password1234",0);
         User returnedUser = userManager.authenticateUser("Michael", "Password1234");
         assertEquals(user, returnedUser);
     }
@@ -63,21 +63,21 @@ public class UserManagerTest {
 
     @Test
     public void testAddUserValid() {
-        User newUser = userFactory.createUser(UserType.CASHIER, "Jeff", "Iamfinallyhere");
+        User newUser = userFactory.createUser(UserType.CASHIER, "Jeff", "Iamfinallyhere",0);
         boolean added = userManager.addUser("Jeff","Iamfinallyhere",UserType.CASHIER);
         assertTrue(userManager.getUsers().contains(newUser) && added);
     }
 
     @Test
     public void testAddUserInValidUserName() {
-        User newUser = userFactory.createUser(UserType.CASHIER, "Michael", "thesecondcomingofmichael");
+        User newUser = userFactory.createUser(UserType.CASHIER, "Michael", "thesecondcomingofmichael",0);
         boolean added = userManager.addUser("Michael","thesecondcomingofmichael",UserType.CASHIER);
         assertFalse(userManager.getUsers().contains(newUser) || added);
     }
 
     @Test
     public void testRemoveUserExistingUser() {
-        User user = userFactory.createUser(UserType.CASHIER, "Rawlin", "cookingaway");
+        User user = userFactory.createUser(UserType.CASHIER, "Rawlin", "cookingaway",0);
         userManager.removeUser("Rawlin");
         assertFalse(userManager.getUsers().contains(user));
         assertTrue(userManager.getUsers().size() == 2);
@@ -85,7 +85,7 @@ public class UserManagerTest {
 
     @Test
     public void testRemoveUserNonExistentUser() {
-        User user = userFactory.createUser(UserType.CASHIER, "Jeff", "javaftw");
+        User user = userFactory.createUser(UserType.CASHIER, "Jeff", "javaftw",0);
         userManager.removeUser("Jeff");
         assertTrue(userManager.getUsers().size() == 3);
     }

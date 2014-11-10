@@ -26,7 +26,7 @@ CREATE TABLE Coupon (
 
 CREATE TABLE UserOrder (
 	orderID int NOT NULL AUTO_INCREMENT,
-    userName varchar(255) NOT NULL,
+    userName varchar(255),
 	customerName varchar(255),
 	customerAddress varchar(255),
     status ENUM('new', 'pending', 'cancelled', 'complete'),

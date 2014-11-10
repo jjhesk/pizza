@@ -30,7 +30,8 @@ public class UserDatabaseController {
                 String userName = resultSet.getString("userName");
                 String password = resultSet.getString("password");
                 UserType userType = UserType.valueOf(resultSet.getString("userType").toUpperCase());
-                users.add(userFactory.createUser(userType, userName, password));
+                int rewardPoints = resultSet.getInt("rewardpoints");
+                users.add(userFactory.createUser(userType, userName, password, rewardPoints));
             }
         } catch (SQLException e) {
             e.printStackTrace();

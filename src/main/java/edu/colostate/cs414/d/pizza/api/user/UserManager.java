@@ -47,7 +47,7 @@ public class UserManager {
                 return false;
             }
         }
-        User user = userFactory.createUser(userType,userName,password);
+        User user = userFactory.createUser(userType,userName,password, 0);
         if(!testing)userDatabase.addUser(user);
         this.users.add(user);
         return true;

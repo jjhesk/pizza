@@ -2,6 +2,7 @@ CREATE TABLE User (
 	userName varchar(255) NOT NULL,
 	password varchar(255) NOT NULL,
 	userType ENUM('cashier', 'chef', 'customer', 'manager') NOT NULL,
+    rewardPoints int NOT NULL,
 	PRIMARY KEY (userName)
 );
 
@@ -14,13 +15,24 @@ CREATE TABLE MenuItem (
 	PRIMARY KEY (menuItemID)
 );
 
+CREATE TABLE Coupon (
+    couponID int NOT NULL AUTO_INCREMENT,
+    rewardPointsNeeded int NOT NULL,
+    menuItemID int NOT NULL,
+    status ENUM('active', 'expired') NOT NULL,
+    FOREIGN KEY (menuItemID) REFERENCES MenuItem(menuItemID),
+    PRIMARY KEY (couponID)
+);
+
 CREATE TABLE UserOrder (
 	orderID int NOT NULL AUTO_INCREMENT,
+    userName varchar(255) NOT NULL,
 	customerName varchar(255),
 	customerAddress varchar(255),
     status ENUM('new', 'pending', 'cancelled', 'complete'),
 	type ENUM('delivery', 'pickup', 'eatin'),
 	total double,
+    FOREIGN KEY (userName) REFERENCES User(userName),
 	PRIMARY KEY (orderID)
 );
 

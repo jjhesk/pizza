@@ -62,6 +62,7 @@ public class UserCreateDialog extends JDialog {
         typeCashierRadio = new JRadioButton();
         cancelButton = new JButton();
         saveButton = new JButton();
+        typeCustomerRadio = new JRadioButton();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Create User");
@@ -82,6 +83,11 @@ public class UserCreateDialog extends JDialog {
 
         typeGroup.add(typeCashierRadio);
         typeCashierRadio.setText("Cashier");
+        typeCashierRadio.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                typeCashierRadioActionPerformed(evt);
+            }
+        });
 
         cancelButton.setIcon(new ImageIcon(getClass().getResource("/edu/colostate/cs414/d/pizza/ui/cancel.png"))); // NOI18N
         cancelButton.setText("Cancel");
@@ -99,39 +105,47 @@ public class UserCreateDialog extends JDialog {
             }
         });
 
+        typeGroup.add(typeCustomerRadio);
+        typeCustomerRadio.setText("Customer");
+        typeCustomerRadio.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                typeCustomerRadioActionPerformed(evt);
+            }
+        });
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(userLabel)
+                    .addComponent(passwordLabel)
+                    .addComponent(confirmLabel)
+                    .addComponent(typeLabel))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(userField)
+                    .addComponent(passwordField)
+                    .addComponent(confirmField)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(userLabel)
-                            .addComponent(passwordLabel)
-                            .addComponent(confirmLabel)
-                            .addComponent(typeLabel))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(userField)
-                            .addComponent(passwordField)
-                            .addComponent(confirmField)
+                            .addComponent(typeCashierRadio)
+                            .addComponent(typeCustomerRadio)
+                            .addComponent(typeManagerRadio)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                    .addComponent(typeCashierRadio)
-                                    .addComponent(typeChefRadio)
-                                    .addComponent(typeManagerRadio))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 158, Short.MAX_VALUE)
-                        .addComponent(saveButton)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(typeChefRadio)
+                                        .addGap(96, 96, 96))
+                                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(saveButton)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)))
+                                .addComponent(cancelButton)))
+                        .addGap(0, 5, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -149,11 +163,13 @@ public class UserCreateDialog extends JDialog {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(typeLabel)
                     .addComponent(typeManagerRadio))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(typeChefRadio)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(typeCustomerRadio)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(typeCashierRadio)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(saveButton))
@@ -201,6 +217,14 @@ public class UserCreateDialog extends JDialog {
 		dispose();
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    private void typeCashierRadioActionPerformed(ActionEvent evt) {//GEN-FIRST:event_typeCashierRadioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeCashierRadioActionPerformed
+
+    private void typeCustomerRadioActionPerformed(ActionEvent evt) {//GEN-FIRST:event_typeCustomerRadioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeCustomerRadioActionPerformed
+
 	private UserType getUserType() {
 		if (typeManagerRadio.isSelected()) {
 			return UserType.MANAGER;
@@ -208,8 +232,9 @@ public class UserCreateDialog extends JDialog {
 			return UserType.CHEF;
 		} else if (typeCashierRadio.isSelected()) {
 			return UserType.CASHIER;
-		}
-		
+		} else if (typeCustomerRadio.isSelected()){
+                        return UserType.CUSTOMER;
+                }	
 		return null;
 	}
 	
@@ -225,7 +250,17 @@ public class UserCreateDialog extends JDialog {
 		typeManagerRadio.setEnabled(false);
 		typeChefRadio.setEnabled(false);
 		typeCashierRadio.setEnabled(false);
+                typeCustomerRadio.setEnabled(false);
                 cancelButton.setEnabled(false);
+	}
+        
+        public void forceCustomer() {
+		typeCustomerRadio.setSelected(true);
+		
+		typeManagerRadio.setEnabled(false);
+		typeChefRadio.setEnabled(false);
+		typeCashierRadio.setEnabled(false);
+                typeCustomerRadio.setEnabled(false);
 	}
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -237,6 +272,7 @@ public class UserCreateDialog extends JDialog {
     private JButton saveButton;
     private JRadioButton typeCashierRadio;
     private JRadioButton typeChefRadio;
+    private JRadioButton typeCustomerRadio;
     private ButtonGroup typeGroup;
     private JLabel typeLabel;
     private JRadioButton typeManagerRadio;

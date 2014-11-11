@@ -29,6 +29,14 @@
         </MenuItem>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="editUsersButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Edit Users"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editUsersButton1ActionPerformed"/>
+      </Events>
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="menuBar">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="fileMenu">
@@ -133,7 +141,7 @@
         <Container class="javax.swing.JPanel" name="buttonLeftPanel">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[100, 71]"/>
+              <Dimension value="[150, 71]"/>
             </Property>
           </Properties>
           <Constraints>
@@ -152,12 +160,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editMenuButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="chefViewButton">
+            <Component class="javax.swing.JButton" name="createAccountButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Chef View"/>
+                <Property name="text" type="java.lang.String" value="Create Account"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chefViewButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createAccountButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="editUsersButton">
@@ -168,12 +177,20 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editUsersButtonActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JButton" name="chefViewButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Chef View"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chefViewButtonActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="buttonRightPanel">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[100, 71]"/>
+              <Dimension value="[150, 71]"/>
             </Property>
           </Properties>
           <Constraints>

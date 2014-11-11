@@ -6,6 +6,7 @@ import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderItem;
 import edu.colostate.cs414.d.pizza.api.order.OrderStatus;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
+import edu.colostate.cs414.d.pizza.api.user.Customer;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialOrderAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.OrderItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuFeature;
@@ -306,6 +307,10 @@ public class OrderDialog extends JDialog {
         }
         
         Order order = createOrder();
+
+        if(kiosk.getLoggedInUser() instanceof Customer){
+            order.setUserName(kiosk.getLoggedInUser().getUserName());
+        }
         
         double total = updateTotals();
         

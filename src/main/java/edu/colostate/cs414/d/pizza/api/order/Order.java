@@ -3,6 +3,7 @@ package edu.colostate.cs414.d.pizza.api.order;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.api.order.payment.Payment;
+import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.utilities.Utility;
 
 import java.util.ArrayList;
@@ -23,11 +24,13 @@ public class Order {
 	private List<OrderItem> items;
     private Payment payment;
     private double total;
+    private String userName;
 
     public Order(){
         status = OrderStatus.NEW;
         //startDate = new Date();
         items = new ArrayList<OrderItem>();
+        userName = null;
     }
 
 	public Order(OrderType type, String customerName, String customerAddress) {
@@ -37,14 +40,24 @@ public class Order {
 		//startDate = new Date();
 		status = OrderStatus.NEW;
 		items = new ArrayList<OrderItem>();
+        userName = null;
 	}
 
 	public Order(int id, OrderType type, String customerName, String customerAddress) {
 		this(type, customerName, customerAddress);
 		this.id = id;
+        userName = null;
 	}
 
-	public int getId() {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getId() {
 		return id;
 	}
 

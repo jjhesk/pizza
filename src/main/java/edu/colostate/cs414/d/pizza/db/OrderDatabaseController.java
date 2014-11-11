@@ -34,6 +34,10 @@ public class OrderDatabaseController {
                 OrderType type = OrderType.valueOf(resultSet.getString("type").toUpperCase());
                 String name = resultSet.getString("customerName");
                 Order order = new Order(type, name, address);
+                String userName = resultSet.getString("userName");
+                if (userName != null) {
+                    order.setUserName(userName);
+                }
                 order.setId(orderID);
                 order.setStatus(status);
                 //get all items on order and add them
@@ -59,24 +63,48 @@ public class OrderDatabaseController {
     public void addOrder(Order order) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String query = "INSERT INTO UserOrder(customerAddress, customerName, status, type) Values(?,?,?,?)";
-        try {
-            preparedStatement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, order.getCustomerAddress());
-            preparedStatement.setString(2, order.getCustomerName());
-            preparedStatement.setString(3, order.getStatus().toString().toLowerCase());
-            preparedStatement.setString(4, order.getType().toString().toLowerCase());
-            preparedStatement.executeUpdate();
-            resultSet = preparedStatement.getGeneratedKeys();
-            if (resultSet.next()){
-                int id = resultSet.getInt(1);
-                order.setId(id);
-                for (OrderItem orderItem : order.getItems()){
-                    this.addOrderItem(orderItem, id);
+        if(order.getUserName() == null){
+            String query = "INSERT INTO UserOrder(customerAddress, customerName, status, type) Values(?,?,?,?)";
+            try {
+                preparedStatement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, order.getCustomerAddress());
+                preparedStatement.setString(2, order.getCustomerName());
+                preparedStatement.setString(3, order.getStatus().toString().toLowerCase());
+                preparedStatement.setString(4, order.getType().toString().toLowerCase());
+                preparedStatement.executeUpdate();
+                resultSet = preparedStatement.getGeneratedKeys();
+                if (resultSet.next()){
+                    int id = resultSet.getInt(1);
+                    order.setId(id);
+                    for (OrderItem orderItem : order.getItems()){
+                        this.addOrderItem(orderItem, id);
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        else{
+            String query = "INSERT INTO UserOrder(userName, customerAddress, customerName, status, type) Values(?, ?,?,?,?)";
+            try {
+                preparedStatement = connection.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, order.getUserName());
+                preparedStatement.setString(2, order.getCustomerAddress());
+                preparedStatement.setString(3, order.getCustomerName());
+                preparedStatement.setString(4, order.getStatus().toString().toLowerCase());
+                preparedStatement.setString(5, order.getType().toString().toLowerCase());
+                preparedStatement.executeUpdate();
+                resultSet = preparedStatement.getGeneratedKeys();
+                if (resultSet.next()){
+                    int id = resultSet.getInt(1);
+                    order.setId(id);
+                    for (OrderItem orderItem : order.getItems()){
+                        this.addOrderItem(orderItem, id);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

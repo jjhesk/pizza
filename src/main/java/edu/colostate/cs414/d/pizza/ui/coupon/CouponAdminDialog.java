@@ -218,7 +218,7 @@ public class CouponAdminDialog extends JDialog {
                 MenuItem item = coupon.getMenuItem();
                 
                 JLabel l = new JLabel(String.format(
-					"item: %s", item.getName()));
+					"%s", item.getName()));
 			l.setHorizontalAlignment(SwingConstants.CENTER);  
                         l.setVerticalAlignment(SwingConstants.CENTER); 
 			left.add(l);

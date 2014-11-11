@@ -66,7 +66,7 @@ public class CouponComponent extends JComponent implements EventBusProvider {
 		priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		add(priceLabel, BorderLayout.EAST);
 		
-		button = new JButton("Add");
+		button = new JButton("Add Bra");
 		button.setIcon(new ImageIcon(getClass().getResource(
 				"/edu/colostate/cs414/d/pizza/ui/add-tiny.png")));
 		button.addActionListener(addButttonPressed);

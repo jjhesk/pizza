@@ -195,7 +195,7 @@ public class CouponEditDialog extends JDialog {
         
         MenuPanel panel = new MenuPanel(
                 kiosk.viewMenu(),
-                MenuFeature.ADMIN_SPECIAL);
+                MenuFeature.ADMIN_COUPON);
         panel.bus().register(this);
         
         menuWrapper.add(panel, BorderLayout.CENTER);

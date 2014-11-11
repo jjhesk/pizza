@@ -1,6 +1,7 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.ui.event.CouponItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
@@ -55,8 +56,8 @@ public class MenuPanel extends JPanel implements EventBusProvider {
         
 		bus = new EventBus() {{
 			add(OrderItemCreateEvent.class);
-            add(DailySpecialItemAddedEvent.class);
-			
+                        add(DailySpecialItemAddedEvent.class);
+			add(CouponItemAddedEvent.class);
 			add(MenuItemCreateEvent.class);
 			add(MenuItemEditEvent.class);
 			add(MenuItemRemoveEvent.class);
@@ -154,6 +155,12 @@ public class MenuPanel extends JPanel implements EventBusProvider {
     private void doDailySpecialItemAdded(DailySpecialItemAddedEvent event) {
         bus.push(event);
 		
+		System.out.println("event sent");
+    }
+    
+        @EventHandler
+    private void doCouponItemAdded(CouponItemAddedEvent event) {
+                bus.push(event);
 		System.out.println("event sent");
     }
         

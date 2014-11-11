@@ -5,6 +5,6 @@ public enum MenuFeature {
 	NONE,
 	ORDERING,
 	ADMIN,
-    ADMIN_SPECIAL;
-	
+        ADMIN_SPECIAL,
+        ADMIN_COUPON;
 }

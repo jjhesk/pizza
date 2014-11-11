@@ -51,6 +51,8 @@ public class Kiosk {
     //View delivered Orders (returns delivered orders)
     public List<Order> getDeliveredOrders() { return orderManager.getDeliveredOrders();}
 
+    public List<Order> getUserOrders() { return orderManager.getUserOrders(this.loggedInUser.getUserName()); }
+
     public List<OrderItem> viewOrderItems(Order order) {
         return orderManager.getOrderItems(order);
     }
@@ -183,6 +185,5 @@ public class Kiosk {
     public Order getOrder(int id){ return orderManager.getOrder(id); }
 
     public Coupon getCoupon(int id){ return menuManager.getCoupon(id);}
-
 
 }

@@ -96,4 +96,14 @@ public class OrderManager {
         }
         return null;
     }
+
+    public List<Order> getUserOrders(String userName) {
+        List<Order> userOrders = new ArrayList<Order>();
+        for (Order order : this.orders) {
+            if(order.getUserName() != null && order.getUserName().equals(userName)){
+                userOrders.add(order);
+            }
+        }
+        return userOrders;
+    }
 }

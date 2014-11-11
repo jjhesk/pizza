@@ -11,6 +11,7 @@ import edu.colostate.cs414.d.pizza.ui.OrderDialog;
 import edu.colostate.cs414.d.pizza.ui.PendingOrderFrame;
 import edu.colostate.cs414.d.pizza.ui.user.UserAdminDialog;
 import edu.colostate.cs414.d.pizza.ui.user.UserCreateDialog;
+import edu.colostate.cs414.d.pizza.ui.user.UserOrdersFrame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -74,6 +75,7 @@ public class MenuFrame extends JFrame {
         createAccountButton = new JButton();
         editUsersButton = new JButton();
         chefViewButton = new JButton();
+        orderHistoryButton = new JButton();
         buttonRightPanel = new JPanel();
         loginButton = new JButton();
         logoutButton = new JButton();
@@ -163,6 +165,14 @@ public class MenuFrame extends JFrame {
             }
         });
         buttonLeftPanel.add(chefViewButton);
+
+        orderHistoryButton.setText("Order History");
+        orderHistoryButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                orderHistoryButtonActionPerformed(evt);
+            }
+        });
+        buttonLeftPanel.add(orderHistoryButton);
 
         buttonWrapper.add(buttonLeftPanel, BorderLayout.WEST);
 
@@ -311,12 +321,18 @@ public class MenuFrame extends JFrame {
         d.forceCustomer();
         d.setVisible(true);
     }//GEN-LAST:event_createAccountButtonActionPerformed
+
+    private void orderHistoryButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_orderHistoryButtonActionPerformed
+        UserOrdersFrame f = new UserOrdersFrame(kiosk);
+        f.setVisible(true);
+    }//GEN-LAST:event_orderHistoryButtonActionPerformed
 	
     private void initUserButtons() {
         User user = kiosk.getLoggedInUser();
         
         if (user == null) {
             chefViewButton.setVisible(false);
+            orderHistoryButton.setVisible(false);
             editMenuButton.setVisible(false);
             editUsersButton.setVisible(false);
             createAccountButton.setVisible(false);
@@ -330,18 +346,21 @@ public class MenuFrame extends JFrame {
             
             if (user instanceof Chef) {
                 chefViewButton.setVisible(true);
+                orderHistoryButton.setVisible(false);
                 editMenuButton.setVisible(false);
                 editUsersButton.setVisible(false);
                 deliveredOrders.setVisible(true);
                 createAccountButton.setVisible(false);
             } else if (user instanceof Manager) {
                 chefViewButton.setVisible(false);
+                orderHistoryButton.setVisible(false);
                 editMenuButton.setVisible(true);
                 editUsersButton.setVisible(true);
                 deliveredOrders.setVisible(true);
                 createAccountButton.setVisible(false);
             } else if (user instanceof Customer) {
                 chefViewButton.setVisible(false);
+                orderHistoryButton.setVisible(true);
                 editMenuButton.setVisible(false);
                 editUsersButton.setVisible(false);
                 deliveredOrders.setVisible(false);
@@ -349,6 +368,7 @@ public class MenuFrame extends JFrame {
             }
             else {
                 chefViewButton.setVisible(false);
+                orderHistoryButton.setVisible(false);
                 editMenuButton.setVisible(false);
                 editUsersButton.setVisible(false);
                 deliveredOrders.setVisible(true);
@@ -432,6 +452,7 @@ public class MenuFrame extends JFrame {
     private JMenuBar menuBar;
     private JPanel menuWrapper;
     private JScrollPane menuWrapperScroll;
+    private JButton orderHistoryButton;
     private JButton placeOrderButton;
     // End of variables declaration//GEN-END:variables
 

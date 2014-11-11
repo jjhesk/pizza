@@ -172,6 +172,8 @@ public class Kiosk {
         menuManager.removeCoupon(coupon);
     }
 
+    public void updateRewardPoints(int rewardPoints) { userManager.updateRewardPoints(this.loggedInUser, rewardPoints); }
+
     public User getUser(String userName){ return userManager.getUser(userName); }
 
     public DailySpecial getDailySpecial(int id){ return menuManager.getDailySpecial(id); }
@@ -181,4 +183,6 @@ public class Kiosk {
     public Order getOrder(int id){ return orderManager.getOrder(id); }
 
     public Coupon getCoupon(int id){ return menuManager.getCoupon(id);}
+
+
 }

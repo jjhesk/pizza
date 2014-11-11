@@ -73,4 +73,9 @@ public class UserManager {
         }
         return null;
     }
+
+    public void updateRewardPoints(User user, int rewardPoints){
+        user.setRewardPoints(rewardPoints);
+        if(!testing)userDatabase.updatePoints(user);
+    }
 }

@@ -5,7 +5,7 @@ import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.net.Errors;
 import edu.colostate.cs414.d.pizza.net.UserRole;
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.BadRequestException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -17,22 +17,21 @@ public class MenuAdminResource {
     
     @Path("/item-create")
     @POST
+	@Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.MANAGER)
-    public MenuItem itemCreate(String name, double price, String description) {
-        if (name == null || name.isEmpty()) {
+    public MenuItem itemCreate(MenuItem item) {
+        if (item.getName() == null || item.getName().isEmpty()) {
             throw Errors.badRequest("A non-empty name is required");
         }
         
-        if (price < 0) {
+        if (item.getPrice() < 0) {
             throw Errors.badRequest("Price must not be less than zero");
         }
         
-        if (description == null) {
-            description = "";
+        if (item.getDescription() == null) {
+            item.setDescription("");
         }
-        
-        MenuItem item = new MenuItem(name, price, description);
         
         Kiosk.getInstance().addMenuItem(item);
         

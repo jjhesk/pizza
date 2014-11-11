@@ -16,11 +16,13 @@ public class CouponAdminResource {
     @Path("/create")
     @POST
     @RolesAllowed(UserRole.MANAGER)
-    public Response couponCreate(int itemId, int points) {
-        if (points <= 0) {
+    public Response couponCreate(Coupon coupon) {
+		int points = coupon.getRewardPoints();
+        if (coupon.getRewardPoints() <= 0) {
             throw Errors.badRequest("Invalid coupon points: " + points);
         }
         
+		int itemId = coupon.getMenuItem().getId();
         MenuItem item = Kiosk.getInstance().getMenuItem(itemId);
         if (item == null) {
             throw Errors.badRequest("Unknown menu item with id: " + itemId);

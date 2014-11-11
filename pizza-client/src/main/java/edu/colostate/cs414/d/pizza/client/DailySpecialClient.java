@@ -1,36 +1,36 @@
 package edu.colostate.cs414.d.pizza.client;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import java.util.Arrays;
 import java.util.List;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-public class DailySpecialClient {
+public class DailySpecialClient extends WebServiceClient {
 	
-	private Client client;
-	private WebTarget root;
+	protected WebTarget root;
 	
-	public DailySpecialClient(String target) {
-		client = ClientBuilder.newClient()
-				.register(JacksonJsonProvider.class);
+	public DailySpecialClient(String targetPath) {
+		super(targetPath);
+	}
+
+	@Override
+	protected void init() {
+		super.init();
 		
-		root = client.target(target).path("/special");
+		root = target.path("/special");
 	}
 	
 	public List<DailySpecial> getSpecials() {
-		return root.path("/lsit").request(MediaType.APPLICATION_JSON)
+		return root.path("/list").request(MediaType.APPLICATION_JSON)
 				.get()
 				.readEntity(new GenericType<List<DailySpecial>>() {});
 	}
 	
 	public static void main(String[] args) {
 		for (DailySpecial i : new DailySpecialClient("http://localhost:8080").getSpecials()) {
-			System.out.println(i);
+			System.out.printf("%d - $%6.2f - %s%n", i.getID(), i.getPrice(), Arrays.toString(i.getItems().toArray()));
 		}
 	}
 	

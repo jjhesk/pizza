@@ -29,7 +29,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Context
     private ResourceInfo resourceInfo;
-
+	
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         Method m = resourceInfo.getResourceMethod();

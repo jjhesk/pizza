@@ -8,6 +8,8 @@ import edu.colostate.cs414.d.pizza.net.UserRole;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -17,6 +19,7 @@ import javax.ws.rs.core.Response;
 public class OrderResource {
     
     @Path("/place")
+	@POST
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.CUSTOMER)
     public Response placeOrder(Order order) {
@@ -40,6 +43,7 @@ public class OrderResource {
     }
     
     @Path("/history")
+	@GET
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.CUSTOMER)
     public List<Order> viewUserHistory() {
@@ -48,6 +52,7 @@ public class OrderResource {
     }
     
     @Path("/view-pending")
+	@GET
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.CHEF)
     public List<Order> viewPending() {
@@ -55,6 +60,7 @@ public class OrderResource {
     }
     
     @Path("/complete")
+	@POST
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.CHEF)
     public Response complete(int id) {

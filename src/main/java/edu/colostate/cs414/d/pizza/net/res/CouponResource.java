@@ -1,5 +1,6 @@
 package edu.colostate.cs414.d.pizza.net.res;
 
+import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.Coupon;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -14,8 +15,7 @@ public class CouponResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Coupon> getCoupons() {
-        // TODO implement me
-        throw new UnsupportedOperationException("Not implemented yet");
+        return Kiosk.getInstance().viewCoupons();
     }
     
 }

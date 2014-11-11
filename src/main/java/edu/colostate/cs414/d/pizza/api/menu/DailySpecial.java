@@ -1,13 +1,19 @@
 package edu.colostate.cs414.d.pizza.api.menu;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class DailySpecial {
     private int id;
-    private final double price;
+    private double price;
     private final List<MenuItem> items;
     private boolean active;
 
+	public DailySpecial() {
+		active = true;
+		items = new LinkedList<>();
+	}
+	
     public DailySpecial(double price, List<MenuItem> items) {
         this.price = price;
         this.items = items;
@@ -35,6 +41,10 @@ public class DailySpecial {
 		return price;
 	}
 
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
 	public List<MenuItem> getItems() {
 		return items;
 	}

@@ -2,9 +2,11 @@ package edu.colostate.cs414.d.pizza.ui.coupon;
 
 import edu.colostate.cs414.d.pizza.ui.special.*;
 import edu.colostate.cs414.d.pizza.Kiosk;
+import edu.colostate.cs414.d.pizza.api.menu.Coupon;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
 import edu.colostate.cs414.d.pizza.ui.MenuItemTableModel;
+import edu.colostate.cs414.d.pizza.ui.event.CouponItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuFeature;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuPanel;
@@ -13,6 +15,7 @@ import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -38,16 +41,16 @@ import org.timothyb89.eventbus.EventScanType;
 @EventScanMode(type = EventScanType.EXTENDED)
 public class CouponEditDialog extends JDialog {
 
-    private DailySpecial originalSpecial;
-    private DailySpecial returnedSpecial;
+    private Coupon originalCoupon;
+    private Coupon returnedCoupon;
     
     /**
-     * Creates new form DailySpecialAddDialog
+     * Creates new form CouponAddDialog
      */
-    public CouponEditDialog(Frame parent, DailySpecial originalSpecial) {
+    public CouponEditDialog(Frame parent, Coupon originalCoupon) {
         super(parent, true);
         
-        this.originalSpecial = originalSpecial;
+        this.originalCoupon = originalCoupon;
         
         initComponents();
         initMenu();
@@ -60,17 +63,17 @@ public class CouponEditDialog extends JDialog {
         this(parent, null);
     }
     
-    public CouponEditDialog(Dialog parent, DailySpecial originalSpecial) {
+    public CouponEditDialog(Dialog parent, Coupon originalCoupon) {
         super(parent, true);
         
-        this.originalSpecial = originalSpecial;
+        this.originalCoupon = originalCoupon;
         
         initComponents();
         initMenu();
         initSpecial();
 		
 	
-        //itemTable.getSelectionModel().addListSelectionListener(selectionListener);
+        itemTable1.getSelectionModel().addListSelectionListener(selectionListener);
         
         setLocationRelativeTo(parent);
     }
@@ -88,12 +91,30 @@ public class CouponEditDialog extends JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        itemTableScroll = new JScrollPane();
+        itemTable = new JTable();
         menuWrapper = new JPanel();
         propertiesPanel = new JPanel();
         saveButton = new JButton();
         cancelButton = new JButton();
         priceLabel = new JLabel();
         priceField = new JSpinner();
+        itemTableScroll1 = new JScrollPane();
+        itemTable1 = new JTable();
+        removeButton = new JButton();
+
+        itemTable.setModel(new DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        itemTableScroll.setViewportView(itemTable);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -124,37 +145,65 @@ public class CouponEditDialog extends JDialog {
 
         priceField.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 
+        itemTable1.setModel(new DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        itemTableScroll1.setViewportView(itemTable1);
+
+        removeButton.setText("Remove");
+        removeButton.setEnabled(false);
+        removeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
+
         GroupLayout propertiesPanelLayout = new GroupLayout(propertiesPanel);
         propertiesPanel.setLayout(propertiesPanelLayout);
         propertiesPanelLayout.setHorizontalGroup(propertiesPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(propertiesPanelLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(40, 40, 40)
                 .addGroup(propertiesPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(cancelButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(propertiesPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                        .addComponent(priceField)
-                        .addComponent(priceLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(saveButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(0, 47, Short.MAX_VALUE))
+                    .addComponent(priceField)
+                    .addComponent(priceLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(saveButton))
+                .addContainerGap(40, Short.MAX_VALUE))
+            .addComponent(itemTableScroll1, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(GroupLayout.Alignment.TRAILING, propertiesPanelLayout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(removeButton)
+                .addContainerGap())
         );
         propertiesPanelLayout.setVerticalGroup(propertiesPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(propertiesPanelLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
+            .addGroup(GroupLayout.Alignment.TRAILING, propertiesPanelLayout.createSequentialGroup()
+                .addComponent(itemTableScroll1, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(removeButton)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(priceLabel)
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
                 .addComponent(priceField, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
                 .addComponent(saveButton)
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
                 .addComponent(cancelButton)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(propertiesPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -168,27 +217,42 @@ public class CouponEditDialog extends JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        returnedSpecial = null;
+        returnedCoupon = null;
 
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void saveButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        double price = (double) priceField.getValue();
+        int points = (int) priceField.getValue();
 
-        if (price < 0) {
-            error("Price must not be negative.");
+        if (points <= 0) {
+            error("Points must be greater than 0.");
             return;
         }
 
-        if (tableModel.getItems().isEmpty()) {
-            error("Specials must have at least one item.");
+        if (tableModel.getItems().size() != 1) {
+            error("Specials must have one item only.");
             return;
         }
 
-        returnedSpecial = new DailySpecial(price, tableModel.getItems());
+        returnedCoupon = new Coupon(tableModel.getItems().get(0), points);
         dispose();
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void removeButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        int row = itemTable1.getSelectedRow();
+        if (row < 0) {
+            error("No row selected!");
+            return;
+        }
+
+        MenuItem item = tableModel.getItem(row);
+        tableModel.removeItem(item);
+
+        if (tableModel.getItems().isEmpty()) {
+            removeButton.setEnabled(false);
+        }
+    }//GEN-LAST:event_removeButtonActionPerformed
 
     private void initMenu() {
         Kiosk kiosk = Kiosk.getInstance();
@@ -202,44 +266,66 @@ public class CouponEditDialog extends JDialog {
     }
     
     private void initSpecial() {
-        if (originalSpecial == null) {
+        if (originalCoupon == null) {
             tableModel = new MenuItemTableModel();
         } else {
-            tableModel = new MenuItemTableModel(originalSpecial.getItems());
+            ArrayList<MenuItem> items = new ArrayList<>();
+            items.add(originalCoupon.getMenuItem());
+            tableModel = new MenuItemTableModel(items);
             
-            priceField.setValue(originalSpecial.getPrice());
+            priceField.setValue(originalCoupon.getRewardPoints());
         }
         
-        //itemTable.setModel(tableModel);
+        itemTable1.setModel(tableModel);
     }
     
     @EventHandler
-    private void doDailySpecialItemAdded(DailySpecialItemAddedEvent event) {
-        tableModel.addItem(event.getItem());
+    private void doCouponItemAdded(CouponItemAddedEvent event) {
+         if (tableModel.getItems().size() == 1) {
+            error("Specials must have one item only please remove the other item before adding another.");
+            return;
+        }
+         else{
+             tableModel.addItem(event.getItem());
+         }
     }
 	
+    private final ListSelectionListener selectionListener = new ListSelectionListener() {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            removeButton.setEnabled(true);
+        }
+        
+    };
+        
     private void error(String message) {
         JOptionPane.showMessageDialog(
                 this, message, "Error",
                 JOptionPane.ERROR_MESSAGE);
     }
 
-    public DailySpecial getOriginalSpecial() {
-        return originalSpecial;
+    public Coupon getOriginalCoupon() {
+        return originalCoupon;
     }
 
-    public DailySpecial getReturnedSpecial() {
-        return returnedSpecial;
+    public Coupon getReturnedCoupon() {
+        return returnedCoupon;
     }
     
     private MenuItemTableModel tableModel;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JButton cancelButton;
+    private JTable itemTable;
+    private JTable itemTable1;
+    private JScrollPane itemTableScroll;
+    private JScrollPane itemTableScroll1;
     private JPanel menuWrapper;
     private JSpinner priceField;
     private JLabel priceLabel;
     private JPanel propertiesPanel;
+    private JButton removeButton;
     private JButton saveButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -44,7 +44,7 @@ public class CouponAdminDialog extends JDialog {
 		
 		panelMap = new HashMap<>();
 		
-                initComponents();
+        initComponents();
 		initCoupons();
 		
 		setLocationRelativeTo(parent);

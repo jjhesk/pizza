@@ -57,9 +57,11 @@ public class CouponPanel extends JPanel implements EventBusProvider {
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		add(scrollPane, BorderLayout.CENTER);
 	}
+
+
 	
 	@EventHandler
-	private void doSpecialOrderAdded(DailySpecialOrderAddedEvent event) {
+    private void doCouponOrderAdded(CouponOrderAddedEvent event){
 		// push events up so clients can register to our bus for all events
 		bus.push(event);
 	}

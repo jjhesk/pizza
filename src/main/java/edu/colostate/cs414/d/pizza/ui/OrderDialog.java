@@ -377,10 +377,11 @@ public class OrderDialog extends JDialog {
         
         double total = updateTotals();
         
-        if(orderTableModel.getItems().isEmpty()){
+        if(orderTableModel.getItems().isEmpty() && orderCouponTableModel.getItems().isEmpty()){
             error("You must order 1 or more items in order to place an order");
             return;
         }
+
         
         PaymentDialog paymentDialog = new PaymentDialog(this, kiosk, order, total);
         paymentDialog.setVisible(true);
@@ -389,9 +390,15 @@ public class OrderDialog extends JDialog {
             error("Incorrect Payment was given please try again");
             return;
         }
-        
+
+        for(Coupon coupon : orderCouponTableModel.getItems()){
+            order.getItems().add(new OrderItem(coupon.getMenuItem(), 1));
+        }
+
         kiosk.placeOrder(order);
+        
         rewardPoints++;
+
         if(loggedInUser instanceof Customer){
             kiosk.updateRewardPoints(rewardPoints);
         }

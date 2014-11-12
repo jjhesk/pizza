@@ -1,8 +1,6 @@
 package edu.colostate.cs414.d.pizza.client;
 
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
-import java.util.Arrays;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -16,8 +14,8 @@ public class DailySpecialAdminClient extends AuthenticatedWebServiceClient {
 		super(targetPath, username, password);
 	}
 	
-	public DailySpecialAdminClient(String target) {
-		this(target, null, null);
+	public DailySpecialAdminClient(String targetPath) {
+		this(targetPath, null, null);
 	}
 
 	@Override
@@ -43,10 +41,15 @@ public class DailySpecialAdminClient extends AuthenticatedWebServiceClient {
 	
 	public static void main(String[] args) {
 		DailySpecialAdminClient c = new DailySpecialAdminClient("http://localhost:8080");
-		c.authenticate("manager", "manager");
+		//c.authenticate("manager", "manager");
 		
 		//c.specialCreate(new DailySpecial(15.00, Arrays.asList(new MenuItem(1, null, 0, null, true))));
-		c.specialRemove(3);
+		try {
+			c.specialRemove(3);
+		} catch (WebServiceException ex) {
+			System.out.println("caught exception D:");
+			ex.printStackTrace();
+		}
 	}
 	
 }

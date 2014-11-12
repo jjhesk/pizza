@@ -2,7 +2,9 @@ package edu.colostate.cs414.d.pizza.net.res;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.order.Order;
+import edu.colostate.cs414.d.pizza.api.order.OrderManager;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
+import edu.colostate.cs414.d.pizza.net.AuthenticationFilter;
 import edu.colostate.cs414.d.pizza.net.Errors;
 import edu.colostate.cs414.d.pizza.net.UserRole;
 import java.util.List;
@@ -12,11 +14,17 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ResourceInfo;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/order")
 public class OrderResource {
+    
+    @Context
+    private ContainerRequestContext context;
     
     @Path("/place")
 	@POST
@@ -47,8 +55,9 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.CUSTOMER)
     public List<Order> viewUserHistory() {
-        // TODO order history
-        throw new UnsupportedOperationException("Not implemented yet");
+        String username = AuthenticationFilter.getUsername(context);
+        
+        return Kiosk.getInstance().getOrderManager().getUserOrders(username);
     }
     
     @Path("/view-pending")
@@ -57,6 +66,14 @@ public class OrderResource {
     @RolesAllowed(UserRole.CHEF)
     public List<Order> viewPending() {
         return Kiosk.getInstance().viewPendingOrders();
+    }
+    
+    @Path("/view-delivered")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({UserRole.MANAGER, UserRole.CASHIER, UserRole.CHEF})
+    public List<Order> viewDelivered() {
+        return Kiosk.getInstance().getDeliveredOrders();
     }
     
     @Path("/complete")

@@ -186,4 +186,16 @@ public class Kiosk {
 
     public Coupon getCoupon(int id){ return menuManager.getCoupon(id);}
 
+    public OrderManager getOrderManager() {
+        return orderManager;
+    }
+
+    public MenuManager getMenuManager() {
+        return menuManager;
+    }
+
+    public UserManager getUserManager() {
+        return userManager;
+    }
+    
 }

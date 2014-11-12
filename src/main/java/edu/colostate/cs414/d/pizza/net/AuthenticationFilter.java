@@ -46,7 +46,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         
         String[] auth = getAuthHeader(requestContext);
         String username = auth[0];
-        String password = auth[0];
+        String password = auth[1];
 
         User user = UserManager.getInstance().authenticateUser(username, password);
         if (user == null) {
@@ -64,10 +64,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         if (!allowed) {
             throw new WebApplicationException(respond401("Not allowed"));
         }
-        
     }
 
-    private String[] getAuthHeader(ContainerRequestContext request) {
+    public static String[] getAuthHeader(ContainerRequestContext request) {
         String header = request.getHeaderString("Authorization");
         if (header == null || header.isEmpty()) {
             throw new WebApplicationException(respond401("No credentials provided"));
@@ -83,6 +82,10 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         } else {
             throw new WebApplicationException(respond401("Invalid credential type"));
         }
+    }
+    
+    public static String getUsername(ContainerRequestContext request) {
+        return getAuthHeader(request)[0];
     }
     
     private static Response respond401(Object entity) {

@@ -6,6 +6,10 @@ public class Coupon {
     private int rewardPoints;
     private boolean active;
 
+    public Coupon() {
+		active = true;
+	}
+    
     public Coupon(MenuItem menuItem, int rewardPoints) {
         this.menuItem = menuItem;
         this.rewardPoints = rewardPoints;

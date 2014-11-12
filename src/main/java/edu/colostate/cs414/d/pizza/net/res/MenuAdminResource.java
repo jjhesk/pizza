@@ -43,7 +43,7 @@ public class MenuAdminResource {
     @RolesAllowed(UserRole.MANAGER)
     public Response itemRemove(int itemId) {
         MenuItem item = Kiosk.getInstance().getMenuItem(itemId);
-        if (item == null) {
+        if (item == null || !item.isActive()) {
             throw Errors.badRequest("No item with id " + itemId + " found");
         }
         

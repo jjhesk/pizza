@@ -11,22 +11,26 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.client.ClientResponse;
 
-public class MenuClient {
+public class MenuClient extends WebServiceClient {
 
 	private Client client;
 	private WebTarget root;
 	
-	public MenuClient(String target) {
-		client = ClientBuilder.newClient()
-				.register(JacksonJsonProvider.class);
+	public MenuClient(String targetPath) {
+		super(targetPath);
+	}
+
+	@Override
+	protected void init() {
+		super.init();
 		
-		root = client.target(target);
+		root = target.path("/menu");
 	}
 	
 	public List<MenuItem> getMenu() {
-		return root.path("/menu").request(MediaType.APPLICATION_JSON)
-				.get()
-				.readEntity(new GenericType<List<MenuItem>>() {});
+		return readAndVerify(
+				root.request(MediaType.APPLICATION_JSON).get(),
+				new GenericType<List<MenuItem>>() {});
 	}
 	
 	public static void main(String[] args) {

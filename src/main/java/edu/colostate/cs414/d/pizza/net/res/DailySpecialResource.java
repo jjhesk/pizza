@@ -26,7 +26,7 @@ public class DailySpecialResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<OrderItem> getItems(int id) {
         DailySpecial special = Kiosk.getInstance().getDailySpecial(id);
-        if (special == null) {
+        if (special == null || !special.isActive()) {
             throw Errors.badRequest("No special found with id: " + id);
         }
         

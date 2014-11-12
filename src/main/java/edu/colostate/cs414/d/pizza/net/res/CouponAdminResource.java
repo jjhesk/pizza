@@ -24,7 +24,7 @@ public class CouponAdminResource {
         
 		int itemId = coupon.getMenuItem().getId();
         MenuItem item = Kiosk.getInstance().getMenuItem(itemId);
-        if (item == null) {
+        if (item == null || !item.isActive()) {
             throw Errors.badRequest("Unknown menu item with id: " + itemId);
         }
         
@@ -38,7 +38,7 @@ public class CouponAdminResource {
     @RolesAllowed(UserRole.MANAGER)
     public Response couponRemove(int couponId) {
         Coupon coupon = Kiosk.getInstance().getCoupon(couponId);
-        if (coupon == null) {
+        if (coupon == null || !coupon.isActive()) {
             throw Errors.badRequest("No coupon found with id: " + couponId);
         }
         

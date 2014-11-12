@@ -30,7 +30,7 @@ public class DailySpecialAdminResource {
         for (MenuItem rawItem : special.getItems()) {
             MenuItem i = Kiosk.getInstance().getMenuItem(rawItem.getId());
             if (i == null) {
-                throw Errors.badRequest("No menu item found with id: " + i.getId());
+                throw Errors.badRequest("No menu item found with id: " + special.getID());
             }
             
             foundItems.add(i);
@@ -47,7 +47,7 @@ public class DailySpecialAdminResource {
     @RolesAllowed(UserRole.MANAGER)
     public Response specialRemove(int id) {
         DailySpecial special = Kiosk.getInstance().getDailySpecial(id);
-        if (special == null) {
+        if (special == null || !special.isActive()) {
             throw Errors.badRequest("No special found with id: " + id);
         }
         

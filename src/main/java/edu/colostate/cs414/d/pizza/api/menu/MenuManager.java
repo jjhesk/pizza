@@ -124,6 +124,7 @@ public class MenuManager {
         for (Coupon coupon : this.coupons) {
             if(coupon.isActive()) {
                 if(!coupon.getMenuItem().isActive()) {
+                    coupon.setActive(false);
                     if(!testing) couponDatabaseController.setExpired(coupon);
                 }
             }

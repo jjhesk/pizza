@@ -60,8 +60,15 @@ public class CouponComponent extends JComponent implements EventBusProvider {
 		//labelScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		labelScroll.setPreferredSize(new Dimension(200, 75));
 		add(labelScroll, BorderLayout.CENTER);
-		
-		rewardPoints = new JLabel(String.format("%d reward points", coupon.getRewardPoints()));
+
+
+        if(coupon.getRewardPoints() == 1){
+            rewardPoints = new JLabel(String.format("%d reward point", coupon.getRewardPoints()));
+        }
+        else{
+            rewardPoints = new JLabel(String.format("%d reward points", coupon.getRewardPoints()));
+        }
+
 		rewardPoints.setFont(rewardPoints.getFont().deriveFont(Font.BOLD, 12));
 		rewardPoints.setPreferredSize(new Dimension(150, 0));
 		rewardPoints.setMaximumSize(new Dimension(150, 150));
@@ -69,7 +76,7 @@ public class CouponComponent extends JComponent implements EventBusProvider {
 		rewardPoints.setHorizontalAlignment(SwingConstants.CENTER);
 		add(rewardPoints, BorderLayout.EAST);
 		
-		button = new JButton("Add");
+		button = new JButton("Redeem");
 		button.setIcon(new ImageIcon(getClass().getResource(
 				"/edu/colostate/cs414/d/pizza/ui/add-tiny.png")));
 		button.addActionListener(addButttonPressed);

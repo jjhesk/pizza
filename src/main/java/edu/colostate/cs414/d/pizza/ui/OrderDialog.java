@@ -8,6 +8,7 @@ import edu.colostate.cs414.d.pizza.api.order.OrderStatus;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
 import edu.colostate.cs414.d.pizza.api.user.Customer;
 import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.ui.coupon.CouponPanel;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialOrderAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.OrderItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuFeature;
@@ -71,6 +72,7 @@ public class OrderDialog extends JDialog {
 		initComponents();
 		initMenu();
 		initSpecials();
+        initCoupons();
 		
         orderTable.getSelectionModel().addListSelectionListener(selectionListener);
         
@@ -108,8 +110,11 @@ public class OrderDialog extends JDialog {
         addressLabel = new JLabel();
         addressFieldScroll = new JScrollPane();
         addressField = new JTextArea();
+        jLabel1 = new JLabel();
+        jLabel2 = new JLabel();
         menuWrapper = new JPanel();
         specialsWrapper = new JPanel();
+        couponWrapper = new JPanel();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Place Order");
@@ -178,90 +183,101 @@ public class OrderDialog extends JDialog {
         addressField.setRows(5);
         addressFieldScroll.setViewportView(addressField);
 
+        jLabel1.setText("Reward Points:");
+
+        jLabel2.setText("0");
+
         GroupLayout orderPanelLayout = new GroupLayout(orderPanel);
         orderPanel.setLayout(orderPanelLayout);
-        orderPanelLayout.setHorizontalGroup(
-            orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(orderPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(orderPanelLayout.createSequentialGroup()
-                        .addComponent(placeOrderButton)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cancelOrderButton))
-                    .addGroup(orderPanelLayout.createSequentialGroup()
-                        .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addGroup(orderPanelLayout.createSequentialGroup()
-                                .addComponent(subtotalLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(subtotalField))
-                            .addGroup(orderPanelLayout.createSequentialGroup()
-                                .addComponent(taxLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(taxField))
-                            .addGroup(GroupLayout.Alignment.TRAILING, orderPanelLayout.createSequentialGroup()
-                                .addComponent(totalLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(totalField)))
-                        .addContainerGap())
-                    .addGroup(orderPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(removeItemButton))
-                    .addGroup(orderPanelLayout.createSequentialGroup()
-                        .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(addressLabel)
-                            .addComponent(nameLabel)
-                            .addComponent(typeLabel))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addGroup(orderPanelLayout.createSequentialGroup()
-                                .addComponent(orderTypeTakeout)
-                                .addGap(12, 12, 12)
-                                .addComponent(orderTypeDelivery)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(orderTypeEatIn)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(nameField)
-                            .addComponent(addressFieldScroll, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))))
-            .addComponent(orderTableScroll, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        orderPanelLayout.setHorizontalGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(orderTableScroll, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                                .addComponent(placeOrderButton)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(cancelOrderButton))
+                                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(removeItemButton))
+                                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(addressLabel)
+                                                        .addComponent(nameLabel)
+                                                        .addComponent(typeLabel))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                                                .addComponent(orderTypeTakeout)
+                                                                .addGap(12, 12, 12)
+                                                                .addComponent(orderTypeDelivery)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(orderTypeEatIn)
+                                                                .addGap(0, 0, Short.MAX_VALUE))
+                                                        .addComponent(nameField)
+                                                        .addComponent(addressFieldScroll)))
+                                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                                                .addComponent(subtotalLabel)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(subtotalField))
+                                                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                                                .addComponent(taxLabel)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(taxField))
+                                                        .addGroup(GroupLayout.Alignment.TRAILING, orderPanelLayout.createSequentialGroup()
+                                                                .addComponent(totalLabel)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(totalField))
+                                                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                                                .addComponent(jLabel1)
+                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jLabel2)
+                                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                                .addContainerGap())))
         );
-        orderPanelLayout.setVerticalGroup(
-            orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(orderPanelLayout.createSequentialGroup()
-                .addComponent(orderTableScroll, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeItemButton)
-                .addGap(27, 27, 27)
-                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(orderTypeTakeout)
-                    .addComponent(orderTypeDelivery)
-                    .addComponent(orderTypeEatIn)
-                    .addComponent(typeLabel))
-                .addGap(18, 18, 18)
-                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameLabel)
-                    .addComponent(nameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(addressLabel)
-                    .addComponent(addressFieldScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(subtotalLabel)
-                    .addComponent(subtotalField))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(taxLabel)
-                    .addComponent(taxField))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(totalField)
-                    .addComponent(totalLabel))
-                .addGap(18, 18, 18)
-                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelOrderButton)
-                    .addComponent(placeOrderButton))
-                .addContainerGap())
+        orderPanelLayout.setVerticalGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(orderPanelLayout.createSequentialGroup()
+                                .addComponent(orderTableScroll, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(removeItemButton)
+                                .addGap(95, 95, 95)
+                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(orderTypeTakeout)
+                                        .addComponent(orderTypeDelivery)
+                                        .addComponent(orderTypeEatIn)
+                                        .addComponent(typeLabel))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(nameLabel)
+                                        .addComponent(nameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(addressLabel)
+                                        .addComponent(addressFieldScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(subtotalLabel)
+                                        .addComponent(subtotalField))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(taxLabel)
+                                        .addComponent(taxField))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(totalField)
+                                        .addComponent(totalLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(cancelOrderButton)
+                                        .addComponent(placeOrderButton))
+                                .addContainerGap())
         );
 
         menuWrapper.setBorder(BorderFactory.createTitledBorder("Menu"));
@@ -270,26 +286,34 @@ public class OrderDialog extends JDialog {
         specialsWrapper.setBorder(BorderFactory.createTitledBorder("Today's Specials"));
         specialsWrapper.setLayout(new BorderLayout());
 
+        couponWrapper.setBorder(BorderFactory.createTitledBorder("Certificates"));
+        couponWrapper.setLayout(new BorderLayout());
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
-                    .addComponent(specialsWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(specialsWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(couponWrapper, GroupLayout.PREFERRED_SIZE, 549, GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(orderPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addComponent(orderPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(menuWrapper, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(specialsWrapper, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(couponWrapper, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        couponWrapper.getAccessibleContext().setAccessibleName("Coupons");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -383,6 +407,12 @@ public class OrderDialog extends JDialog {
 		specialsPanel.bus().register(this);
 		specialsWrapper.add(specialsPanel, BorderLayout.CENTER);
 	}
+
+    private void initCoupons() {
+        couponPanel = new CouponPanel();
+        couponPanel.bus().register(this);
+        couponWrapper.add(couponPanel, BorderLayout.CENTER);
+    }
     
     private void error(String message) {
         JOptionPane.showMessageDialog(
@@ -471,12 +501,16 @@ public class OrderDialog extends JDialog {
     
     private OrderItemTableModel orderTableModel;
 	private DailySpecialPanel specialsPanel;
+    private CouponPanel couponPanel;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JTextArea addressField;
     private JScrollPane addressFieldScroll;
     private JLabel addressLabel;
     private JButton cancelOrderButton;
+    private JPanel couponWrapper;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
     private JPanel menuWrapper;
     private JTextField nameField;
     private JLabel nameLabel;

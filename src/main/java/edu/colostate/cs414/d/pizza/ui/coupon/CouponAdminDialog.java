@@ -159,12 +159,11 @@ public class CouponAdminDialog extends JDialog {
 		JPanel left = new JPanel();
 		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
 		
-                MenuItem item = coupon.getMenuItem();
-                
-                JLabel l = new JLabel(String.format(
-					"%s", item.getName()));
+
+            MenuItem item = coupon.getMenuItem();
+            JLabel l = new JLabel(String.format("%s", item.getName()));
 			l.setHorizontalAlignment(SwingConstants.CENTER);  
-                        l.setVerticalAlignment(SwingConstants.CENTER); 
+            l.setVerticalAlignment(SwingConstants.CENTER);
 			left.add(l);
                         
 		ret.add(left, BorderLayout.CENTER);

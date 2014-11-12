@@ -1,5 +1,7 @@
 package edu.colostate.cs414.d.pizza.ui.coupon;
 
+import edu.colostate.cs414.d.pizza.api.menu.Coupon;
+import edu.colostate.cs414.d.pizza.ui.event.CouponOrderAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.special.*;
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
@@ -23,16 +25,25 @@ public class CouponPanel extends JPanel implements EventBusProvider {
 	
 	public CouponPanel() {
 		bus = new EventBus() {{
-			add(DailySpecialOrderAddedEvent.class);	
+			add(CouponOrderAddedEvent.class);
 		}};
 		
 		kiosk = Kiosk.getInstance();
 		
 		initComponents();
-		initSpecials();
+		initCoupons();
 	}
 
-	@Override
+    private void initCoupons() {
+        for (Coupon coupon : kiosk.viewCoupons()) {
+            CouponComponent c = new CouponComponent(coupon);
+            c.bus().register(this);
+
+            container.add(c);
+        }
+    }
+
+    @Override
 	public EventBusClient bus() {
 		return bus.getClient();
 	}
@@ -45,15 +56,6 @@ public class CouponPanel extends JPanel implements EventBusProvider {
 		scrollPane = new JScrollPane(container);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		add(scrollPane, BorderLayout.CENTER);
-	}
-	
-	private void initSpecials() {
-		for (DailySpecial special : kiosk.viewDailySpecials()) {
-			CouponComponent c = new CouponComponent(special);
-			c.bus().register(this);
-			
-			container.add(c);
-		}
 	}
 	
 	@EventHandler

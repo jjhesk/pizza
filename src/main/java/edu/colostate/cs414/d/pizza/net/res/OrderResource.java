@@ -2,7 +2,6 @@ package edu.colostate.cs414.d.pizza.net.res;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.order.Order;
-import edu.colostate.cs414.d.pizza.api.order.OrderManager;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
 import edu.colostate.cs414.d.pizza.net.AuthenticationFilter;
 import edu.colostate.cs414.d.pizza.net.Errors;
@@ -15,7 +14,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

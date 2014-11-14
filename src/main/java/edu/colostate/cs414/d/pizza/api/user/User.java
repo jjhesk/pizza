@@ -12,6 +12,9 @@ public class User {
 
     private int rewardPoints;
 
+    public User() {
+    }
+    
 	public User(String userName, String password, UserType userType, int rewardPoints) {
 		this.userName = userName;
         this.password = password;

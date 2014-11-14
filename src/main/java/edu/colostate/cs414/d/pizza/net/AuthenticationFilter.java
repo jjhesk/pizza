@@ -53,6 +53,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             throw new WebApplicationException(respond401("Invalid credentials"));
         }
         
+        if (roles.length == 0) {
+            // "any": just return
+            return;
+        }
+        
         boolean allowed = false;
         for (String role : roles) {
             if (role.equalsIgnoreCase(user.getUserType().name())) {

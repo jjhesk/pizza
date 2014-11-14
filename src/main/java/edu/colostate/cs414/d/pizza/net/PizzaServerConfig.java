@@ -7,6 +7,8 @@ import edu.colostate.cs414.d.pizza.net.res.DailySpecialResource;
 import edu.colostate.cs414.d.pizza.net.res.MenuAdminResource;
 import edu.colostate.cs414.d.pizza.net.res.MenuResource;
 import edu.colostate.cs414.d.pizza.net.res.OrderResource;
+import edu.colostate.cs414.d.pizza.net.res.UserAdminResource;
+import edu.colostate.cs414.d.pizza.net.res.UserResource;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -19,6 +21,8 @@ public class PizzaServerConfig extends ResourceConfig {
                 DailySpecialAdminResource.class,
                 CouponResource.class,
                 CouponAdminResource.class,
+                UserResource.class,
+                UserAdminResource.class,
                 OrderResource.class,
                 AuthenticationFilter.class,
                 JacksonFeature.class);

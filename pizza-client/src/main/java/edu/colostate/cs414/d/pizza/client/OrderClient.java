@@ -26,10 +26,12 @@ public class OrderClient extends AuthenticatedWebServiceClient {
 		root = target.path("/order");
 	}
 	
-	public void placeOrder(Order order) {
-		verify(root.path("/place")
-				.request(MediaType.APPLICATION_JSON)
-				.post(Entity.json(order)));
+	public Order placeOrder(Order order) {
+		return readAndVerify(
+				root.path("/place")
+						.request(MediaType.APPLICATION_JSON)
+						.post(Entity.json(order)),
+				new GenericType<Order>() {});
 	}
 	
 	public List<Order> viewUserHistory() {
@@ -54,10 +56,12 @@ public class OrderClient extends AuthenticatedWebServiceClient {
 				new GenericType<List<Order>>() {});
 	}
 	
-	public void complete(int orderId) {
-		verify(root.path("/view-pending")
-				.request(MediaType.APPLICATION_JSON)
-				.post(Entity.json(orderId)));
+	public Order complete(int orderId) {
+		return readAndVerify(
+				root.path("/view-pending")
+						.request(MediaType.APPLICATION_JSON)
+						.post(Entity.json(orderId)),
+				new GenericType<Order>() {});
 	}
 	
 	public static void main(String[] args) {

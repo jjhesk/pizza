@@ -6,7 +6,7 @@ import java.util.List;
 public class DailySpecial {
     private int id;
     private double price;
-    private final List<MenuItem> items;
+    private final List<PizzaMenuItem> items;
     private boolean active;
 
 	public DailySpecial() {
@@ -14,13 +14,13 @@ public class DailySpecial {
 		items = new LinkedList<>();
 	}
 	
-    public DailySpecial(double price, List<MenuItem> items) {
+    public DailySpecial(double price, List<PizzaMenuItem> items) {
         this.price = price;
         this.items = items;
         this.active = true;
     }
 
-    public DailySpecial(int id, double price, List<MenuItem> items, Boolean active) {
+    public DailySpecial(int id, double price, List<PizzaMenuItem> items, Boolean active) {
         this.id = id;
         this.price = price;
         this.items = items;
@@ -28,7 +28,7 @@ public class DailySpecial {
     }
 
     public boolean checkStatus(){
-        for (MenuItem menuItem : items) {
+        for (PizzaMenuItem menuItem : items) {
             if(!menuItem.isActive()){
                 active = false;
                 return false;
@@ -45,7 +45,7 @@ public class DailySpecial {
 		this.price = price;
 	}
 	
-	public List<MenuItem> getItems() {
+	public List<PizzaMenuItem> getItems() {
 		return items;
 	}
 
@@ -73,7 +73,7 @@ public class DailySpecial {
             return false;
         }
 
-        for (MenuItem menuItem : this.getItems()) {
+        for (PizzaMenuItem menuItem : this.getItems()) {
             if(!((DailySpecial)other).items.contains(menuItem)){
                 return  false;
             }

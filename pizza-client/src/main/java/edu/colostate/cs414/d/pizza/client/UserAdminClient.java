@@ -1,8 +1,10 @@
 package edu.colostate.cs414.d.pizza.client;
 
 import edu.colostate.cs414.d.pizza.api.user.User;
+import java.util.List;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 public class UserAdminClient extends AuthenticatedWebServiceClient {
@@ -35,6 +37,14 @@ public class UserAdminClient extends AuthenticatedWebServiceClient {
 		verify(root.path("/remove")
 				.request()
 				.post(Entity.json(username)));
+	}
+	
+	public List<User> getUsers() {
+		return readAndVerify(
+				root.path("/list")
+						.request(MediaType.APPLICATION_JSON)
+						.get(),
+				new GenericType<List<User>>() {});
 	}
 	
 }

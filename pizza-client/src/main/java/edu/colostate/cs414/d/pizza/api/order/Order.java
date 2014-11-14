@@ -1,7 +1,7 @@
 package edu.colostate.cs414.d.pizza.api.order;
 
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import edu.colostate.cs414.d.pizza.api.order.payment.Payment;
 import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.utilities.Utility;
@@ -117,7 +117,7 @@ public class Order {
 		items.add(item);
 	}
 	
-	public void addItem(MenuItem item, int quantity) {
+	public void addItem(PizzaMenuItem item, int quantity) {
 		items.add(new OrderItem(item, quantity));
 	}
 	
@@ -127,10 +127,10 @@ public class Order {
 
     public double calculateSubtotal(List<DailySpecial> dailySpecials, List<DailySpecial> currentDailySpecials) {
         double totalCost = 0.0;
-        List<MenuItem> menuItems = new ArrayList<MenuItem>();
+        List<PizzaMenuItem> menuItems = new ArrayList<PizzaMenuItem>();
         for(OrderItem orderItem : this.getItems()){
             for(int i = 0; i < orderItem.getQuantity(); i++){
-                menuItems.add(new MenuItem(orderItem.getItem()));
+                menuItems.add(new PizzaMenuItem(orderItem.getItem()));
             }
         }
 
@@ -146,7 +146,7 @@ public class Order {
             }
         }
 
-        for(MenuItem menuItem : menuItems) {
+        for(PizzaMenuItem menuItem : menuItems) {
             totalCost += menuItem.getPrice();
         }
 

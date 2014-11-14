@@ -2,7 +2,7 @@ package edu.colostate.cs414.d.pizza.api.menu;
 
 public class Coupon {
     private int id;
-    private MenuItem menuItem;
+    private PizzaMenuItem menuItem;
     private int rewardPoints;
     private boolean active;
 
@@ -10,13 +10,13 @@ public class Coupon {
 		active = true;
 	}
 	
-    public Coupon(MenuItem menuItem, int rewardPoints) {
+    public Coupon(PizzaMenuItem menuItem, int rewardPoints) {
         this.menuItem = menuItem;
         this.rewardPoints = rewardPoints;
         this.active = true;
     }
 
-    public Coupon(int id, MenuItem menuItem, int rewardPoints, boolean active) {
+    public Coupon(int id, PizzaMenuItem menuItem, int rewardPoints, boolean active) {
         this.id = id;
         this.menuItem = menuItem;
         this.rewardPoints = rewardPoints;
@@ -31,11 +31,11 @@ public class Coupon {
         this.rewardPoints = rewardPoints;
     }
 
-    public MenuItem getMenuItem() {
+    public PizzaMenuItem getMenuItem() {
         return menuItem;
     }
 
-    public void setMenuItem(MenuItem menuItem) {
+    public void setMenuItem(PizzaMenuItem menuItem) {
         this.menuItem = menuItem;
     }
 

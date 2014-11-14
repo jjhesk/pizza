@@ -1,8 +1,10 @@
 package edu.colostate.cs414.d.pizza.client;
 
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
+import edu.colostate.cs414.d.pizza.api.order.OrderItem;
 import java.util.Arrays;
 import java.util.List;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -23,9 +25,19 @@ public class DailySpecialClient extends WebServiceClient {
 	}
 	
 	public List<DailySpecial> getSpecials() {
-		return root.path("/list").request(MediaType.APPLICATION_JSON)
-				.get()
-				.readEntity(new GenericType<List<DailySpecial>>() {});
+		return readAndVerify(
+				root.path("/list")
+						.request(MediaType.APPLICATION_JSON)
+						.get(),
+				new GenericType<List<DailySpecial>>() {});
+	}
+	
+	public List<OrderItem> getItems(int id) {
+		return readAndVerify(
+				root.path("/items")
+						.request(MediaType.APPLICATION_JSON)
+						.post(Entity.json(id)),
+				new GenericType<List<OrderItem>>() {});
 	}
 	
 	public static void main(String[] args) {

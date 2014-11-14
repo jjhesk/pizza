@@ -6,6 +6,7 @@ import edu.colostate.cs414.d.pizza.net.Errors;
 import edu.colostate.cs414.d.pizza.net.UserRole;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -48,6 +49,15 @@ public class MenuAdminResource {
         }
         
         Kiosk.getInstance().removeMenuItem(item);
+        
+        return Response.ok().build();
+    }
+    
+    @GET
+    @Path("/clear")
+    @RolesAllowed(UserRole.MANAGER)
+    public Response clearMenu() {
+        Kiosk.getInstance().clearMenu();
         
         return Response.ok().build();
     }

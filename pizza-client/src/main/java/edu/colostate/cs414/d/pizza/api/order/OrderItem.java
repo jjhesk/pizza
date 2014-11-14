@@ -1,24 +1,24 @@
 package edu.colostate.cs414.d.pizza.api.order;
 
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import java.util.Objects;
 
 public class OrderItem {
 	
 	private int id;
-	private MenuItem item;
+	private PizzaMenuItem item;
 	private int quantity;
 	
 	// TODO: options?
 	public OrderItem() {
 	}
 
-	public OrderItem(MenuItem item, int quantity) {
+	public OrderItem(PizzaMenuItem item, int quantity) {
 		this.item = item;
 		this.quantity = quantity;
 	}
 	
-	public OrderItem(int id, MenuItem item, int quantity) {
+	public OrderItem(int id, PizzaMenuItem item, int quantity) {
 		this.id = id;
 		this.item = item;
 		this.quantity = quantity;
@@ -32,11 +32,11 @@ public class OrderItem {
 		this.id = id;
 	}
 
-	public MenuItem getItem() {
+	public PizzaMenuItem getItem() {
 		return item;
 	}
 
-	public void setItem(MenuItem item) {
+	public void setItem(PizzaMenuItem item) {
 		this.item = item;
 	}
 

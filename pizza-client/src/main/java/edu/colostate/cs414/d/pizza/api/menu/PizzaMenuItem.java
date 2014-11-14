@@ -1,6 +1,6 @@
 package edu.colostate.cs414.d.pizza.api.menu;
 
-public class MenuItem {
+public class PizzaMenuItem {
 	
 	private int id;
 	
@@ -10,18 +10,18 @@ public class MenuItem {
 	
 	private boolean active;
 
-	public MenuItem() {
+	public PizzaMenuItem() {
 		active = true;
 	}
 
-	public MenuItem(String name, double price, String description) {
+	public PizzaMenuItem(String name, double price, String description) {
 		this.name = name;
 		this.price = price;
 		this.description = description;
 		active = true;
 	}
 
-	public MenuItem(int id, String name, double price, String description, boolean active) {
+	public PizzaMenuItem(int id, String name, double price, String description, boolean active) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -30,7 +30,7 @@ public class MenuItem {
 	}
 
     //shallow copy
-    public MenuItem(MenuItem item) {
+    public PizzaMenuItem(PizzaMenuItem item) {
         this.name = item.getName();
         this.price = item.getPrice();
         this.description = item.getDescription();
@@ -79,34 +79,34 @@ public class MenuItem {
 
     public boolean equals(Object other)
     {
-        if (!this.name.equalsIgnoreCase(((MenuItem)other).name))
+        if (!this.name.equalsIgnoreCase(((PizzaMenuItem)other).name))
         {
             return false;
         }
 
-        if (!(this.price == (((MenuItem)other).price)))
+        if (!(this.price == (((PizzaMenuItem)other).price)))
         {
             return false;
         }
 
-        if (!(this.active == (((MenuItem)other).active)))
+        if (!(this.active == (((PizzaMenuItem)other).active)))
         {
             return false;
         }
 
-        if(this.description == null && ((MenuItem)other).description != null){
+        if(this.description == null && ((PizzaMenuItem)other).description != null){
             return false;
         }
 
-        if(this.description != null && ((MenuItem)other).description == null){
+        if(this.description != null && ((PizzaMenuItem)other).description == null){
             return false;
         }
 
-        if(this.description == null && ((MenuItem)other).description == null){
+        if(this.description == null && ((PizzaMenuItem)other).description == null){
             return true;
         }
 
-        if (!this.description.equalsIgnoreCase(((MenuItem)other).description))
+        if (!this.description.equalsIgnoreCase(((PizzaMenuItem)other).description))
         {
             return false;
         }

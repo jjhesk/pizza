@@ -11,6 +11,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -19,9 +20,10 @@ public class DailySpecialAdminResource {
     
     @Path("/create")
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.MANAGER)
-    public Response specialCreate(DailySpecial special) {
+    public DailySpecial specialCreate(DailySpecial special) {
         if (special.getItems().isEmpty()) {
             throw Errors.badRequest("Specials must contain at least one item");
         }
@@ -36,9 +38,10 @@ public class DailySpecialAdminResource {
             foundItems.add(i);
         }
         
-        Kiosk.getInstance().createDailySpecial(foundItems, special.getPrice());
+        DailySpecial ret = Kiosk.getInstance().createDailySpecial(
+                foundItems, special.getPrice());
         
-        return Response.ok().build();
+        return ret;
     }
     
     @Path("/remove")

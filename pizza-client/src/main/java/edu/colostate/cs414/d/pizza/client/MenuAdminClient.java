@@ -1,9 +1,9 @@
 package edu.colostate.cs414.d.pizza.client;
 
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
-import edu.colostate.cs414.d.pizza.api.order.Order;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 public class MenuAdminClient extends AuthenticatedWebServiceClient {
@@ -25,16 +25,22 @@ public class MenuAdminClient extends AuthenticatedWebServiceClient {
 		root = target.path("/admin/menu");
 	}
 	
-	public void itemCreate(MenuItem item) {
-		verify(root.path("/item-create")
-				.request(MediaType.APPLICATION_JSON)
-				.post(Entity.json(item)));
+	public PizzaMenuItem itemCreate(PizzaMenuItem item) {
+		return readAndVerify(
+				root.path("/item-create")
+						.request(MediaType.APPLICATION_JSON)
+						.post(Entity.json(item)),
+				new GenericType<PizzaMenuItem>() {});
 	}
 	
 	public void itemRemove(int id) {
 		verify(root.path("/item-remove")
 				.request(MediaType.APPLICATION_JSON)
 				.post(Entity.json(id)));
+	}
+	
+	public void clearMenu() {
+		verify(root.path("/clear").request().get());
 	}
 	
 }

@@ -1,9 +1,10 @@
 package edu.colostate.cs414.d.pizza.client;
 
 import edu.colostate.cs414.d.pizza.api.menu.Coupon;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 public class CouponAdminClient extends AuthenticatedWebServiceClient {
@@ -25,10 +26,12 @@ public class CouponAdminClient extends AuthenticatedWebServiceClient {
 		root = target.path("/admin/coupon");
 	}
 	
-	public void couponCreate(Coupon coupon) {
-		verify(root.path("/create")
-				.request(MediaType.APPLICATION_JSON)
-				.post(Entity.json(coupon)));
+	public Coupon couponCreate(Coupon coupon) {
+		return readAndVerify(
+				root.path("/create")
+					.request(MediaType.APPLICATION_JSON)
+					.post(Entity.json(coupon)),
+				new GenericType<Coupon>() {});
 	}
 	
 	public void couponRemove(int id) {
@@ -41,7 +44,7 @@ public class CouponAdminClient extends AuthenticatedWebServiceClient {
 		CouponAdminClient c = new CouponAdminClient("http://localhost:8080");
 		c.authenticate("manager", "manager");
 		
-		//c.couponCreate(new Coupon(new MenuItem(6, null, 0, null, true), 3));
+		//c.couponCreate(new Coupon(new PizzaMenuItem(6, null, 0, null, true), 3));
 		c.couponRemove(6);
 	}
 	

@@ -3,8 +3,8 @@ package edu.colostate.cs414.d.pizza.client;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 public class DailySpecialAdminClient extends AuthenticatedWebServiceClient {
 	
@@ -25,19 +25,18 @@ public class DailySpecialAdminClient extends AuthenticatedWebServiceClient {
 		root = target.path("/admin/special");
 	}
 	
-	public void specialCreate(DailySpecial special) {
-		Response resp = root.path("/create").request(MediaType.APPLICATION_JSON)
-				.post(Entity.json(special));
-		
-		verify(resp);
+	public DailySpecial specialCreate(DailySpecial special) {		
+		return readAndVerify(
+				root.path("/create")
+						.request(MediaType.APPLICATION_JSON)
+						.post(Entity.json(special)),
+				new GenericType<DailySpecial>() {});
 	}
 	
 	public void specialRemove(int id) {
-		Response resp = root.path("/remove").request(MediaType.APPLICATION_JSON)
-				.post(Entity.json(id));
-		
-		verify(resp);
-	}
+		verify(root.path("/remove")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.json(id)));	}
 	
 	public static void main(String[] args) {
 		DailySpecialAdminClient c = new DailySpecialAdminClient("http://localhost:8080");

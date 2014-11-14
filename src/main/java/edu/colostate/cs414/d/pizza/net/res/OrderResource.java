@@ -16,7 +16,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @Path("/order")
 public class OrderResource {
@@ -26,9 +25,10 @@ public class OrderResource {
     
     @Path("/place")
 	@POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.CUSTOMER)
-    public Response placeOrder(Order order) {
+    public Order placeOrder(Order order) {
         if (order.getCustomerName() == null || order.getCustomerName().isEmpty()) {
             throw Errors.badRequest("A name must be provided.");
         }
@@ -45,7 +45,7 @@ public class OrderResource {
         
         Kiosk.getInstance().placeOrder(order);
         
-        return Response.ok().build();
+        return order;
     }
     
     @Path("/history")
@@ -78,7 +78,7 @@ public class OrderResource {
 	@POST
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed(UserRole.CHEF)
-    public Response complete(int id) {
+    public Order complete(int id) {
         Order order = Kiosk.getInstance().getOrder(id);
         if (order == null) {
             throw Errors.badRequest("No order found with the given id: " + id);
@@ -86,7 +86,7 @@ public class OrderResource {
         
         Kiosk.getInstance().completeOrder(order);
         
-        return Response.ok().build();
+        return order;
     }
     
 }

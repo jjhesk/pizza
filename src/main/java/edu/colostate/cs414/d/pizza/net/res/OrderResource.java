@@ -28,7 +28,7 @@ public class OrderResource {
 	@POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed(UserRole.CUSTOMER)
+    @RolesAllowed({UserRole.CUSTOMER, UserRole.CASHIER})
     public Order placeOrder(Order order) {
         if (order.getCustomerName() == null || order.getCustomerName().isEmpty()) {
             throw Errors.badRequest("A name must be provided.");
@@ -50,6 +50,10 @@ public class OrderResource {
         Kiosk.getInstance().placeOrder(order);
         
         // TODO: update reward points?
+        
+        // also: cashiers can now call this method
+        // if they have different requirements, get the user from
+        // Kiosk.getUser() and handle it accordingly
         
         return order;
     }

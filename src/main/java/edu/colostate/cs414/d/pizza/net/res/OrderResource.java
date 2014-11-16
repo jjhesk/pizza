@@ -3,6 +3,7 @@ package edu.colostate.cs414.d.pizza.net.res;
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
+import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.net.AuthenticationFilter;
 import edu.colostate.cs414.d.pizza.net.Errors;
 import edu.colostate.cs414.d.pizza.net.UserRole;
@@ -43,7 +44,12 @@ public class OrderResource {
             throw Errors.badRequest("Orders cannot be empty.");
         }
         
+        String username = AuthenticationFilter.getUsername(context);
+        order.setUserName(username);
+        
         Kiosk.getInstance().placeOrder(order);
+        
+        // TODO: update reward points?
         
         return order;
     }

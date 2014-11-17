@@ -5,6 +5,7 @@ import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.api.user.UserType;
 import edu.colostate.cs414.d.pizza.net.AuthenticationFilter;
 import edu.colostate.cs414.d.pizza.net.Errors;
+import edu.colostate.cs414.d.pizza.net.UserRole;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -51,4 +52,20 @@ public class UserResource {
             throw Errors.badRequest("Could not create account: " + username);
         }
     }
+    
+    @POST
+    @Path("updateRewardPoints")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({})
+    public void updateRewardPoints(int points) {
+        String username = AuthenticationFilter.getUsername(context);
+        
+        User user = Kiosk.getInstance().getUser(username);
+        if (user == null) {
+            throw Errors.badRequest("Couldn't find user (?!) " + username);
+        }
+        
+        Kiosk.getInstance().getUserManager().updateRewardPoints(user, points);
+    }
+    
 }

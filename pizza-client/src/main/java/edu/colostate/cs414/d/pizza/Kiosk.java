@@ -281,9 +281,9 @@ public class Kiosk {
 	}
 	
 	public void updateRewardPoints(int points) {
-		// TODO: ???
-		// not sure how to implement this
-		throw new UnsupportedOperationException("not implemented yet");
+		checkInitialized();
+		
+		userClient.updateRewardPoints(points);
 	}
 
 	

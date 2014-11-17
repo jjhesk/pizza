@@ -3,6 +3,7 @@ package edu.colostate.cs414.d.pizza.net.res;
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
+import edu.colostate.cs414.d.pizza.api.user.Customer;
 import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.net.AuthenticationFilter;
 import edu.colostate.cs414.d.pizza.net.Errors;
@@ -48,13 +49,7 @@ public class OrderResource {
         order.setUserName(username);
         
         Kiosk.getInstance().placeOrder(order);
-        
-        // TODO: update reward points?
-        
-        // also: cashiers can now call this method
-        // if they have different requirements, get the user from
-        // Kiosk.getUser() and handle it accordingly
-        
+
         return order;
     }
     

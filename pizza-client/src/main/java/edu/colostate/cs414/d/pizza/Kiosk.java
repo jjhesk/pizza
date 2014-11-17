@@ -62,6 +62,8 @@ public class Kiosk {
 		couponClient = new CouponClient(target);
 		couponAdminClient = new CouponAdminClient(target);
 		
+		orderClient = new OrderClient(target);
+		
 		authClients = new AuthenticatedWebServiceClient[] {
 			userClient,
 			userAdminClient,

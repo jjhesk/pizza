@@ -80,6 +80,6 @@ public class OrderItem {
 
     @Override
     public String toString() {
-        return "OrderItem{" + "id=" + id + ", item=" + item + ", quantity=" + quantity + '}';
-    }   
+        return item.getName() + " qty:" + String.valueOf(quantity);
+    } 
 }

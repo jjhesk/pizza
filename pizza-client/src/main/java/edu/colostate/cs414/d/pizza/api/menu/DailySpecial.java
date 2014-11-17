@@ -85,4 +85,20 @@ public class DailySpecial {
 
         return true;
     }
+    
+    @Override
+    public String toString() {
+        String output = "";
+        output += "[";
+        for (int i = 0; i < this.items.size(); i++){
+            if(i<this.items.size()-1){
+                output += items.get(i).getName() + ", "; 
+            }
+            else{
+                output += items.get(i).getName();
+            }
+        }
+        output += "] $" + String.valueOf(price);
+        return output;
+    }
 }

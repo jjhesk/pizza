@@ -14,14 +14,14 @@ import java.util.Objects;
 
 public class Order {
 	
-	private int id;
-	private OrderStatus status;
-	private OrderType type;
-	private Date startDate;
-	private Date completionDate;
-	private String customerName;
-	private String customerAddress;
-	private List<OrderItem> items;
+    private int id;
+    private OrderStatus status;
+    private OrderType type;
+    private Date startDate;
+    private Date completionDate;
+    private String customerName;
+    private String customerAddress;
+    private List<OrderItem> items;
     private Payment payment;
     private double total;
     private String userName;

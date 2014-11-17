@@ -114,8 +114,9 @@ public class PizzaMenuItem {
         return true;
     }
 
-    public String toString(){
-        return Integer.toString(this.id) + " " + this.name + " " + Double.toString(this.price) + " " + this.description + " " + this.active;
+    @Override
+    public String toString() {
+        return name + " $" + price;
     }
 
 }

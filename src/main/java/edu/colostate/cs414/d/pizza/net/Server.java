@@ -7,7 +7,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
 public class Server {
 
-    private static final URI BASE_URI = URI.create("http://localhost:8080/");
+    private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/");
 
     public static void main(String[] args) throws IOException {
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(

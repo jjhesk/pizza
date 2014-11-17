@@ -29,7 +29,7 @@ public class UserClient extends AuthenticatedWebServiceClient {
 	
 	public User login() {
 		return readAndVerify(
-				root.request(MediaType.APPLICATION_JSON).get(),
+				root.path("/login").request(MediaType.APPLICATION_JSON).get(),
 				new GenericType<User>() {});
 	}
 	
@@ -39,8 +39,16 @@ public class UserClient extends AuthenticatedWebServiceClient {
 		post.add("password", password);
 		
 		return readAndVerify(
-				root.request(MediaType.APPLICATION_JSON).post(Entity.form(post)),
+				root.path("/register")
+						.request(MediaType.APPLICATION_JSON)
+						.post(Entity.form(post)),
 				new GenericType<User>() {});
+	}
+	
+	public void updateRewardPoints(int points) {
+		verify(root.path("/updateRewardPoints")
+				.request()
+				.post(Entity.json(points)));
 	}
 	
 }

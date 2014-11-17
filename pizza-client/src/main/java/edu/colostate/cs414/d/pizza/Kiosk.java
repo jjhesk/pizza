@@ -63,10 +63,12 @@ public class Kiosk {
 		couponAdminClient = new CouponAdminClient(target);
 		
 		authClients = new AuthenticatedWebServiceClient[] {
+			userClient,
 			userAdminClient,
 			menuAdminClient,
 			dailySpecialAdminClient,
-			couponAdminClient
+			couponAdminClient,
+			orderClient
 		};
 	}
 	

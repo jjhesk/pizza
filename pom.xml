@@ -51,7 +51,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>edu.colostate.cs414.d.pizza.ui.menu.MenuFrame</mainClass>
+                            <mainClass>edu.colostate.cs414.d.pizza.net.Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -64,7 +64,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>edu.colostate.cs414.d.pizza.ui.menu.MenuFrame</mainClass>
+                            <mainClass>edu.colostate.cs414.d.pizza.net.Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

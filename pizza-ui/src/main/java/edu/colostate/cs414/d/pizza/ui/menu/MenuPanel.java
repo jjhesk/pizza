@@ -1,6 +1,7 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
+import edu.colostate.cs414.d.pizza.ui.event.CouponItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
@@ -39,14 +40,14 @@ import org.timothyb89.eventbus.EventScanType;
 @EventScanMode(type = EventScanType.EXTENDED)
 public class MenuPanel extends JPanel implements EventBusProvider {
 
-	private List<MenuItem> items;
-    private final Map<MenuItem, MenuItemComponent> itemMap;
+	private List<PizzaMenuItem> items;
+    private final Map<PizzaMenuItem, MenuItemComponent> itemMap;
 	private final MenuFeature feature;
 	private final int columns;
 	
 	private final EventBus bus;
 	
-	public MenuPanel(List<MenuItem> items, MenuFeature feature, int columns) {
+	public MenuPanel(List<PizzaMenuItem> items, MenuFeature feature, int columns) {
 		this.items = items;
 		this.feature = feature;
 		this.columns = columns;
@@ -55,8 +56,8 @@ public class MenuPanel extends JPanel implements EventBusProvider {
         
 		bus = new EventBus() {{
 			add(OrderItemCreateEvent.class);
-            add(DailySpecialItemAddedEvent.class);
-			
+                        add(DailySpecialItemAddedEvent.class);
+			add(CouponItemAddedEvent.class);
 			add(MenuItemCreateEvent.class);
 			add(MenuItemEditEvent.class);
 			add(MenuItemRemoveEvent.class);
@@ -65,7 +66,7 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 		initComponents();
 	}
 	
-	public MenuPanel(List<MenuItem> items, MenuFeature feature) {
+	public MenuPanel(List<PizzaMenuItem> items, MenuFeature feature) {
 		this(items, feature, 1);
 	}
 
@@ -103,12 +104,12 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 		add(filterContainer, BorderLayout.SOUTH);
 	}
 	
-	private List<MenuItem> filterItems(String query) {
+	private List<PizzaMenuItem> filterItems(String query) {
 		query = query.toLowerCase();
 		
-		List<MenuItem> ret = new LinkedList<>();
+		List<PizzaMenuItem> ret = new LinkedList<>();
 		
-		for (MenuItem i : items) {
+		for (PizzaMenuItem i : items) {
 			if (i.getName().toLowerCase().contains(query)
 					|| i.getDescription().toLowerCase().contains(query)) {
 				ret.add(i);
@@ -118,11 +119,11 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 		return ret;
 	}
 	
-	private void initMenuItems(List<MenuItem> items) {
+	private void initMenuItems(List<PizzaMenuItem> items) {
 		itemContainer.removeAll();
         itemMap.clear();
 		
-		for (MenuItem item : items) {
+		for (PizzaMenuItem item : items) {
 			MenuItemComponent c = new MenuItemComponent(item, feature);
 			c.bus().register(this);
             
@@ -134,7 +135,7 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 		repaint();
 	}
 	
-	public void refreshMenuItems(List<MenuItem> newItems) {
+	public void refreshMenuItems(List<PizzaMenuItem> newItems) {
         //Set the local copy of active items to the new item list.
         items = newItems;
         initMenuItems(newItems);
@@ -154,6 +155,12 @@ public class MenuPanel extends JPanel implements EventBusProvider {
     private void doDailySpecialItemAdded(DailySpecialItemAddedEvent event) {
         bus.push(event);
 		
+		System.out.println("event sent");
+    }
+    
+        @EventHandler
+    private void doCouponItemAdded(CouponItemAddedEvent event) {
+                bus.push(event);
 		System.out.println("event sent");
     }
         
@@ -243,7 +250,7 @@ public class MenuPanel extends JPanel implements EventBusProvider {
 			
 			// wait for user input ...
 			
-			MenuItem i = d.getReturnedItem();
+			PizzaMenuItem i = d.getReturnedItem();
 			if (i == null) {
 				return;
 			}

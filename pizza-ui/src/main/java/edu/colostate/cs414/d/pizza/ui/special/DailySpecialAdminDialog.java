@@ -2,7 +2,7 @@ package edu.colostate.cs414.d.pizza.ui.special;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -159,7 +159,7 @@ public class DailySpecialAdminDialog extends JDialog {
 		JPanel left = new JPanel();
 		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
 		
-		for (MenuItem item : special.getItems()) {
+		for (PizzaMenuItem item : special.getItems()) {
 			JLabel l = new JLabel(String.format(
 					"<html><ul><li>%s</li></ul>", item.getName()));
 			l.setHorizontalAlignment(SwingConstants.LEFT);

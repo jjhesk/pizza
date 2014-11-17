@@ -1,7 +1,7 @@
 package edu.colostate.cs414.d.pizza.ui.special;
 
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialOrderAddedEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -41,7 +41,7 @@ public class DailySpecialComponent extends JComponent implements EventBusProvide
 		setPreferredSize(new Dimension(250, 0));
 		
 		StringBuilder b = new StringBuilder("<html><ul>");
-		for (MenuItem i : special.getItems()) {
+		for (PizzaMenuItem i : special.getItems()) {
 			b.append("<li>");
 			b.append(i.getName());
 			b.append("</li>");

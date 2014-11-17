@@ -4,7 +4,7 @@ import edu.colostate.cs414.d.pizza.ui.special.*;
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.Coupon;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -44,7 +44,7 @@ public class CouponAdminDialog extends JDialog {
 		
 		panelMap = new HashMap<>();
 		
-                initComponents();
+        initComponents();
 		initCoupons();
 		
 		setLocationRelativeTo(parent);
@@ -118,28 +118,28 @@ public class CouponAdminDialog extends JDialog {
         showEditDialog();
     }//GEN-LAST:event_createSpecialButtonActionPerformed
 
-	private void showEditDialog(DailySpecial special) {
-		CouponEditDialog d = new CouponEditDialog(this,	special);
+	private void showEditDialog(Coupon coupon) {
+		CouponEditDialog d = new CouponEditDialog(this,	coupon);
 		d.setVisible(true);
 		
-		DailySpecial newSpecial = d.getReturnedSpecial();
+		Coupon newCoupon = d.getReturnedCoupon();
 		
 		// make sure the user accepted the dialog
-		if (newSpecial != null) {
+		if (newCoupon != null) {
 			// meh.
-			newSpecial = kiosk.createDailySpecial(newSpecial.getItems(), newSpecial.getPrice());
-			
+                        kiosk.addCoupon(newCoupon);
+                        
 			// invalidate the old special, if any
-			if (special != null) {
-				kiosk.removeDailySpecial(special);
+			if (coupon != null) {
+				kiosk.removeCoupon(coupon);
 				
 				// remove the old GUI panel
-				JPanel panel = panelMap.get(special);
+				JPanel panel = panelMap.get(coupon);
 				couponsPanel.remove(panel);
 			}
 			
 			// add the new special
-			JPanel newPanel = createSpecialPanel(newSpecial);
+			JPanel newPanel = createCouponPanel(newCoupon);
 			couponsPanel.add(newPanel);
 			//panelMap.put(newSpecial, newPanel);
 			
@@ -152,62 +152,6 @@ public class CouponAdminDialog extends JDialog {
 		showEditDialog(null);
 	}
 	
-	private JPanel createSpecialPanel(final DailySpecial special) {
-		final JPanel ret = new JPanel(new BorderLayout());
-		ret.setBorder(BorderFactory.createEtchedBorder());
-		
-		JPanel left = new JPanel();
-		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-		
-		for (MenuItem item : special.getItems()) {
-			JLabel l = new JLabel(String.format(
-					"<html><ul><li>%s</li></ul>", item.getName()));
-			l.setHorizontalAlignment(SwingConstants.LEFT);
-			left.add(l);
-		
-		}
-		ret.add(left, BorderLayout.CENTER);
-		
-		JPanel buttons = new JPanel(new FlowLayout());
-		
-		JButton editButton = new JButton("Edit");
-		editButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showEditDialog(special);
-			}
-			
-		});
-		buttons.add(editButton);
-		
-		JButton removeButton = new JButton("Remove");
-		removeButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				kiosk.removeDailySpecial(special);
-				couponsPanel.remove(ret);
-				
-				couponsPanel.revalidate();
-				couponsPanel.repaint();
-			}
-			
-		});
-		buttons.add(removeButton);
-		
-		ret.add(buttons, BorderLayout.SOUTH);
-		
-		JLabel priceLabel = new JLabel(String.format("$%.2f", special.getPrice()));
-		priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 28));
-		priceLabel.setPreferredSize(new Dimension(150, 0));
-		priceLabel.setVerticalAlignment(SwingConstants.CENTER);
-		priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		ret.add(priceLabel, BorderLayout.EAST);
-		
-		return ret;
-	}
-	
         private JPanel createCouponPanel(final Coupon coupon) {
                 final JPanel ret = new JPanel(new BorderLayout());
 		ret.setBorder(BorderFactory.createEtchedBorder());
@@ -215,12 +159,11 @@ public class CouponAdminDialog extends JDialog {
 		JPanel left = new JPanel();
 		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
 		
-                MenuItem item = coupon.getMenuItem();
-                
-                JLabel l = new JLabel(String.format(
-					"item: %s", item.getName()));
+
+            PizzaMenuItem item = coupon.getMenuItem();
+            JLabel l = new JLabel(String.format("%s", item.getName()));
 			l.setHorizontalAlignment(SwingConstants.CENTER);  
-                        l.setVerticalAlignment(SwingConstants.CENTER); 
+            l.setVerticalAlignment(SwingConstants.CENTER);
 			left.add(l);
                         
 		ret.add(left, BorderLayout.CENTER);
@@ -232,7 +175,7 @@ public class CouponAdminDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				showEditDialog(null);
+				showEditDialog(coupon);
 			}
 			
 		});
@@ -264,14 +207,6 @@ public class CouponAdminDialog extends JDialog {
 		
 		return ret;
         }
-        
-	private void initSpecials() {
-		for (DailySpecial s : kiosk.viewDailySpecials()) {
-			JPanel panel = createSpecialPanel(s);
-			couponsPanel.add(panel);
-			//panelMap.put(s, panel);
-		}
-	}
        
         private void initCoupons() {
             for (Coupon c : kiosk.viewCoupons()) {

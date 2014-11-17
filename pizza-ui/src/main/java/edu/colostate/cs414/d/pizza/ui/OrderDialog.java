@@ -1,11 +1,16 @@
 package edu.colostate.cs414.d.pizza.ui;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
+import edu.colostate.cs414.d.pizza.api.menu.Coupon;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
 import edu.colostate.cs414.d.pizza.api.order.Order;
 import edu.colostate.cs414.d.pizza.api.order.OrderItem;
 import edu.colostate.cs414.d.pizza.api.order.OrderStatus;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
+import edu.colostate.cs414.d.pizza.api.user.Customer;
+import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.ui.coupon.CouponPanel;
+import edu.colostate.cs414.d.pizza.ui.event.CouponOrderAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialOrderAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.OrderItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuFeature;
@@ -49,6 +54,7 @@ import org.timothyb89.eventbus.EventScanType;
 public class OrderDialog extends JDialog {
 
 	private final Kiosk kiosk;
+    private int rewardPoints;
 	
 	private Map<DailySpecial, List<OrderItem>> specialMap;
 	private Map<OrderItem, DailySpecial> specialReverseMap;
@@ -60,18 +66,29 @@ public class OrderDialog extends JDialog {
 		super(parent, true);
 		
 		this.kiosk = kiosk;
-		
+        User loggedInUser = kiosk.getLoggedInUser();
+		if(loggedInUser != null){
+            rewardPoints = loggedInUser.getRewardPoints();
+        }
+        else{
+            rewardPoints = 0;
+        }
+
 		specialMap = new HashMap<>();
 		specialReverseMap = new HashMap<>();
-		
         orderTableModel = new OrderItemTableModel();
-        
+        orderCouponTableModel = new OrderCouponTableModel();
+
+                
 		initComponents();
 		initMenu();
 		initSpecials();
-		
-        orderTable.getSelectionModel().addListSelectionListener(selectionListener);
-        
+        initCoupons();
+
+        points.setText(String.valueOf(rewardPoints));
+                
+                orderTable.getSelectionModel().addListSelectionListener(selectionListener);
+                orderCouponTable.getSelectionModel().addListSelectionListener(selectionListener1);
 		setLocationRelativeTo(parent);
 	}
 
@@ -106,8 +123,14 @@ public class OrderDialog extends JDialog {
         addressLabel = new JLabel();
         addressFieldScroll = new JScrollPane();
         addressField = new JTextArea();
+        jLabel1 = new JLabel();
+        points = new JLabel();
+        orderCouponTableScroll = new JScrollPane();
+        orderCouponTable = new JTable();
+        removeCouponButton = new JButton();
         menuWrapper = new JPanel();
         specialsWrapper = new JPanel();
+        couponWrapper = new JPanel();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Place Order");
@@ -176,10 +199,26 @@ public class OrderDialog extends JDialog {
         addressField.setRows(5);
         addressFieldScroll.setViewportView(addressField);
 
+        jLabel1.setText("Reward Points:");
+
+        points.setText("0");
+
+        orderCouponTable.setModel(orderCouponTableModel);
+        orderCouponTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        orderCouponTable.getTableHeader().setReorderingAllowed(false);
+        orderCouponTableScroll.setViewportView(orderCouponTable);
+
+        removeCouponButton.setText("Remove");
+        removeCouponButton.setEnabled(false);
+        removeCouponButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                removeCouponButtonActionPerformed(evt);
+            }
+        });
+
         GroupLayout orderPanelLayout = new GroupLayout(orderPanel);
         orderPanel.setLayout(orderPanelLayout);
-        orderPanelLayout.setHorizontalGroup(
-            orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        orderPanelLayout.setHorizontalGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(orderPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -187,24 +226,6 @@ public class OrderDialog extends JDialog {
                         .addComponent(placeOrderButton)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cancelOrderButton))
-                    .addGroup(orderPanelLayout.createSequentialGroup()
-                        .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addGroup(orderPanelLayout.createSequentialGroup()
-                                .addComponent(subtotalLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(subtotalField))
-                            .addGroup(orderPanelLayout.createSequentialGroup()
-                                .addComponent(taxLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(taxField))
-                            .addGroup(GroupLayout.Alignment.TRAILING, orderPanelLayout.createSequentialGroup()
-                                .addComponent(totalLabel)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(totalField)))
-                        .addContainerGap())
-                    .addGroup(orderPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(removeItemButton))
                     .addGroup(orderPanelLayout.createSequentialGroup()
                         .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addComponent(addressLabel)
@@ -220,22 +241,55 @@ public class OrderDialog extends JDialog {
                                 .addComponent(orderTypeEatIn)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(nameField)
-                            .addComponent(addressFieldScroll, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))))
-            .addComponent(orderTableScroll, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(addressFieldScroll)))
+                    .addComponent(orderTableScroll, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(orderCouponTableScroll, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(orderPanelLayout.createSequentialGroup()
+                        .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addGroup(orderPanelLayout.createSequentialGroup()
+                                .addComponent(subtotalLabel)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(subtotalField))
+                            .addGroup(orderPanelLayout.createSequentialGroup()
+                                .addComponent(taxLabel)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(taxField))
+                            .addGroup(GroupLayout.Alignment.TRAILING, orderPanelLayout.createSequentialGroup()
+                                .addComponent(totalLabel)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(totalField))
+                            .addGroup(orderPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(points)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(GroupLayout.Alignment.TRAILING, orderPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(removeItemButton, GroupLayout.Alignment.TRAILING)
+                            .addComponent(removeCouponButton, GroupLayout.Alignment.TRAILING)))))
         );
-        orderPanelLayout.setVerticalGroup(
-            orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        orderPanelLayout.setVerticalGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(orderPanelLayout.createSequentialGroup()
-                .addComponent(orderTableScroll, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(orderTableScroll, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(removeItemButton)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
+                .addComponent(orderCouponTableScroll, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(removeCouponButton)
+                .addGap(18, 18, 18)
+                .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(points, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
                 .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(orderTypeTakeout)
                     .addComponent(orderTypeDelivery)
                     .addComponent(orderTypeEatIn)
                     .addComponent(typeLabel))
-                .addGap(18, 18, 18)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
                     .addComponent(nameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -243,7 +297,7 @@ public class OrderDialog extends JDialog {
                 .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(addressLabel)
                     .addComponent(addressFieldScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(orderPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(subtotalLabel)
                     .addComponent(subtotalField))
@@ -268,26 +322,34 @@ public class OrderDialog extends JDialog {
         specialsWrapper.setBorder(BorderFactory.createTitledBorder("Today's Specials"));
         specialsWrapper.setLayout(new BorderLayout());
 
+        couponWrapper.setBorder(BorderFactory.createTitledBorder("Certificates"));
+        couponWrapper.setLayout(new BorderLayout());
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
-                    .addComponent(specialsWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(specialsWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(couponWrapper, GroupLayout.PREFERRED_SIZE, 549, GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(orderPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addComponent(orderPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(menuWrapper, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(menuWrapper, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(specialsWrapper, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(couponWrapper, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        couponWrapper.getAccessibleContext().setAccessibleName("Coupons");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -306,13 +368,20 @@ public class OrderDialog extends JDialog {
         }
         
         Order order = createOrder();
+
+        User loggedInUser = kiosk.getLoggedInUser();
+
+        if(loggedInUser instanceof Customer){
+            order.setUserName(loggedInUser.getUserName());
+        }
         
         double total = updateTotals();
         
-        if(orderTableModel.getItems().isEmpty()){
+        if(orderTableModel.getItems().isEmpty() && orderCouponTableModel.getItems().isEmpty()){
             error("You must order 1 or more items in order to place an order");
             return;
         }
+
         
         PaymentDialog paymentDialog = new PaymentDialog(this, kiosk, order, total);
         paymentDialog.setVisible(true);
@@ -321,9 +390,19 @@ public class OrderDialog extends JDialog {
             error("Incorrect Payment was given please try again");
             return;
         }
-        
+
+        for(Coupon coupon : orderCouponTableModel.getItems()){
+            order.getItems().add(new OrderItem(coupon.getMenuItem(), 1));
+        }
+
         kiosk.placeOrder(order);
         
+        rewardPoints++;
+
+        if(loggedInUser instanceof Customer){
+            kiosk.updateRewardPoints(rewardPoints);
+        }
+
         dispose();
     }//GEN-LAST:event_placeOrderButtonActionPerformed
 
@@ -332,14 +411,14 @@ public class OrderDialog extends JDialog {
     }//GEN-LAST:event_cancelOrderButtonActionPerformed
 
     private void removeItemButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_removeItemButtonActionPerformed
-        int row = orderTable.getSelectedRow();
+                int row = orderTable.getSelectedRow();
 		if (row < 0) {
 			error("No order item selected!");
 			return;
 		}
 		
 		OrderItem item = orderTableModel.getItem(row);
-        if (specialReverseMap.containsKey(item)) {
+                if (specialReverseMap.containsKey(item)) {
 			// remove the whole special from the order if one item is removed
 			DailySpecial special = specialReverseMap.get(item);
 			
@@ -350,20 +429,37 @@ public class OrderDialog extends JDialog {
 			specialMap.remove(special);
 		}
 		
-        orderTableModel.removeItem(item);
+                orderTableModel.removeItem(item);
         
-        updateTotals();
+                updateTotals();
 		
 		if (orderTableModel.getItems().isEmpty()) {
 			removeItemButton.setEnabled(false);
 		}
     }//GEN-LAST:event_removeItemButtonActionPerformed
 
+    private void removeCouponButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_removeCouponButtonActionPerformed
+         int row = orderCouponTable.getSelectedRow();
+		if (row < 0) {
+			error("No order item selected!");
+			return;
+		}
+		
+		Coupon item = orderCouponTableModel.getItem(row);
+                rewardPoints += item.getRewardPoints();
+                points.setText(String.valueOf(rewardPoints));
+                orderCouponTableModel.removeItem(item);
+		
+		if (orderCouponTableModel.getItems().isEmpty()) {
+			removeCouponButton.setEnabled(false);
+		}
+    }//GEN-LAST:event_removeCouponButtonActionPerformed
+
 	private void initMenu() {
-		MenuPanel panel = new MenuPanel(kiosk.viewMenu(), MenuFeature.ORDERING);
+        MenuPanel panel = new MenuPanel(kiosk.viewMenu(), MenuFeature.ORDERING);
         panel.bus().register(this);
         
-		menuWrapper.add(panel, BorderLayout.CENTER);
+	menuWrapper.add(panel, BorderLayout.CENTER);
 	}
 	
 	private void initSpecials() {
@@ -371,6 +467,12 @@ public class OrderDialog extends JDialog {
 		specialsPanel.bus().register(this);
 		specialsWrapper.add(specialsPanel, BorderLayout.CENTER);
 	}
+
+    private void initCoupons() {
+        couponPanel = new CouponPanel();
+        couponPanel.bus().register(this);
+        couponWrapper.add(couponPanel, BorderLayout.CENTER);
+    }
     
     private void error(String message) {
         JOptionPane.showMessageDialog(
@@ -448,6 +550,18 @@ public class OrderDialog extends JDialog {
 		updateTotals();
 	}
 	
+    @EventHandler
+    private void doCouponOrderAdded(CouponOrderAddedEvent event) {
+        Coupon coupon = event.getCoupon();
+        if(rewardPoints < coupon.getRewardPoints()){
+            error("Not enought points to redeem");
+            return;
+        }
+        orderCouponTableModel.addItem(event.getCoupon());
+        rewardPoints -= coupon.getRewardPoints();
+        points.setText(String.valueOf(rewardPoints));
+    }
+    
     private final ListSelectionListener selectionListener = new ListSelectionListener() {
 
         @Override
@@ -457,17 +571,32 @@ public class OrderDialog extends JDialog {
         
     };
     
+    private final ListSelectionListener selectionListener1 = new ListSelectionListener() {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            removeCouponButton.setEnabled(true);
+        }
+        
+    };
+    
     private OrderItemTableModel orderTableModel;
-	private DailySpecialPanel specialsPanel;
+    private OrderCouponTableModel orderCouponTableModel;
+    private DailySpecialPanel specialsPanel;
+    private CouponPanel couponPanel;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JTextArea addressField;
     private JScrollPane addressFieldScroll;
     private JLabel addressLabel;
     private JButton cancelOrderButton;
+    private JPanel couponWrapper;
+    private JLabel jLabel1;
     private JPanel menuWrapper;
     private JTextField nameField;
     private JLabel nameLabel;
+    private JTable orderCouponTable;
+    private JScrollPane orderCouponTableScroll;
     private JPanel orderPanel;
     private JTable orderTable;
     private JScrollPane orderTableScroll;
@@ -476,6 +605,8 @@ public class OrderDialog extends JDialog {
     private ButtonGroup orderTypeGroup;
     private JRadioButton orderTypeTakeout;
     private JButton placeOrderButton;
+    private JLabel points;
+    private JButton removeCouponButton;
     private JButton removeItemButton;
     private JPanel specialsWrapper;
     private JLabel subtotalField;

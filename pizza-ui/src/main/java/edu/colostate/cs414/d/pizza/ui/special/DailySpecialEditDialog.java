@@ -2,7 +2,7 @@ package edu.colostate.cs414.d.pizza.ui.special;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import edu.colostate.cs414.d.pizza.ui.MenuItemTableModel;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.menu.MenuFeature;
@@ -205,7 +205,7 @@ public class DailySpecialEditDialog extends JDialog {
             return;
         }
         
-        MenuItem item = tableModel.getItem(row);
+        PizzaMenuItem item = tableModel.getItem(row);
         tableModel.removeItem(item);
         
         if (tableModel.getItems().isEmpty()) {

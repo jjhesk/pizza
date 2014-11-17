@@ -1,17 +1,17 @@
 package edu.colostate.cs414.d.pizza.ui.event;
 
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import org.timothyb89.eventbus.Event;
 
 public class MenuItemCreateEvent extends Event {
 
-	private final MenuItem item;
+	private final PizzaMenuItem item;
 
-	public MenuItemCreateEvent(MenuItem item) {
+	public MenuItemCreateEvent(PizzaMenuItem item) {
 		this.item = item;
 	}
 
-	public MenuItem getItem() {
+	public PizzaMenuItem getItem() {
 		return item;
 	}
 	

@@ -1,7 +1,8 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import edu.colostate.cs414.d.pizza.api.order.OrderItem;
+import edu.colostate.cs414.d.pizza.ui.event.CouponItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialItemAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
@@ -36,18 +37,18 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 	
 	private final EventBus bus;
 	
-	private MenuItem item;
+	private PizzaMenuItem item;
 	private final MenuFeature feature;
 	
 	@SuppressWarnings("OverridableMethodCallInConstructor")
-	public MenuItemComponent(MenuItem item, MenuFeature feature) {
+	public MenuItemComponent(PizzaMenuItem item, MenuFeature feature) {
 		this.item = item;
 		this.feature = feature;
 		
 		bus = new EventBus() {{
 			add(OrderItemCreateEvent.class);
 			add(DailySpecialItemAddedEvent.class);
-			
+			add(CouponItemAddedEvent.class);
 			add(MenuItemCreateEvent.class);
 			add(MenuItemEditEvent.class);
 			add(MenuItemRemoveEvent.class);
@@ -94,6 +95,7 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
             case ORDERING:      initOrderPanel();        break;
             case ADMIN_SPECIAL: initAdminSpecialPanel(); break;
             case ADMIN:         initAdminPanel();        break;
+            case ADMIN_COUPON:  initAdminCouponPanel();    break;
         }
 	}
 	
@@ -124,6 +126,18 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 		add(buttonContainer, BorderLayout.SOUTH);
     }
     
+    private void initAdminCouponPanel() {
+        // variant of order panel with different labels + no quantity
+        // event will be CouponItemAddedEvent instead
+        buttonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+		addButton = new JButton("Add to Certificate");
+		addButton.addActionListener(couponAddListener);
+		buttonContainer.add(addButton);
+
+		add(buttonContainer, BorderLayout.SOUTH);
+    }
+    
 	protected void initAdminPanel() {
 		buttonContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -138,7 +152,7 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 		add(buttonContainer, BorderLayout.SOUTH);
 	}
     
-    public void setItem(MenuItem item) {
+    public void setItem(PizzaMenuItem item) {
         this.item = item;
         
         nameLabel.setText(item.getName());
@@ -159,7 +173,7 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 		
 	};
     
-    private final ActionListener specialAddListener = new ActionListener() {
+        private final ActionListener specialAddListener = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -167,6 +181,14 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 		}
 		
 	};
+        
+        private final ActionListener couponAddListener = new ActionListener() {
+                @Override
+		public void actionPerformed(ActionEvent e) {
+			bus.push(new CouponItemAddedEvent(item));
+		}
+        };
+                
 	
 	private final ActionListener adminRemoveListener = new ActionListener() {
 
@@ -196,7 +218,7 @@ public class MenuItemComponent extends JComponent implements EventBusProvider {
 			
 			// wait for user input ...
 			
-			MenuItem i = d.getReturnedItem();
+			PizzaMenuItem i = d.getReturnedItem();
 			if (i == null) {
 				return;
 			}

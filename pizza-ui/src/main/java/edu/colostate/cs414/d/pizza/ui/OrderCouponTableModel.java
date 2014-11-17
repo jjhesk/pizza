@@ -1,27 +1,23 @@
 package edu.colostate.cs414.d.pizza.ui;
 
-import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.Coupon;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-public class MenuItemTableModel extends AbstractTableModel {
-    
+public class OrderCouponTableModel extends AbstractTableModel {
+
     public static final String[] COLUMNS = {
-        "Item",
-        "Price"
+            "Item",
+            "Reward Points",
     };
-    
-    private List<PizzaMenuItem> items;
 
-    public MenuItemTableModel(List<PizzaMenuItem> items) {
-        this.items = new ArrayList<>(items);
-    }
+    private List<Coupon> items;
 
-    public MenuItemTableModel() {
+    public OrderCouponTableModel() {
         items = new ArrayList<>();
     }
-    
+
     @Override
     public int getRowCount() {
         return items.size();
@@ -36,15 +32,15 @@ public class MenuItemTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         return COLUMNS[column];
     }
-    
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        PizzaMenuItem item = items.get(rowIndex);
+        Coupon item = items.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return item.getName();
+                return item.getMenuItem().getName();
             case 1:
-                return String.format("$%.2f", item.getPrice());
+                return String.valueOf(item.getRewardPoints());
             default:
                 return null;
         }
@@ -56,30 +52,32 @@ public class MenuItemTableModel extends AbstractTableModel {
             case 0:
             case 1:
                 return String.class;
+            case 2:
+                return Integer.class;
             default:
                 return Object.class;
         }
     }
-    
-    public PizzaMenuItem getItem(int index) {
+
+    public Coupon getItem(int index) {
         return items.get(index);
     }
-    
-    public void addItem(PizzaMenuItem item) {
+
+    public void addItem(Coupon item) {
         int n = items.size();
-        
+
         items.add(item);
         fireTableRowsInserted(n, n);
     }
-    
-    public void removeItem(PizzaMenuItem item) {
+
+    public void removeItem(Coupon item) {
         int n = items.indexOf(item);
-        
+
         items.remove(item);
         fireTableRowsDeleted(n, n);
     }
 
-    public List<PizzaMenuItem> getItems() {
+    public List<Coupon> getItems() {
         return items;
     }
 
@@ -87,5 +85,5 @@ public class MenuItemTableModel extends AbstractTableModel {
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return false;
     }
-    
+
 }

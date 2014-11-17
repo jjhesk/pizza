@@ -1,7 +1,7 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import edu.colostate.cs414.d.pizza.ui.coupon.CouponAdminDialog;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemCreateEvent;
 import edu.colostate.cs414.d.pizza.ui.event.MenuItemEditEvent;
@@ -144,7 +144,7 @@ public class MenuEditDialog extends JDialog {
         
         if (ret == JOptionPane.YES_OPTION) {
             kiosk.clearMenu();
-            menuPanel.refreshMenuItems(new ArrayList<MenuItem>());
+            menuPanel.refreshMenuItems(new ArrayList<PizzaMenuItem>());
         }
     }//GEN-LAST:event_newMenuButtonActionPerformed
 

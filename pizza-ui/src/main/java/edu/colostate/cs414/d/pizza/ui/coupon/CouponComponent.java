@@ -1,9 +1,7 @@
 package edu.colostate.cs414.d.pizza.ui.coupon;
 
-import edu.colostate.cs414.d.pizza.ui.special.*;
-import edu.colostate.cs414.d.pizza.api.menu.DailySpecial;
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
-import edu.colostate.cs414.d.pizza.ui.event.DailySpecialOrderAddedEvent;
+import edu.colostate.cs414.d.pizza.api.menu.Coupon;
+import edu.colostate.cs414.d.pizza.ui.event.CouponOrderAddedEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -22,15 +20,15 @@ import org.timothyb89.eventbus.EventBusProvider;
 
 public class CouponComponent extends JComponent implements EventBusProvider {
 
-	private final DailySpecial special;
+	private final Coupon coupon;
 	
 	private final EventBus bus;
 	
-	public CouponComponent(DailySpecial special) {
-		this.special = special;
+	public CouponComponent(Coupon coupon) {
+		this.coupon = coupon;
 		
 		bus = new EventBus() {{
-			add(DailySpecialOrderAddedEvent.class);
+			add(CouponOrderAddedEvent.class);
 		}};
 		
 		initComponents();
@@ -39,17 +37,18 @@ public class CouponComponent extends JComponent implements EventBusProvider {
 	private void initComponents() {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEtchedBorder());
-		setPreferredSize(new Dimension(250, 0));
-		
-		StringBuilder b = new StringBuilder("<html><ul>");
-		for (MenuItem i : special.getItems()) {
-			b.append("<li>");
-			b.append(i.getName());
-			b.append("</li>");
-		}
-		itemsLabel = new JLabel(b.toString());
+		setPreferredSize(new Dimension(300, 0));
+
+        StringBuilder b = new StringBuilder("<html><ul>");
+        b.append("<li>");
+        b.append(coupon.getMenuItem().getName());
+        b.append("</li>");
+
+        itemsLabel = new JLabel(b.toString());
+        itemsLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        itemsLabel.setVerticalAlignment(SwingConstants.CENTER);
 		itemsLabel.setVerticalTextPosition(SwingConstants.TOP);
-		itemsLabel.setVerticalAlignment(SwingConstants.TOP);
+
 		
 		JScrollPane labelScroll = new JScrollPane(itemsLabel);
 		labelScroll.setBorder(null);
@@ -57,16 +56,23 @@ public class CouponComponent extends JComponent implements EventBusProvider {
 		//labelScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		labelScroll.setPreferredSize(new Dimension(200, 75));
 		add(labelScroll, BorderLayout.CENTER);
+
+
+        if(coupon.getRewardPoints() == 1){
+            rewardPoints = new JLabel(String.format("%d reward point", coupon.getRewardPoints()));
+        }
+        else{
+            rewardPoints = new JLabel(String.format("%d reward points", coupon.getRewardPoints()));
+        }
+
+		rewardPoints.setFont(rewardPoints.getFont().deriveFont(Font.BOLD, 12));
+		rewardPoints.setPreferredSize(new Dimension(150, 0));
+		rewardPoints.setMaximumSize(new Dimension(150, 150));
+		rewardPoints.setVerticalAlignment(SwingConstants.CENTER);
+		rewardPoints.setHorizontalAlignment(SwingConstants.CENTER);
+		add(rewardPoints, BorderLayout.EAST);
 		
-		priceLabel = new JLabel(String.format("$%.2f", special.getPrice()));
-		priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 28));
-		priceLabel.setPreferredSize(new Dimension(100, 0));
-		priceLabel.setMaximumSize(new Dimension(150, 150));
-		priceLabel.setVerticalAlignment(SwingConstants.CENTER);
-		priceLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		add(priceLabel, BorderLayout.EAST);
-		
-		button = new JButton("Add");
+		button = new JButton("Redeem");
 		button.setIcon(new ImageIcon(getClass().getResource(
 				"/edu/colostate/cs414/d/pizza/ui/add-tiny.png")));
 		button.addActionListener(addButttonPressed);
@@ -82,13 +88,13 @@ public class CouponComponent extends JComponent implements EventBusProvider {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			bus.push(new DailySpecialOrderAddedEvent(special));
+			bus.push(new CouponOrderAddedEvent(coupon));
 		}
 		
 	};
 	
 	private JLabel itemsLabel;
-	private JLabel priceLabel;
+	private JLabel rewardPoints;
 	private JButton button;
 	
 }

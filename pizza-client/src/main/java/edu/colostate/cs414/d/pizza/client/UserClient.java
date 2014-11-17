@@ -1,9 +1,12 @@
 package edu.colostate.cs414.d.pizza.client;
 
 import edu.colostate.cs414.d.pizza.api.user.User;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class UserClient extends AuthenticatedWebServiceClient {
 
@@ -27,6 +30,16 @@ public class UserClient extends AuthenticatedWebServiceClient {
 	public User login() {
 		return readAndVerify(
 				root.request(MediaType.APPLICATION_JSON).get(),
+				new GenericType<User>() {});
+	}
+	
+	public User register(String username, String password) {
+		MultivaluedMap<String, String> post = new MultivaluedHashMap<>();
+		post.add("username", username);
+		post.add("password", password);
+		
+		return readAndVerify(
+				root.request(MediaType.APPLICATION_JSON).post(Entity.form(post)),
 				new GenericType<User>() {});
 	}
 	

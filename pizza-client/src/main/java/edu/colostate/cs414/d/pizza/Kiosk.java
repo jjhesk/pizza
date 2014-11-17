@@ -238,12 +238,22 @@ public class Kiosk {
 		}
 	}
 	
+	public void removeUser(String username) {
+		userAdminClient.userRemove(username);
+	}
+	
 	public User authenticateUser(String username, String password) {
 		checkInitialized();
 		
 		authenticateAll(username, password);
 		
 		return userClient.login();
+	}
+	
+	public User registerUser(String username, String password) {
+		checkInitialized();
+		
+		return userClient.register(username, password);
 	}
 	
 	public void loginUser(User user) {
@@ -274,6 +284,12 @@ public class Kiosk {
 		// TODO: ???
 		// not sure how to implement this
 		throw new UnsupportedOperationException("not implemented yet");
+	}
+
+	
+	
+	public User getLoggedInUser() {
+		return loggedInUser;
 	}
 	
 }

@@ -2,6 +2,7 @@ package edu.colostate.cs414.d.pizza.ui.menu;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.user.Chef;
+import edu.colostate.cs414.d.pizza.api.user.Customer;
 import edu.colostate.cs414.d.pizza.api.user.Manager;
 import edu.colostate.cs414.d.pizza.api.user.User;
 import edu.colostate.cs414.d.pizza.ui.DeliveredOrdersFrame;
@@ -10,6 +11,7 @@ import edu.colostate.cs414.d.pizza.ui.OrderDialog;
 import edu.colostate.cs414.d.pizza.ui.PendingOrderFrame;
 import edu.colostate.cs414.d.pizza.ui.user.UserAdminDialog;
 import edu.colostate.cs414.d.pizza.ui.user.UserCreateDialog;
+import edu.colostate.cs414.d.pizza.ui.user.UserOrdersFrame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -41,7 +43,7 @@ public class MenuFrame extends JFrame {
 		
 		initComponents();
 		initMenu();
-        initUserButtons();
+                initUserButtons();
         
 		placeOrderButton.requestFocusInWindow();
 		
@@ -62,6 +64,7 @@ public class MenuFrame extends JFrame {
         adminMenu = new JMenu();
         editMenuItem = new JMenuItem();
         chefMenuItem = new JMenuItem();
+        editUsersButton1 = new JButton();
         menuWrapperScroll = new JScrollPane();
         menuWrapper = new JPanel();
         buttonWrapper = new JPanel();
@@ -69,8 +72,10 @@ public class MenuFrame extends JFrame {
         placeOrderButton = new JButton();
         buttonLeftPanel = new JPanel();
         editMenuButton = new JButton();
-        chefViewButton = new JButton();
+        createAccountButton = new JButton();
         editUsersButton = new JButton();
+        chefViewButton = new JButton();
+        orderHistoryButton = new JButton();
         buttonRightPanel = new JPanel();
         loginButton = new JButton();
         logoutButton = new JButton();
@@ -97,6 +102,13 @@ public class MenuFrame extends JFrame {
         });
         adminMenu.add(chefMenuItem);
 
+        editUsersButton1.setText("Edit Users");
+        editUsersButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                editUsersButton1ActionPerformed(evt);
+            }
+        });
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Menu");
 
@@ -119,7 +131,7 @@ public class MenuFrame extends JFrame {
 
         buttonWrapper.add(buttonPanel, BorderLayout.CENTER);
 
-        buttonLeftPanel.setPreferredSize(new Dimension(100, 71));
+        buttonLeftPanel.setPreferredSize(new Dimension(150, 71));
 
         editMenuButton.setText("Edit Menu");
         editMenuButton.addActionListener(new ActionListener() {
@@ -129,13 +141,14 @@ public class MenuFrame extends JFrame {
         });
         buttonLeftPanel.add(editMenuButton);
 
-        chefViewButton.setText("Chef View");
-        chefViewButton.addActionListener(new ActionListener() {
+        createAccountButton.setText("Create Account");
+        createAccountButton.setToolTipText("");
+        createAccountButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                chefViewButtonActionPerformed(evt);
+                createAccountButtonActionPerformed(evt);
             }
         });
-        buttonLeftPanel.add(chefViewButton);
+        buttonLeftPanel.add(createAccountButton);
 
         editUsersButton.setText("Edit Users");
         editUsersButton.addActionListener(new ActionListener() {
@@ -145,9 +158,25 @@ public class MenuFrame extends JFrame {
         });
         buttonLeftPanel.add(editUsersButton);
 
+        chefViewButton.setText("Chef View");
+        chefViewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                chefViewButtonActionPerformed(evt);
+            }
+        });
+        buttonLeftPanel.add(chefViewButton);
+
+        orderHistoryButton.setText("Order History");
+        orderHistoryButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                orderHistoryButtonActionPerformed(evt);
+            }
+        });
+        buttonLeftPanel.add(orderHistoryButton);
+
         buttonWrapper.add(buttonLeftPanel, BorderLayout.WEST);
 
-        buttonRightPanel.setPreferredSize(new Dimension(100, 71));
+        buttonRightPanel.setPreferredSize(new Dimension(150, 71));
 
         loginButton.setText("Login");
         loginButton.addActionListener(new ActionListener() {
@@ -273,8 +302,8 @@ public class MenuFrame extends JFrame {
             return;
         }
 		
-		UserAdminDialog d = new UserAdminDialog(this);
-		d.setVisible(true);
+        UserAdminDialog d = new UserAdminDialog(this);
+        d.setVisible(true);
     }//GEN-LAST:event_editUsersButtonActionPerformed
 
     private void deliveredOrdersActionPerformed(ActionEvent evt) {//GEN-FIRST:event_deliveredOrdersActionPerformed
@@ -282,35 +311,68 @@ public class MenuFrame extends JFrame {
                 DeliveredOrdersFrame f = new DeliveredOrdersFrame(kiosk);
 		f.setVisible(true);
     }//GEN-LAST:event_deliveredOrdersActionPerformed
+
+    private void editUsersButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editUsersButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editUsersButton1ActionPerformed
+
+    private void createAccountButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_createAccountButtonActionPerformed
+        UserCreateDialog d = new UserCreateDialog(this);
+        d.forceCustomer();
+        d.setVisible(true);
+    }//GEN-LAST:event_createAccountButtonActionPerformed
+
+    private void orderHistoryButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_orderHistoryButtonActionPerformed
+        UserOrdersFrame f = new UserOrdersFrame(kiosk);
+        f.setVisible(true);
+    }//GEN-LAST:event_orderHistoryButtonActionPerformed
 	
     private void initUserButtons() {
         User user = kiosk.getLoggedInUser();
         
         if (user == null) {
             chefViewButton.setVisible(false);
+            orderHistoryButton.setVisible(false);
             editMenuButton.setVisible(false);
-			editUsersButton.setVisible(false);
-            
+            editUsersButton.setVisible(false);
+            createAccountButton.setVisible(false);
             loginButton.setVisible(true);
             logoutButton.setVisible(false);
             deliveredOrders.setVisible(false);
-            
+            createAccountButton.setVisible(true);
         } else {
             loginButton.setVisible(false);
             logoutButton.setVisible(true);
-            deliveredOrders.setVisible(true);
+            
             if (user instanceof Chef) {
                 chefViewButton.setVisible(true);
+                orderHistoryButton.setVisible(false);
                 editMenuButton.setVisible(false);
-				editUsersButton.setVisible(false);
+                editUsersButton.setVisible(false);
+                deliveredOrders.setVisible(true);
+                createAccountButton.setVisible(false);
             } else if (user instanceof Manager) {
                 chefViewButton.setVisible(false);
+                orderHistoryButton.setVisible(false);
                 editMenuButton.setVisible(true);
-				editUsersButton.setVisible(true);
-            } else {
+                editUsersButton.setVisible(true);
+                deliveredOrders.setVisible(true);
+                createAccountButton.setVisible(false);
+            } else if (user instanceof Customer) {
                 chefViewButton.setVisible(false);
+                orderHistoryButton.setVisible(true);
                 editMenuButton.setVisible(false);
-				editUsersButton.setVisible(false);
+                editUsersButton.setVisible(false);
+                deliveredOrders.setVisible(false);
+                createAccountButton.setVisible(false);
+            }
+            else {
+                chefViewButton.setVisible(false);
+                orderHistoryButton.setVisible(false);
+                editMenuButton.setVisible(false);
+                editUsersButton.setVisible(false);
+                deliveredOrders.setVisible(true);
+                createAccountButton.setVisible(false);
             }
         }
     }
@@ -377,10 +439,12 @@ public class MenuFrame extends JFrame {
     private JPanel buttonWrapper;
     private JMenuItem chefMenuItem;
     private JButton chefViewButton;
+    private JButton createAccountButton;
     private JButton deliveredOrders;
     private JButton editMenuButton;
     private JMenuItem editMenuItem;
     private JButton editUsersButton;
+    private JButton editUsersButton1;
     private JMenuItem exitItem;
     private JMenu fileMenu;
     private JButton loginButton;
@@ -388,6 +452,7 @@ public class MenuFrame extends JFrame {
     private JMenuBar menuBar;
     private JPanel menuWrapper;
     private JScrollPane menuWrapperScroll;
+    private JButton orderHistoryButton;
     private JButton placeOrderButton;
     // End of variables declaration//GEN-END:variables
 

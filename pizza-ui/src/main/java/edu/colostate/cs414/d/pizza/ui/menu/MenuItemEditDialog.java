@@ -1,6 +1,6 @@
 package edu.colostate.cs414.d.pizza.ui.menu;
 
-import edu.colostate.cs414.d.pizza.api.menu.MenuItem;
+import edu.colostate.cs414.d.pizza.api.menu.PizzaMenuItem;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -20,13 +20,13 @@ import javax.swing.WindowConstants;
 
 public class MenuItemEditDialog extends JDialog {
 
-	private final MenuItem originalItem;
-	private MenuItem returnedItem;
+	private final PizzaMenuItem originalItem;
+	private PizzaMenuItem returnedItem;
 	
 	/**
 	 * Creates new form MenuItemEditDialog
 	 */
-	public MenuItemEditDialog(Frame parent, MenuItem originalItem) {
+	public MenuItemEditDialog(Frame parent, PizzaMenuItem originalItem) {
 		super(parent, true);
 		
 		this.originalItem = originalItem;
@@ -37,7 +37,7 @@ public class MenuItemEditDialog extends JDialog {
 		setLocationRelativeTo(parent);
 	}
 	
-	public MenuItemEditDialog(Dialog parent, MenuItem originalItem) {
+	public MenuItemEditDialog(Dialog parent, PizzaMenuItem originalItem) {
 		super(parent, true);
 		
 		this.originalItem = originalItem;
@@ -183,7 +183,7 @@ public class MenuItemEditDialog extends JDialog {
 		//	return;
 		//}
 		
-		returnedItem = new MenuItem(name, price, description);
+		returnedItem = new PizzaMenuItem(name, price, description);
 		dispose();
     }//GEN-LAST:event_saveButtonActionPerformed
 
@@ -193,11 +193,11 @@ public class MenuItemEditDialog extends JDialog {
 		dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-	public MenuItem getOriginalItem() {
+	public PizzaMenuItem getOriginalItem() {
 		return originalItem;
 	}
 
-	public MenuItem getReturnedItem() {
+	public PizzaMenuItem getReturnedItem() {
 		return returnedItem;
 	}
 	

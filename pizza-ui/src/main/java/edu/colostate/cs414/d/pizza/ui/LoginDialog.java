@@ -2,6 +2,7 @@ package edu.colostate.cs414.d.pizza.ui;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.client.WebServiceException;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -147,9 +148,14 @@ public class LoginDialog extends JDialog {
             return;
         }
         
-        User loggedInUser = kiosk.authenticateUser(
+        User loggedInUser = null;
+        try {
+            loggedInUser = kiosk.authenticateUser(
                 usernameTextfield.getText(),
                 new String(passwordField.getPassword()));
+        } catch(WebServiceException e) {
+            // do nothing
+        }
         if (loggedInUser == null) {
             error("Login failed. Please try again.");
             return;

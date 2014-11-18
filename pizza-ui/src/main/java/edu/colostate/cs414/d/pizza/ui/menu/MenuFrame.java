@@ -5,6 +5,7 @@ import edu.colostate.cs414.d.pizza.api.user.Chef;
 import edu.colostate.cs414.d.pizza.api.user.Customer;
 import edu.colostate.cs414.d.pizza.api.user.Manager;
 import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.api.user.UserType;
 import edu.colostate.cs414.d.pizza.ui.DeliveredOrdersFrame;
 import edu.colostate.cs414.d.pizza.ui.LoginDialog;
 import edu.colostate.cs414.d.pizza.ui.OrderDialog;
@@ -262,7 +263,7 @@ public class MenuFrame extends JFrame {
     }//GEN-LAST:event_chefMenuItemActionPerformed
 
     private void editMenuButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editMenuButtonActionPerformed
-        if (!(kiosk.getLoggedInUser() instanceof Manager)) {
+        if (!(kiosk.getLoggedInUser().getUserType().equals(UserType.MANAGER))) {
             error("You are not allowed to do that.");
             return;
         }
@@ -274,7 +275,7 @@ public class MenuFrame extends JFrame {
     }//GEN-LAST:event_editMenuButtonActionPerformed
 
     private void chefViewButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chefViewButtonActionPerformed
-        if (!(kiosk.getLoggedInUser() instanceof Chef)) {
+        if (!(kiosk.getLoggedInUser().getUserType().equals(UserType.CHEF))) {
             error("You are not allowed to do that.");
             return;
         }
@@ -297,7 +298,7 @@ public class MenuFrame extends JFrame {
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void editUsersButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editUsersButtonActionPerformed
-        if (!(kiosk.getLoggedInUser() instanceof Manager)) {
+        if (!(kiosk.getLoggedInUser().getUserType().equals(UserType.MANAGER))) {
             error("You are not allowed to do that.");
             return;
         }
@@ -344,21 +345,21 @@ public class MenuFrame extends JFrame {
             loginButton.setVisible(false);
             logoutButton.setVisible(true);
             
-            if (user instanceof Chef) {
+            if (user.getUserType().equals(UserType.CHEF)) {
                 chefViewButton.setVisible(true);
                 orderHistoryButton.setVisible(false);
                 editMenuButton.setVisible(false);
                 editUsersButton.setVisible(false);
                 deliveredOrders.setVisible(true);
                 createAccountButton.setVisible(false);
-            } else if (user instanceof Manager) {
+            } else if (user.getUserType().equals(UserType.MANAGER)) {
                 chefViewButton.setVisible(false);
                 orderHistoryButton.setVisible(false);
                 editMenuButton.setVisible(true);
                 editUsersButton.setVisible(true);
                 deliveredOrders.setVisible(true);
                 createAccountButton.setVisible(false);
-            } else if (user instanceof Customer) {
+            } else if (user.getUserType().equals(UserType.CUSTOMER)) {
                 chefViewButton.setVisible(false);
                 orderHistoryButton.setVisible(true);
                 editMenuButton.setVisible(false);

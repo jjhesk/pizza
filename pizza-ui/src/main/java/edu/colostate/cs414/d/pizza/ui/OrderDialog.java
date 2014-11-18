@@ -9,6 +9,7 @@ import edu.colostate.cs414.d.pizza.api.order.OrderStatus;
 import edu.colostate.cs414.d.pizza.api.order.OrderType;
 import edu.colostate.cs414.d.pizza.api.user.Customer;
 import edu.colostate.cs414.d.pizza.api.user.User;
+import edu.colostate.cs414.d.pizza.api.user.UserType;
 import edu.colostate.cs414.d.pizza.ui.coupon.CouponPanel;
 import edu.colostate.cs414.d.pizza.ui.event.CouponOrderAddedEvent;
 import edu.colostate.cs414.d.pizza.ui.event.DailySpecialOrderAddedEvent;
@@ -371,7 +372,7 @@ public class OrderDialog extends JDialog {
 
         User loggedInUser = kiosk.getLoggedInUser();
 
-        if(loggedInUser instanceof Customer){
+        if(loggedInUser.getUserType().equals(UserType.CUSTOMER)){
             order.setUserName(loggedInUser.getUserName());
         }
         
@@ -399,7 +400,7 @@ public class OrderDialog extends JDialog {
         
         rewardPoints++;
 
-        if(loggedInUser instanceof Customer){
+        if(loggedInUser.getUserType().equals(UserType.CUSTOMER)){
             kiosk.updateRewardPoints(rewardPoints);
         }
 

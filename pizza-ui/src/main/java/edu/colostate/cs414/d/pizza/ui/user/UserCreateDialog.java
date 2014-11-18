@@ -2,6 +2,7 @@ package edu.colostate.cs414.d.pizza.ui.user;
 
 import edu.colostate.cs414.d.pizza.Kiosk;
 import edu.colostate.cs414.d.pizza.api.user.UserType;
+import edu.colostate.cs414.d.pizza.client.WebServiceException;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -209,7 +210,16 @@ public class UserCreateDialog extends JDialog {
 			return;
 		}
 		
-		if (!Kiosk.getInstance().addUser(user, password, type)) {
+                if (type.equals(UserType.CUSTOMER)) {
+                    try {
+                        Kiosk.getInstance().registerUser(user, password);
+                    }
+                    catch (WebServiceException e){
+                        error("A user with that name already exists.");
+                        return;
+                    }
+                }
+                else if (!Kiosk.getInstance().addUser(user, password, type)) {
 			error("A user with that name already exists.");
 			return;
 		}

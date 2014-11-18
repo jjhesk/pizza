@@ -402,6 +402,7 @@ public class OrderDialog extends JDialog {
 
         if(loggedInUser.getUserType().equals(UserType.CUSTOMER)){
             kiosk.updateRewardPoints(rewardPoints);
+            kiosk.getLoggedInUser().setRewardPoints(rewardPoints); // this fix?
         }
 
         dispose();

@@ -42,23 +42,16 @@ public class PendingOrderFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         markVoidButton = new JButton();
-        refreshButton = new JButton();
         markFilledButton = new JButton();
         orderScroll = new JScrollPane();
         orderTable = new JTable();
+        refreshButton = new JButton();
 
         markVoidButton.setText("Mark as Void");
         markVoidButton.setEnabled(false);
         markVoidButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 markVoidButtonActionPerformed(evt);
-            }
-        });
-
-        refreshButton.setText("Refresh");
-        refreshButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                refreshButtonActionPerformed(evt);
             }
         });
 
@@ -87,6 +80,13 @@ public class PendingOrderFrame extends javax.swing.JFrame {
         orderTable.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         orderScroll.setViewportView(orderTable);
 
+        refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -94,8 +94,13 @@ public class PendingOrderFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(orderScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(markFilledButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(orderScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(markFilledButton)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshButton)))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -104,7 +109,9 @@ public class PendingOrderFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(orderScroll, GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(markFilledButton)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(markFilledButton)
+                    .addComponent(refreshButton))
                 .addContainerGap())
         );
 
@@ -136,6 +143,7 @@ public class PendingOrderFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_markVoidButtonActionPerformed
 
     private void refreshButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        // TODO add your handling code here:
         initOrders();
     }//GEN-LAST:event_refreshButtonActionPerformed
 

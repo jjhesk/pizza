@@ -42,22 +42,15 @@ public class DeliveredOrdersFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         markVoidButton = new JButton();
-        refreshButton = new JButton();
         orderScroll = new JScrollPane();
         orderTable = new JTable();
+        refreshButton = new JButton();
 
         markVoidButton.setText("Mark as Void");
         markVoidButton.setEnabled(false);
         markVoidButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 markVoidButtonActionPerformed(evt);
-            }
-        });
-
-        refreshButton.setText("Refresh");
-        refreshButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                refreshButtonActionPerformed(evt);
             }
         });
 
@@ -78,19 +71,34 @@ public class DeliveredOrdersFrame extends javax.swing.JFrame {
         orderTable.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         orderScroll.setViewportView(orderTable);
 
+        refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(orderScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(refreshButton)
+                .addContainerGap())
         );
-        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        layout.setVerticalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(orderScroll, GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                .addGap(41, 41, 41))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(refreshButton)
+                .addGap(6, 6, 6))
         );
 
         pack();
@@ -108,6 +116,7 @@ public class DeliveredOrdersFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_markVoidButtonActionPerformed
 
     private void refreshButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        // TODO add your handling code here:
         initOrders();
     }//GEN-LAST:event_refreshButtonActionPerformed
 

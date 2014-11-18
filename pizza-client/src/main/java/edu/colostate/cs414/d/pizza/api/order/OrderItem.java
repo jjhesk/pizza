@@ -24,6 +24,13 @@ public class OrderItem {
 		this.quantity = quantity;
 	}
 
+    //shallow copy
+    public OrderItem(OrderItem item) {
+        this.id = item.getId();
+        this.quantity = item.getQuantity();
+        this.item = item.getItem();
+    }
+
 	public int getId() {
 		return id;
 	}

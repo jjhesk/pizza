@@ -34,6 +34,14 @@ public class OrderClient extends AuthenticatedWebServiceClient {
 				new GenericType<Order>() {});
 	}
 	
+	public Order placeOrderAnonymous(Order order) {
+		return readAndVerify(
+				root.path("/place-anonymous")
+						.request(MediaType.APPLICATION_JSON)
+						.post(Entity.json(order)),
+				new GenericType<Order>() {});
+	}
+	
 	public List<Order> viewUserHistory() {
 		return readAndVerify(
 				root.path("/history").request(MediaType.APPLICATION_JSON).get(),

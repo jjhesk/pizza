@@ -187,7 +187,11 @@ public class Kiosk {
 	public void placeOrder(Order order) {
 		checkInitialized();
 		
-		orderClient.placeOrder(order);
+        if (loggedInUser == null) {
+            orderClient.placeOrderAnonymous(order);
+        } else {
+            orderClient.placeOrder(order);
+        }
 	}
 	
 	public double calculateSubtotal(Order order, List<DailySpecial> specials) {

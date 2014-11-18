@@ -248,6 +248,7 @@ public class MenuFrame extends JFrame {
     private void placeOrderButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonActionPerformed
         OrderDialog d = new OrderDialog(this, kiosk);
 		d.setVisible(true);
+        menuPanel.refreshMenuItems(kiosk.viewMenu());
     }//GEN-LAST:event_placeOrderButtonActionPerformed
 
     private void editMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_editMenuItemActionPerformed

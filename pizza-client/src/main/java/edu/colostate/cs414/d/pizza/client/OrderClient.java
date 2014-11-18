@@ -66,7 +66,7 @@ public class OrderClient extends AuthenticatedWebServiceClient {
 	
 	public Order complete(int orderId) {
 		return readAndVerify(
-				root.path("/view-pending")
+				root.path("/complete")
 						.request(MediaType.APPLICATION_JSON)
 						.post(Entity.json(orderId)),
 				new GenericType<Order>() {});
@@ -75,11 +75,13 @@ public class OrderClient extends AuthenticatedWebServiceClient {
 	public static void main(String[] args) {
 		OrderClient c = new OrderClient("http://localhost:8080");
 		//c.authenticate("manager", "manager");
-		c.authenticate("m", "m");
+		c.authenticate("chef", "chef");
 		
-		for (Order o : c.viewUserHistory()) {
+		for (Order o : c.viewPending()) {
 			System.out.println(o + "\n");
 		}
+		
+		c.complete(9);
 	}
 	
 }

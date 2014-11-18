@@ -139,7 +139,7 @@ public class UserAdminDialog extends JDialog {
 			return;
 		}
 		
-		deleteUserButton.setEnabled(true);
+		//deleteUserButton.setEnabled(true); // uncomment this line to enable user deletion
     }//GEN-LAST:event_userListValueChanged
 
     private void createUserButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_createUserButtonActionPerformed

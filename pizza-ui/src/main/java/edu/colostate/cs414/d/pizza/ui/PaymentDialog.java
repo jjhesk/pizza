@@ -654,7 +654,7 @@ public class PaymentDialog extends javax.swing.JDialog {
         
         String monthExpiration = creditMonthExpiration.getSelectedItem().toString();
         String yearExpiration = creditYearExpiration.getSelectedItem().toString();
-        if((!monthExpiration.equals("11") && !monthExpiration.equals("11") && !monthExpiration.equals("11")) && yearExpiration.equals("2014")){
+        if(!monthExpiration.equals("12") && yearExpiration.equals("2014")){
             error("Card has already expired");
             return;
         }

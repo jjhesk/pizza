@@ -14,6 +14,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -32,14 +33,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="menuWrapper" max="32767" attributes="0"/>
-                  <Component id="specialsWrapper" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="couponWrapper" min="-2" pref="549" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="specialsWrapper" pref="586" max="32767" attributes="0"/>
+                  <Component id="couponWrapper" alignment="1" max="32767" attributes="0"/>
+                  <Component id="menuWrapper" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="orderPanel" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -48,12 +46,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="orderPanel" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
-              <Component id="menuWrapper" min="-2" pref="359" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="menuWrapper" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="specialsWrapper" min="-2" pref="175" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="couponWrapper" min="-2" pref="175" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -71,6 +68,13 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              </Group>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -96,11 +100,9 @@
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Component id="nameField" max="32767" attributes="0"/>
-                              <Component id="addressFieldScroll" alignment="0" max="32767" attributes="0"/>
+                              <Component id="addressFieldScroll" alignment="0" pref="250" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="orderTableScroll" pref="0" max="32767" attributes="0"/>
-                      <Component id="orderCouponTableScroll" alignment="1" pref="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
@@ -134,6 +136,8 @@
                               <Component id="removeCouponButton" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <Component id="orderTableScroll" alignment="1" pref="0" max="32767" attributes="0"/>
+                      <Component id="orderCouponTableScroll" alignment="1" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -141,14 +145,18 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
+                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                   <Component id="orderTableScroll" min="-2" pref="130" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="removeItemButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="orderCouponTableScroll" min="-2" pref="130" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="removeCouponButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="points" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
@@ -170,7 +178,7 @@
                       <Component id="addressLabel" min="-2" max="-2" attributes="0"/>
                       <Component id="addressFieldScroll" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="83" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="subtotalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="subtotalField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -376,6 +384,16 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeCouponButtonActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Order Items:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Redeemed Certificates:"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

@@ -6,34 +6,186 @@ CS414
 
 Pizza Ordering System
 
-Installation and Usage
-======================
+Introduction
+============
+This project consists of 4 separate projects:
 
-This project uses Maven and can be installed as such:
+ * `pizza/` - the server application
+ * `pizza/pizza-client/` - the unified client library
+ * `pizza/pizza-ui/` - desktop Swing user interface
+ * `pizza/PizzaApplication/` - Android app
+
+
+Build Instructions
+==================
+Note that build order is important; the major components are described below in
+the order they must be built. The distribution should also include prebuilt
+binary packages in the event of any environment issues.
+
+Also note that builds require both Maven (server, client, ui) and
+Gradle (Android).
+
+Dependencies are briefly listed below. For an exhaustive list, see the
+`<dependencies>` subsection within the Maven `pom.xml` files for each
+subproject.
+
+
+Server: pizza
+-------------
+Dependencies and External Libraries:
+ * mysql-java-connector: http://dev.mysql.com/downloads/connector/j/
+ * log4j: http://logging.apache.org/log4j/
+ * slf4j: http://www.slf4j.org/
+ * jersey: https://jersey.java.net/
+ * jackson: https://github.com/FasterXML/jackson
+
+Unit Tests: pizza/src/test/java/
+
+To install, enter the root `pizza` directory and execute:
 
     mvn install
 
-A jar file will be generated under the `target/` directory. It can be run with:
+A .jar file will be generated under the `target/` directory. It can be run with:
 
     java -jar target/pizza-1.0-SNAPSHOT-jar-with-dependencies.jar
 
-Running Unit Tests
-==================
-
-Unit tests are skipped by default, but can be run with:
+Note that unit tests are skipped by default (they will clear any configured
+database). To run them, execute:
 
     mvn test -DskipTests=false
 
-Usage in IDEs
-=============
 
-NetBeans and IntelliJ IDEA both natively support Maven projects and can open it
-use it without any trouble. Eclipse (on department machines) cannot without
-additional plugins.
+Client Library: pizza-client
+----------------------------
+Dependencies and External Libraries:
+ * slf4j
+ * log4j
+ * jersey-client: https://jersey.java.net/
+   * Note: requires patch to run on Android (provided, see below)
+ * jackson: https://github.com/FasterXML/jackson
 
-NetBeans is recommended and can be run using:
+First, enter the `pizza-client` directory:
 
-    /usr/local/netbeans-8.0/bin/netbeans
+    cd pizza-client
 
-The project can then be opened by browsing to the directory. It can be built,
-run, and tested using the standard IDE actions.
+Then, install the included patched jersey-common library:
+
+    mvn -DartifactId=jersey-common \
+        -DgroupId=org.glassfish.jersey.core \
+        -Dversion=2.13 \
+        -Dpackaging=jar \
+        -Dfile=jersey-common-2.13-patched.jar \
+        -DgeneratePom=false
+        install:install-file
+
+Finally, build and install the `pizza-client` library:
+
+    mvn install
+
+A .jar file will be generated under the `target/` directory.
+
+
+Swing UI: pizza-ui
+------------------
+Dependencies and External Libraries:
+ * pizza-client
+ * EventBus: https://github.com/timothyb89/EventBus
+
+To build, first enter the `pizza-ui` directory:
+
+    cd pizza-ui
+
+Then, build and install the `pizza-ui` project:
+
+    mvn install
+
+A .jar file will be generated under the `target/` directory. It can be run with:
+
+    java -jar target/pizza-ui-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+
+Android App: PizzaApplication
+-----------------------------
+Dependencies and External Libraries:
+ * pizza-client (w/ patched jersey-common)
+ * AndroidAnnotations: http://androidannotations.org/
+
+Note that a prebuilt pizza-client library (and its associated dependencies) is
+included and may be found under` PizzaApplication/app/libs/`. This jarfile will
+be used automatically during the build.
+
+Unlike other subprojects, the application uses the official Gradle build system.
+To perform a build, run:
+
+    gradle assembleDebug
+
+Note that you will need a properly set up Android development environment with
+SDK version 19 (Android 4.4).
+
+If you wish, you may use a compatible IDE, in particular Android Studio,
+IntelliJ IDEA 14, or NetBeans with the Android and Gradle plugins installed.
+Eclipse is explicitly not supported, for any of our projects.
+
+
+Running Instructions
+====================
+All components except the pizza-client can be executed. The server must be run
+first, and then the Swing UI and Android application can be run as desired.
+
+For example:
+
+    java -jar pizza/target/pizza-1.0-SNAPSHOT-jar-with-dependencies.jar &
+    java -jar pizza/pizza-ui/target/pizza-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+... will execute the server, followed by the client.
+
+The Android application may be installed on any emulator or physical device
+running SDK v19 or greater.
+
+The two clients (Swing and Android) are configured to access an external server.
+As such, there are no network setup requirements for either UI, however you must
+have external network access available.
+
+User Credentials
+================
+Credentials for all user roles are simply the (lowercase) role name for both the
+username and password.
+
+Roles:
+ * Manager
+   * username: manager
+   * password: manager
+ * Chef
+   * username: chef
+   * password: chef
+ * Cashier
+   * username: cashier
+   * password: cashier
+ * Customer
+   * username: customer
+   * password: customer
+
+
+Strong and Weak Points
+======================
+Strong points of this project may include:
+ * The clear separation of the client and server.
+ * The use of a single, unified library for client interaction between desktop 
+   and Android applications.
+ * Simple server design which remained fully compatible with existing code after
+   conversion to client/server.
+
+
+Patterns and Refactorings Used
+==============================
+We made heavy use of a number of patterns, including:
+ * Singleton (Kiosk, Manager classes)
+ * Facade (Kiosk)
+ * Observer (Swing UI, Android)
+ * Factory 
+
+
+Commit Log
+==========
+A full commit log can be found at `pizza/docs/commits.txt`.
+

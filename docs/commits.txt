@@ -1,0 +1,810 @@
+commit 5451fe01b6fcd1e741290ededf19b4cf6fe180b3
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Tue Nov 18 16:40:44 2014 -0700
+
+    Permanently disabled remove user button.
+
+commit a0f6d81209554a78ebeaf0b4b485aea9c7b1f4fe
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Tue Nov 18 16:30:26 2014 -0700
+
+    Fixed updating the currently logged in user's reward points after
+    ordering.
+
+commit 9873f66cdda9069a6b5c48b4eb219576491c2f16
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 14:02:59 2014 -0700
+
+    making fixes
+
+commit 3eb45822cf83c3de35052982e2e98ac36cddc2d3
+Merge: 11db453 fd86db9
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Tue Nov 18 11:38:40 2014 -0700
+
+    Merge branch 'master' of https://github.com/rbpeters/pizza
+
+commit 11db45398b459e30fb76aab750cd21f65a85df44
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Tue Nov 18 11:37:40 2014 -0700
+
+    Added refresh buttons to PendingOrderDiaog and DeliveredOrderDialog.
+
+commit fd86db9feea5987c93f494b7537faaa51e34b20b
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 10:01:18 2014 -0700
+
+    adding shallow copy to handle coupons
+
+commit 91c64fb4d935291cb64892b9e37d3d16a0615aa3
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Mon Nov 17 23:36:02 2014 -0700
+
+    Fixed anonymous users not being able to create new accounts.
+
+commit 08a35334e0f944ce57562caf98b9382c465af437
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Mon Nov 17 23:03:58 2014 -0700
+
+    Refresh menu items after opening place order dialog.
+
+commit 8983c7b6f5843b7a1664a2206ebbbe6a81749a26
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Mon Nov 17 22:23:29 2014 -0700
+
+    Changed instanceof usage in OrderDialog.
+
+commit 7cfc15567bcfe9b50dc80b8144a0689d83af21e5
+Merge: d1d1927 7b10b37
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Mon Nov 17 22:13:38 2014 -0700
+
+    Merge branch 'master' of https://github.com/rbpeters/pizza
+
+commit 7b10b37be34339d3d70eda637242a5936e0dab71
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 22:08:22 2014 -0700
+
+    fix typo in OrderClient breaking complete()
+
+commit d1d1927bdf7f42b56bb56a81671431fb7505f58f
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Mon Nov 17 21:38:18 2014 -0700
+
+    Changed instanceof to compare UserTypes in MenuFrame.java
+
+commit 7cf7cc83dbc49ab2dfce18cd14f9fae210b55469
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Mon Nov 17 21:26:11 2014 -0700
+
+    Handle invalid user login.
+
+commit a1e9875686d5c89f102d17aa7fca8c5ff0857d94
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 21:18:30 2014 -0700
+
+    added placeOrderAnonymous
+
+commit 4ff8668200d2dbeba554f6a80996c4123c464254
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 13:28:13 2014 -0700
+
+    initialize OrderClient
+
+commit e30fb3883d5b7739b1500b278acffa4e09d6aa5d
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 13:27:37 2014 -0700
+
+    move resources, minor fixes to get MenuFrame working with client
+
+commit 4e57d17978651784c71da48a5458513fe23fd0bb
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 13:18:58 2014 -0700
+
+    fixed some clients not being included in authentication
+
+commit 83e06caaa6938f2c5f825757b12e5725132dcba1
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 13:14:05 2014 -0700
+
+    change main class to Server
+
+commit fccbbab3b7e5e43ef9104d6cb54b5a0e3a6a49cb
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 13:07:22 2014 -0700
+
+    bugfixes and updateRewardPoints()
+
+commit e33535b4fbd1a2951c53634fae0a171f3a52ca3d
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 13:05:02 2014 -0700
+
+    added updateRewardPoints
+
+commit 87c8c93e706a5037ab85977b29005b690ee5e005
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 12:34:32 2014 -0700
+
+    update pizza-ui with latest UI, add register() to pizza-client and server
+
+commit edee7a07c15b3859c11b74fef0ebc7d007f90357
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 01:14:48 2014 -0700
+
+    server should listen on all interfaces
+
+commit c1767cd746af9f48ba2fbfd05d74f5efb0e7cf09
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 01:13:48 2014 -0700
+
+    added patched jersey jars. these can be installed manually to get the client
+    running on android
+
+commit ab1f0ef253a709235a728137f02bfe541dcee802
+Merge: 0c04f8b 5df88bb
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Sun Nov 16 22:34:39 2014 -0700
+
+    Merge branch 'master' of https://github.com/rbpeters/pizza
+
+commit 0c04f8b59bc4ce02519380b003094855cfb12d75
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Sun Nov 16 22:33:18 2014 -0700
+
+    to strings for android
+
+commit 5df88bb9bf308ab8a91940a76be5cb944532b184
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Sun Nov 16 22:04:09 2014 -0700
+
+    build jar with dependencies
+
+commit 67244ce112f4b65391d18c651ddd39e3c91da5e4
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Sun Nov 16 13:55:07 2014 -0700
+
+    allow cashiers to call placeOrder
+
+commit 71a68995f3c6631a34f4cf5152207f90875a1b9b
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Sun Nov 16 13:49:08 2014 -0700
+
+    set username on placed orders
+
+commit 120d2ee4a94b32938975a17a94df025f79975b64
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Fri Nov 14 14:42:35 2014 -0700
+
+    renamed MenuItem->PizzaMenuItem (client only), tentative Kiosk implementation for client, and lots of extra REST methods + fixes
+
+commit 257f37d3be03a7267f27ebe1b5bbd1ae09383c20
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Fri Nov 14 12:23:45 2014 -0700
+
+    added support for user management to server and client
+
+commit 1c9a7776e2942e0193426756a3e14a4f9117ad81
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Wed Nov 12 14:47:56 2014 -0700
+
+    mostly finished (but largely untested) menu admin + order support for client/server
+
+commit 5687c511e193e13dcbacf2c378d023382cb332c0
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Wed Nov 12 14:01:48 2014 -0700
+
+    more work on client/server. fixed some exception handling issues on the client side, finalized coupon/special/menu clients, and implemented more server methods
+
+commit e3b182700555aa4f5716c51331f3afaaba7054fa
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Wed Nov 12 11:28:04 2014 -0700
+
+    finishing coupon
+
+commit b96b0de32f3650db4a9049d0f6bd62e70ab9b54a
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 11 23:10:14 2014 -0700
+
+    adding coupon
+
+commit 8b7bf7d0649feb36b24dde1405caf7e74e3c385f
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 11 22:13:43 2014 -0700
+
+    minor changes
+
+commit 16a8511f9aacbc3273622adcd9dfefd7c10a5a06
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 11 22:04:17 2014 -0700
+
+    intial coupon view in menu
+
+commit d94eeaf587d4e980e47db9488a66e7d8da354034
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 11 15:03:30 2014 -0700
+
+    implementing order history
+
+commit 31c292de406ffc365e13dba29a621373b8597dd2
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 11 14:34:05 2014 -0700
+
+    adding up reward points for customers
+
+commit c6cda6de581b1d5fc6ea0ad4ba9539af8bd912c6
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 11 14:19:16 2014 -0700
+
+    adding user to correlate to orders
+
+commit a6f9bf228c6f1ab10d18d07b2c2c9c9a4388c69e
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 11 11:53:12 2014 -0700
+
+    adding customer user
+
+commit f2746fbe13eab2110ef3b04e01b2a1beb5775d52
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 11 10:39:19 2014 -0700
+
+    Coupon done
+
+commit c02330ad0442ffd4d65cc1225d60fac9ce8509fb
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 11 09:54:41 2014 -0700
+
+    Adding better frame for editing/creating certificates
+
+commit 8287f2a4d511b0af3d3f10815a0fad6dca5f1eb6
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 23:15:45 2014 -0700
+
+    working on coupon modification
+
+commit 3798c26cb4207342655b35e21577dc65b079d344
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 10 21:50:59 2014 -0700
+
+    added initial pizza-ui subproject (totally nonfunctional as of yet) and did
+    more work on the pizza-client. Daily specials (+admin functionality) seem to
+    be working.
+
+commit fdb4ea927e9bc61cff796c662141e3a6954987bb
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 10 20:17:23 2014 -0700
+
+    added initial json client library
+
+commit 8723a900bfa05235ac22554473d7f49c2a734597
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 16:12:13 2014 -0700
+
+    certificate first implementation
+
+commit ea2d01af24ce30784a16f1fe9d78a25627a61b62
+Merge: 5cc8120 11c62ca
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 14:52:46 2014 -0700
+
+    Merge branch 'master' of https://github.com/rbpeters/pizza
+
+commit 5cc812008b7bcdf570b6b86f0acf3f1c5dc06b08
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 14:52:30 2014 -0700
+
+    Delivery view
+
+commit 11c62caf9b27c0f655ee69228b4800acf88dded2
+Merge: 5a08794 f97a5bb
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 10 14:52:05 2014 -0700
+
+    Merge branch 'master' of github.com:rbpeters/pizza
+
+commit 5a087940d3d7d9fae8ffb3715cabd47a9a87e41c
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 10 14:51:36 2014 -0700
+
+    more complete server resources
+
+commit f97a5bbd642c6a232d4ba26bd013766a1d3e154f
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 13:36:54 2014 -0700
+
+    fixing comments
+
+commit 7a6f1085666f8f2049e25094fc25d1b998cb2fa6
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 13:35:22 2014 -0700
+
+    view coupons
+
+commit 15a84a98775e350864b819f104118305e5ddebc3
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 12:32:43 2014 -0700
+
+    getters
+
+commit 406f30e7fe52c41fdd6b3fd25d32fa27c84d76af
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 12:22:54 2014 -0700
+
+    get delievered objects
+
+commit 60cae69896e836f305fdcbeef948a2e16ded3b98
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 11:50:31 2014 -0700
+
+    fixing errors I introduced with reward point :)
+
+commit 812aef26b293391ecfa016cd774a46fd13bceff3
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 10 11:27:15 2014 -0700
+
+    adding reward points
+
+commit 19629509dd1bb995c083ba8de23cef40903599bd
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Sun Nov 9 21:18:00 2014 -0700
+
+    Adding coupon functionility
+
+commit 021888179f812cbc559bdcd354f886b1d6ed1297
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Sun Nov 9 20:46:50 2014 -0700
+
+    intializing coupons
+
+commit a38ce8f0ebf83616862199d150d69d17a107fa2d
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Sun Nov 9 18:11:56 2014 -0700
+
+    fixing errors
+
+commit 9accbdd61ae4d07765b31949915b7a37434a6ad9
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Tue Nov 4 12:24:58 2014 -0700
+
+    added initial special server resources
+
+commit b70e5bdfa1ebc1e54c271f155f8a37d49d71e4e5
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Tue Nov 4 10:24:39 2014 -0700
+
+    minor refactoring of server error handling, added initial OrderResource, and other cleanup
+
+commit 61b3824d0e9ecb9a06fdd21e1b5c5db6510e46bb
+Author: timothyb89 <timothyb89@gmail.com>
+Date:   Mon Nov 3 18:04:42 2014 -0700
+
+    basic authentication support
+
+commit 96fc68d7c6ffd4063128c85da105054709846376
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 3 15:12:57 2014 -0700
+
+    a few more partial webservice methods
+
+commit 26c3b2f58dcd0da9cffbfffcd27c32d5ab7fe22a
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Thu Oct 30 10:40:03 2014 -0600
+
+    initial serverside setup with jackson/jax-rs/grizzly
+
+commit 2df1ab061f4b9a8ca44b708a676290378e6f2081
+Author: timothyb89 <timothyb89@gmail.com>
+Date:   Wed Oct 29 13:39:20 2014 -0600
+
+    update readme for submission
+
+commit 6996a21c7a098dd4ea4b0153f0a75ebc6e0029ea
+Author: timothyb89 <timothyb89@gmail.com>
+Date:   Wed Oct 29 13:30:12 2014 -0600
+
+    don't skip tests in netbeans when test command is chosen
+
+commit 5d7fe7b4f09176a03388f436353d9f335478d456
+Author: timothyb89 <timothyb89@gmail.com>
+Date:   Wed Oct 29 13:28:40 2014 -0600
+
+    allow tests to be run with -DskipTests=false
+
+commit 9b001f95e3f93ce8c178f89ce768e6fad6ad4534
+Author: Rawlin Peters <rbpeters@rams.colostate.edu>
+Date:   Wed Oct 29 11:31:03 2014 -0600
+
+    Fixed bug where 1st user can cancel creating an initial account.
+commit 8d5dcaa0481e8550c2a15179712037673b9ca9b9
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Wed Nov 19 17:03:55 2014 -0700
+
+    changing back button
+
+commit 172f54eb298ef3344b2da1b634f0b011a62aa688
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Wed Nov 19 00:36:47 2014 -0700
+
+    Added input checks for payment methods.
+
+commit c0c90215823306721d563964c28506054a034b42
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 21:25:31 2014 -0700
+
+    fix non user
+
+commit 0506913bf2aaed163e77e1ee6e0b30e9ace9544f
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 20:17:58 2014 -0700
+
+    making minor changes
+
+commit 2adbb77410792ec369989d9c55f7eaa8fc70fc04
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 20:00:35 2014 -0700
+
+    finishing ordering
+
+commit 19c708a4315dd737e2b0b88cbe6751343e4478d0
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 14:19:30 2014 -0700
+
+    connection customer screen to the kiosk
+
+commit 0caa0100f7eadc0f9bb159a98f52d1126832ba95
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 13:48:13 2014 -0700
+
+    redeeming cerficates
+
+commit 8f984d9e188d5bbc6b8bd75b24a6d53473ec3c83
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 13:09:35 2014 -0700
+
+    calculating payment
+
+commit d761b864b9860b281eff4cb2193d6e1442066f0d
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 00:25:12 2014 -0700
+
+    creating account
+
+commit cbaa98a6e2b9aac3e18d62d3b040e98c4a23266c
+Merge: 0ce80ab f94a6b1
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 00:15:29 2014 -0700
+
+    Merge branch 'master' of https://github.com/hoppalm/PizzaApplication
+    
+    Conflicts:
+    	app/src/main/java/com/example/pizzaapplication/app/MainActivity.java
+
+commit 0ce80ab1eddd58e2e50cc6a8e350a64726ff5503
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Tue Nov 18 00:12:02 2014 -0700
+
+    adding initial creating account and logging in
+
+commit f94a6b16378ad64ccfd325225a1bb08115ffcf29
+Merge: 28ca652 c728674
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Tue Nov 18 00:04:47 2014 -0700
+
+    Merge branch 'master' of https://github.com/hoppalm/PizzaApplication
+
+commit 28ca6520310e798843f4fd96dd6307d325822f0b
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Tue Nov 18 00:04:23 2014 -0700
+
+    Hopefully fixed the issue where the login information was not getting through.
+
+commit c728674ac0b246a749693491ee3af318dfb74803
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 17 23:51:12 2014 -0700
+
+    adding in functions for submitting a payment
+
+commit a07c18976b6b1206031d4c42d9d3946aa2091695
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 17 23:45:18 2014 -0700
+
+    adding pop up errors
+
+commit b6b9cdd68f9b75876db72e012fd74ffdc5423772
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 17 23:12:06 2014 -0700
+
+    fixing order history
+
+commit 990ae3d6ef9a5ff42124dffe12b193ed12ad2eeb
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 17 23:07:52 2014 -0700
+
+    intial log in backend and order history
+
+commit 82713233c64829b93c868186690b6a9ee8d35338
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Mon Nov 17 22:45:56 2014 -0700
+
+    Updated layout to automatically fill the screen, which also works for landscape.
+
+commit 5bb0ca6693d45d80df200bd9946127ffe8f73253
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Mon Nov 17 22:23:37 2014 -0700
+
+    Added scrollview to order info due to payment options getting cut off on my phone.
+
+commit e449af80778fdcb78021912b0a221efa4ba4c32a
+Merge: 0a0a7da 570cb3b
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Mon Nov 17 22:10:55 2014 -0700
+
+    Merge branch 'master' of https://github.com/hoppalm/PizzaApplication
+
+commit 0a0a7daa188cc30db879e651149751664617a07f
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Mon Nov 17 22:09:51 2014 -0700
+
+    Updated order info layout with landscape and input fields.
+
+commit 570cb3b8a0201f4afc10ef6ad38a5f4ab0e4bb7a
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 22:09:04 2014 -0700
+
+    update pizza-client: fix OrderClient complete()
+
+commit 2b72f9741ab8793a8c834e45d9e049a016c097ea
+Merge: 0384181 71637c4
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 21:22:03 2014 -0700
+
+    Merge branch 'master' of github.com:hoppalm/PizzaApplication
+    
+    Conflicts:
+    	app/libs/pizza-client-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+commit 0384181d9ca43b954f785aea31ca899f227c0a3c
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 21:19:34 2014 -0700
+
+    udpate pizza-client: placeOrderAnonymous
+
+commit 71637c4296def876b1bc657636f1d16538527fce
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Mon Nov 17 18:31:59 2014 -0700
+
+    Wrapped in scrollview and added layouts to prevent items from being hidden when list gets long.
+
+commit 4d9f631faf980d1694b0f75a80bfe95f9eb7ece4
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Mon Nov 17 18:20:03 2014 -0700
+
+    Added landscape layout for create account activity.
+
+commit 9839668471a12b6a9f5d53f2d5f8b0298ed7ae73
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Mon Nov 17 18:09:07 2014 -0700
+
+    Added landscape layout for main activity.
+
+commit dae82bd3101698d3546d232bf2615c62ac514639
+Merge: d526e87 9c2e073
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Mon Nov 17 17:45:06 2014 -0700
+
+    Merge branch 'master' of https://github.com/hoppalm/PizzaApplication
+
+commit d526e871e87c351f092c5bc3cd114bb422ba5ebf
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Mon Nov 17 17:44:09 2014 -0700
+
+    Adding app.iml to gitignore
+
+commit 9c2e0730d80b094a2827886ac492985e91440cdd
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 13:29:04 2014 -0700
+
+    update pizza-client
+
+commit b2775e45f275faf76c4162b258ad232b22b13278
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 13:19:45 2014 -0700
+
+    update pizza-client
+
+commit f582a12a2355e353f63d1ba5524ff78edf74d12f
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 13:09:11 2014 -0700
+
+    update pizza-client
+
+commit 6c9b8b3897a2ea10797e931434a858b76e1f120e
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 12:38:51 2014 -0700
+
+    update pizza-client
+
+commit b625a66b747c3bf05662773975a20ebe4c946c64
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 17 12:05:28 2014 -0700
+
+    Certificates done
+
+commit 56f63e619ccd511a08342d8b2988f543423e8a3b
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 17 11:52:58 2014 -0700
+
+    adding getting daily specials
+
+commit 055f7b4f4a6288655009a51dddc0fdc87e7b94b6
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 01:17:21 2014 -0700
+
+    add AndroidAnnotations and convert MenuActivity to use it
+
+commit de7baa71316d73c98c96632252da87306d3a822d
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 01:16:43 2014 -0700
+
+    fix singleton issue in MainActivity causing Kiosk to think it wasn't initialized
+
+commit bf01573fb271bc949d43bd2f9057be15fd383516
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 01:15:27 2014 -0700
+
+    update pizza-client
+
+commit 32afccd9612969263b199c8ca859b461f93c4c12
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Mon Nov 17 00:21:26 2014 -0700
+
+    trying first kiosk method
+
+commit e38330b67f70dd7daca3490ee807b60385a971f4
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Mon Nov 17 00:06:02 2014 -0700
+
+    update pizza-client jar with patched Jersey library
+
+commit e9c12ab11a42c96b3be2c4718e7148298b96cb8f
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Sun Nov 16 23:26:33 2014 -0700
+
+    first kiosk call
+
+commit 9c1241d9fe50425b8668e446080f2c21b477b028
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Sun Nov 16 22:55:21 2014 -0700
+
+    removing my dummy classes and plugging in the client classes
+
+commit f8c06c742a7c25a4a3be02d07a1074d041bcea91
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Sun Nov 16 22:09:00 2014 -0700
+
+    include prebuilt pizza-client to hopefully fix the build
+
+commit 2101d31ecc2340902a77825e27ee6c5b8e7bfa99
+Author: Tim Buckley <timothyb89@gmail.com>
+Date:   Sun Nov 16 21:21:55 2014 -0700
+
+    add maven repos and the pizza client dependency
+
+commit e4f443f226e1e690ef94fddd39214df6bef7dcd6
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Sun Nov 16 21:12:31 2014 -0700
+
+    Fixed accidental compilation error from layout.
+
+commit 194bc5dbabe29143cf3a49dc03478792cb422ae4
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Sun Nov 16 21:08:08 2014 -0700
+
+    Added initial layouts for payments.
+
+commit d10e218fa3bc90536712ff2906531015e6411d99
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Sun Nov 16 18:15:18 2014 -0700
+
+    adding last three activities
+
+commit 7ea926bf3a2f50d3f8650c166086d2b537200668
+Author: Jeff Stern <someone972sgames@hotmail.com>
+Date:   Sun Nov 16 17:42:05 2014 -0700
+
+    Fixed keyboard not coming up for main page.
+
+commit 1e0c1e2436bcabbd521a91909e9f803a3bb29dbe
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Sun Nov 16 10:09:44 2014 -0700
+
+    starting order information
+
+commit 8cb0112fa62c323c1ecf650db30b8b3440987e6a
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Fri Nov 14 11:50:15 2014 -0700
+
+    adding daily special/coupons
+
+commit a051386a6298c8550000d00a1bcb24a0140dd569
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Fri Nov 14 11:36:44 2014 -0700
+
+    removing items
+
+commit d4e3c4228c91f853dde993c46cc4b97f21b87ce9
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Fri Nov 14 11:31:50 2014 -0700
+
+    making menu dynamic
+
+commit 2a4087110be7efa59fb70bc88cddc0d114e2f74c
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Thu Nov 13 22:38:52 2014 -0700
+
+    specials
+
+commit e4c39b26aef652aabb3b4727a0ab0f95c2f88658
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Thu Nov 13 22:16:28 2014 -0700
+
+    adding intial ordering view
+
+commit 9c6f93b7b221df7d27cb8329e9e3ba8ed0306702
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Thu Nov 13 21:24:54 2014 -0700
+
+    Redeem certificate done
+
+commit 109494ac5f61c1c655fb357274b63715048d0541
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Thu Nov 13 20:05:53 2014 -0700
+
+    menu done
+
+commit 9877b2a6202e159db478cfe7369aaadd02ea797e
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Thu Nov 13 14:34:04 2014 -0700
+
+    adding intial menu item view
+
+commit 4d11d3b6b736b61429b3630bb4de6540a2514747
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Thu Nov 13 14:20:18 2014 -0700
+
+    orderHistory done for now
+
+commit b0a9e45fcdf183256155f97142037587ce47a8e6
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Thu Nov 13 13:05:30 2014 -0700
+
+    adding activites
+
+commit 75b7269bb908706ac9594f94dcc274a23778460a
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Thu Nov 13 12:27:06 2014 -0700
+
+    adding stubs/minor code to help with the implementation
+
+commit 7931c9e775f67195a15f784b60f0971cfc73072e
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Thu Nov 13 09:44:13 2014 -0700
+
+    working away
+
+commit be3368f7c7db3e0fb4786b18cdc793fa6882a5cb
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Wed Nov 12 23:27:56 2014 -0700
+
+    setting up starting other activities as an example
+
+commit 8ced3292809850407dd7dc0dc499c838fd7dee25
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Wed Nov 12 23:11:44 2014 -0700
+
+    Creating Account View and User View
+
+commit 8cfc9828e747d236fe2f3267ab04f7ed36d57a15
+Author: Michael_Hoppal <hoppalm@gmail.com>
+Date:   Wed Nov 12 22:49:29 2014 -0700
+
+    First Commit/main screen
